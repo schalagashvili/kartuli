@@ -2,12 +2,13 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022"],
-    "module": "commonjs",
+    "module": "esnext",
     "jsx": "react-native",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "type-check": "pnpm -r type-check",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,10 +16,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@kartuli/ui": ["./packages/ui/src"],
-      "@kartuli/types": ["./packages/types/src"],
-      "@kartuli/state": ["./packages/state/src"],
-      "@kartuli/core": ["./packages/core/src"]
+      "@kartuli/ui/*": ["packages/ui/src/*"],
+      "@kartuli/types/*": ["packages/types/src/*"],
+      "@kartuli/state/*": ["packages/state/src/*"],
+      "@kartuli/core/*": ["packages/core/src/*"]
     }
   }
 }

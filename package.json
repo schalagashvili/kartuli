@@ -1,17 +1,19 @@
 {
   "devDependencies": {
-    "typescript": "~5.9.3",
-    "@typescript-eslint/parser": "^8.47.0",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^8.47.0",
+    "@typescript-eslint/parser": "^8.47.0",
     "eslint": "^9.39.1",
     "eslint-config-expo": "~10.0.0",
-    "prettier": "^3.6.2",
-    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.6"
+    "lint-staged": "^16.2.6",
+    "prettier": "^3.6.2",
+    "typescript": "~5.9.3"
   },
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "type-check": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
