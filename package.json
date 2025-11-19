@@ -1,0 +1,26 @@
+{
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "@typescript-eslint/parser": "^8.47.0",
+    "@typescript-eslint/eslint-plugin": "^8.47.0",
+    "eslint": "^9.39.1",
+    "eslint-config-expo": "~10.0.0",
+    "prettier": "^3.6.2",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6"
+  },
+  "scripts": {
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "packageManager": "pnpm@10.21.0+sha512.da3337267e400fdd3d479a6c68079ac6db01d8ca4f67572083e722775a796788a7a9956613749e000fac20d424b594f7a791a5f4e2e13581c5ef947f26968a40"
+}
