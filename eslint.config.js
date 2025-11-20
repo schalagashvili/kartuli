@@ -38,6 +38,8 @@ module.exports = defineConfig([
       '@typescript-eslint/no-explicit-any': 'warn',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-var-requires': 'off',
       'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
   },

@@ -1,3 +1,5 @@
+import '../wdyr';
+
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import {
   DarkTheme,
