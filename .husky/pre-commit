@@ -1,4 +1,3 @@
-cat > .husky/pre-commit << 'EOF'
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
@@ -18,6 +17,3 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "✅ No dependency mismatches"
-EOF
-
-chmod +x .husky/pre-commit
