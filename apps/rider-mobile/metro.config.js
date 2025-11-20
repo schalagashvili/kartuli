@@ -1,12 +1,11 @@
-// apps/rider-mobile/metro.config.js
-const { getDefaultConfig } = require('expo/metro-config');
 const path = require('path');
-
+const { getSentryExpoConfig } = require('@sentry/react-native/metro');
 const projectRoot = __dirname;
 const monorepoRoot = path.resolve(projectRoot, '../..');
 
-const config = getDefaultConfig(projectRoot);
-
+const config = getSentryExpoConfig(__dirname, {
+  annotateReactComponents: true,
+});
 // Watch all files in the monorepo
 config.watchFolders = [monorepoRoot];
 

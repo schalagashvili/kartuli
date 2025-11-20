@@ -1,23 +1,35 @@
 import '../wdyr';
 
+import { useEffect } from 'react';
+
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Sentry, initSentry, navigationIntegration } from '@/sentry';
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, useNavigationContainerRef } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { ErrorBoundary } from '@kartuli/ui';
 
+initSentry();
+
 export const unstable_settings = {
   anchor: '(tabs)',
 };
 
-export default function RootLayout() {
+function RootLayout() {
   const colorScheme = useColorScheme();
+  const navigationRef = useNavigationContainerRef();
+
+  useEffect(() => {
+    if (navigationRef) {
+      navigationIntegration.registerNavigationContainer(navigationRef);
+    }
+  }, [navigationRef]);
 
   return (
     <ErrorBoundary>
@@ -34,3 +46,5 @@ export default function RootLayout() {
     </ErrorBoundary>
   );
 }
+
+export default Sentry.wrap(RootLayout);

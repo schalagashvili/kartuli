@@ -29,7 +29,7 @@ const envSchema = z.object({
 
   // ===== ENVIRONMENT =====
   APP_ENV: z
-    .enum(['development', 'staging', 'production'])
+    .enum(['development', 'preview', 'production'])
     .default('development'),
 });
 
@@ -92,7 +92,7 @@ try {
       console.error(errorMessage);
     }
 
-    throw new Error(errorMessage);
+    // throw new Error(errorMessage);
   }
 
   // Re-throw if it's not a Zod error
@@ -131,7 +131,7 @@ export const {
  * Convenient boolean flags for environment checks
  */
 export const IS_DEV = APP_ENV === 'development';
-export const IS_STAGING = APP_ENV === 'staging';
+export const IS_STAGING = APP_ENV === 'preview';
 export const IS_PROD = APP_ENV === 'production';
 
 /**

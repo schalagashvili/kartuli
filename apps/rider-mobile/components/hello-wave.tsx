@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Animated, Pressable, Text, View } from 'react-native';
 
-import { env } from '@kartuli/core';
+import { Sentry, env } from '@kartuli/core';
+import { Button } from '@kartuli/ui';
 
-// Child component that will re-render unnecessarily
 const Counter = ({
   count,
   onIncrement,
@@ -12,7 +12,6 @@ const Counter = ({
   count: number;
   onIncrement: () => void;
 }) => {
-  // console.log('Counter rendered', count);
   return (
     <View style={{ marginTop: 10 }}>
       <Text style={{ fontSize: 18 }}>Count: {count}</Text>
@@ -27,6 +26,12 @@ const Counter = ({
       >
         <Text style={{ color: 'white' }}>Increment</Text>
       </Pressable>
+      <Button
+        title="Try!>>>"
+        onPress={() => {
+          Sentry.captureException(new Error('First error on button'));
+        }}
+      />
     </View>
   );
 };

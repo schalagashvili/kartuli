@@ -23,7 +23,8 @@
     "lint-staged": "^16.2.6",
     "prettier": "^3.6.2",
     "syncpack": "^13.0.4",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "eslint-config-universe": "^15.0.3"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
