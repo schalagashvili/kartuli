@@ -1,0 +1,84 @@
+{
+  "$schema": "https://unpkg.com/syncpack@latest/schema.json",
+
+  "source": ["package.json", "apps/*/package.json", "packages/*/package.json"],
+
+  "dependencyTypes": ["dev", "prod", "peer", "overrides", "pnpmOverrides"],
+
+  "semverGroups": [
+    {
+      "label": "Enforce workspace protocol for internal packages",
+      "packages": ["**"],
+      "dependencies": ["@kartuli/**"],
+      "range": "workspace:*"
+    },
+    {
+      "label": "Enforce EXACT versions for React Native core",
+      "packages": ["**"],
+      "dependencies": ["react", "react-native", "typescript"],
+      "range": ""
+    },
+    {
+      "label": "Enforce EXACT versions for Expo SDK",
+      "packages": ["**"],
+      "dependencies": ["expo", "expo-*"],
+      "range": ""
+    },
+    {
+      "label": "Enforce EXACT versions for Navigation & Animation (Binary Safety)",
+      "packages": ["**"],
+      "dependencies": [
+        "@react-navigation/*",
+        "react-native-screens",
+        "react-native-safe-area-context",
+        "react-native-gesture-handler",
+        "react-native-reanimated"
+      ],
+      "range": ""
+    },
+    {
+      "label": "Enforce EXACT versions for Critical Native Modules",
+      "packages": ["**"],
+      "dependencies": [
+        "react-native-maps",
+        "react-native-background-geolocation",
+        "@react-native-community/*",
+        "@shopify/flash-list",
+        "react-native-svg"
+      ],
+      "range": ""
+    },
+    {
+      "label": "Use caret (^) for everything else",
+      "packages": ["**"],
+      "dependencies": ["**"],
+      "range": "^"
+    }
+  ],
+
+  "versionGroups": [
+    {
+      "label": "Ensure all dependencies match across the repo",
+      "dependencies": ["**"],
+      "dependencyTypes": ["prod", "dev", "peer", "overrides", "pnpmOverrides"]
+    }
+  ],
+
+  "sortFirst": [
+    "name",
+    "version",
+    "private",
+    "description",
+    "main",
+    "module",
+    "types",
+    "exports",
+    "scripts",
+    "dependencies",
+    "devDependencies",
+    "peerDependencies",
+    "resolutions",
+    "overrides",
+    "pnpm"
+  ]
+}

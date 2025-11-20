@@ -1,4 +1,23 @@
+cat > .husky/pre-commit << 'EOF'
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged first (if you have it)
 pnpm lint-staged
 
-#!/usr/bin/env sh
-# . "$(dirname -- "$0")/_/husky.sh"
+# Check for dependency mismatches
+echo ""
+echo "🔍 Checking for dependency version mismatches..."
+pnpm deps:mismatch
+
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ Dependency version mismatches found!"
+  echo "Run 'pnpm deps:fix' to fix them, then try committing again."
+  exit 1
+fi
+
+echo "✅ No dependency mismatches"
+EOF
+
+chmod +x .husky/pre-commit
