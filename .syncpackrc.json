@@ -43,8 +43,7 @@
         "react-native-maps",
         "react-native-background-geolocation",
         "@react-native-community/*",
-        "@shopify/flash-list",
-        "react-native-svg"
+        "@shopify/flash-list"
       ],
       "range": ""
     },

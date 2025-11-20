@@ -4,6 +4,7 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@kartuli/types": "workspace:*"
+    "@kartuli/types": "workspace:*",
+    "zod": "^4.1.12"
   }
 }
