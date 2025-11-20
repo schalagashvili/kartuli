@@ -32,6 +32,9 @@ importers:
       eslint-plugin-react-hooks:
         specifier: ^7.0.1
         version: 7.0.1(eslint@9.39.1(jiti@2.6.1))
+      eslint-plugin-react-native:
+        specifier: ^5.0.0
+        version: 5.0.0(eslint@9.39.1(jiti@2.6.1))
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -185,6 +188,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@kartuli/core':
+        specifier: workspace:*
+        version: link:../core
       '@kartuli/types':
         specifier: workspace:*
         version: link:../types
@@ -194,6 +200,9 @@ importers:
       react:
         specifier: 19.1.0
         version: 19.1.0
+      react-error-boundary:
+        specifier: ^6.0.0
+        version: 6.0.0(react@19.1.0)
       react-native:
         specifier: 0.81.5
         version: 0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0)
@@ -2568,6 +2577,14 @@ packages:
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
 
+  eslint-plugin-react-native-globals@0.1.2:
+    resolution: {integrity: sha512-9aEPf1JEpiTjcFAmmyw8eiIXmcNZOqaZyHO77wgm0/dWfT/oxC1SrIq8ET38pMxHYrcB6Uew+TzUVsBeczF88g==}
+
+  eslint-plugin-react-native@5.0.0:
+    resolution: {integrity: sha512-VyWlyCC/7FC/aONibOwLkzmyKg4j9oI8fzrk9WYNs4I8/m436JuOTAFwLvEn1CVvc7La4cPfbCyspP4OYpP52Q==}
+    peerDependencies:
+      eslint: ^3.17.0 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9
+
   eslint-plugin-react@7.37.5:
     resolution: {integrity: sha512-Qteup0SqU15kdocexFNAJMvCJEfa2xUKNV4CC1xsVMrIIqEy3SQ/rqyxCWNzfrd3/ldy6HMlD2e0JDVpDg2qIA==}
     engines: {node: '>=4'}
@@ -4237,6 +4254,11 @@ packages:
     resolution: {integrity: sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==}
     peerDependencies:
       react: ^19.1.0
+
+  react-error-boundary@6.0.0:
+    resolution: {integrity: sha512-gdlJjD7NWr0IfkPlaREN2d9uUZUlksrfOx7SX62VRerwXbMY6ftGCIZua1VG1aXFNOimhISsTq+Owp725b9SiA==}
+    peerDependencies:
+      react: '>=16.13.1'
 
   react-fast-compare@3.2.2:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
@@ -8132,6 +8154,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  eslint-plugin-react-native-globals@0.1.2: {}
+
+  eslint-plugin-react-native@5.0.0(eslint@9.39.1(jiti@2.6.1)):
+    dependencies:
+      eslint: 9.39.1(jiti@2.6.1)
+      eslint-plugin-react-native-globals: 0.1.2
+
   eslint-plugin-react@7.37.5(eslint@9.39.1(jiti@2.6.1)):
     dependencies:
       array-includes: 3.1.9
@@ -10167,6 +10196,11 @@ snapshots:
     dependencies:
       react: 19.1.0
       scheduler: 0.26.0
+
+  react-error-boundary@6.0.0(react@19.1.0):
+    dependencies:
+      '@babel/runtime': 7.28.4
+      react: 19.1.0
 
   react-fast-compare@3.2.2: {}
 

@@ -9,5 +9,35 @@
     "wdyr",
     "welldone",
     "worklets"
-  ]
+  ],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // TypeScript
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // File associations
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+
+  // Auto-import
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+
+  // Exclude noise
+  "files.exclude": {
+    "**/.expo": true,
+    "**/.expo-shared": true,
+    "**/node_modules": true
+  },
+
+  // React Native specific
+  "emmet.includeLanguages": {
+    "typescript": "typescriptreact",
+    "javascript": "javascriptreact"
+  }
 }

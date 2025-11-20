@@ -8,7 +8,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "type-check": "pnpm -r type-check",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
