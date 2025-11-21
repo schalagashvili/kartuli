@@ -14,6 +14,7 @@ import { StatusBar } from 'expo-status-bar';
 import { PostHogProvider } from 'posthog-react-native';
 import 'react-native-reanimated';
 
+import { env } from '@kartuli/core';
 import { ErrorBoundary } from '@kartuli/ui';
 
 initSentry();
@@ -34,8 +35,8 @@ function RootLayout() {
 
   return (
     <PostHogProvider
-      apiKey="phc_z4sbYKI85qNfsYEstoKwbtYZF9SN5JlxomT6HYChqfK"
-      options={{ host: 'https://us.i.posthog.com' }}
+      apiKey={env.POSTHOG_API_KEY}
+      options={{ host: env.POSTHOG_HOST }}
     >
       <ErrorBoundary>
         <ThemeProvider
