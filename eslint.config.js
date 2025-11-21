@@ -1,9 +1,11 @@
 const tsParser = require('@typescript-eslint/parser');
 const tsPlugin = require('@typescript-eslint/eslint-plugin');
-const reactHooksPlugin = require('eslint-plugin-react-hooks');
 const reactNativePlugin = require('eslint-plugin-react-native');
+const expoConfig = require('eslint-config-expo/flat');
+const { defineConfig } = require('eslint/config');
 
-module.exports = [
+module.exports = defineConfig([
+  expoConfig,
   {
     ignores: [
       '**/node_modules/**',
@@ -29,7 +31,6 @@ module.exports = [
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
-      'react-hooks': reactHooksPlugin,
       'react-native': reactNativePlugin,
     },
     rules: {
@@ -72,4 +73,4 @@ module.exports = [
       '@typescript-eslint/no-require-imports': 'off',
     },
   },
-];
+]);

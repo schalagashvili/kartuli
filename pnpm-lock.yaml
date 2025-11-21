@@ -87,7 +87,7 @@ importers:
         specifier: 54.0.24
         version: 54.0.24(@babel/core@7.28.5)(@expo/metro-runtime@6.1.2)(expo-router@6.0.15)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       expo-application:
-        specifier: ~7.0.7
+        specifier: 7.0.7
         version: 7.0.7(expo@54.0.24)
       expo-constants:
         specifier: 18.0.10
@@ -96,10 +96,10 @@ importers:
         specifier: 6.0.18
         version: 6.0.18(expo@54.0.24)
       expo-device:
-        specifier: ~8.0.9
+        specifier: 8.0.9
         version: 8.0.9(expo@54.0.24)
       expo-file-system:
-        specifier: ~19.0.19
+        specifier: 19.0.19
         version: 19.0.19(expo@54.0.24)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))
       expo-font:
         specifier: 14.0.9
@@ -114,7 +114,7 @@ importers:
         specifier: 8.0.9
         version: 8.0.9(expo@54.0.24)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       expo-localization:
-        specifier: ~17.0.7
+        specifier: 17.0.7
         version: 17.0.7(expo@54.0.24)(react@19.1.0)
       expo-router:
         specifier: 6.0.15
@@ -177,6 +177,9 @@ importers:
       '@sentry/cli':
         specifier: ^2.58.0
         version: 2.58.0
+      '@sentry/core':
+        specifier: ^10.26.0
+        version: 10.26.0
       '@types/react':
         specifier: ^19.1.0
         version: 19.1.17
@@ -204,6 +207,9 @@ importers:
       '@kartuli/types':
         specifier: workspace:*
         version: link:../types
+      '@sentry/core':
+        specifier: ^10.26.0
+        version: 10.26.0
       zod:
         specifier: ^4.1.12
         version: 4.1.12
@@ -1660,6 +1666,10 @@ packages:
 
   '@sentry/core@10.24.0':
     resolution: {integrity: sha512-apJ1NtCK/Kt5uTytee+4rhhcTm4u3+z0bESH8GNMXMcuJ/A3Rvy3HUh+gqCx4BTOR0Sa44dbMvJcm/ewO+mzVg==}
+    engines: {node: '>=18'}
+
+  '@sentry/core@10.26.0':
+    resolution: {integrity: sha512-TjDe5QI37SLuV0q3nMOH8JcPZhv2e85FALaQMIhRILH9Ce6G7xW5GSjmH91NUVq8yc3XtiqYlz/EenEZActc4Q==}
     engines: {node: '>=18'}
 
   '@sentry/react-native@7.6.0':
@@ -7419,6 +7429,8 @@ snapshots:
       - supports-color
 
   '@sentry/core@10.24.0': {}
+
+  '@sentry/core@10.26.0': {}
 
   '@sentry/react-native@7.6.0(expo@54.0.24)(react-native@0.81.5(@babel/core@7.28.5)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)':
     dependencies:

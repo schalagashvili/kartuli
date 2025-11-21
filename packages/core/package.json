@@ -5,6 +5,7 @@
   "types": "src/index.ts",
   "dependencies": {
     "@kartuli/types": "workspace:*",
+    "@sentry/core": "^10.26.0",
     "zod": "^4.1.12"
   },
   "peerDependencies": {
