@@ -10,8 +10,8 @@ function ErrorFallback({
   error,
   resetErrorBoundary,
 }: {
-  error: Error;
-  resetErrorBoundary: () => void;
+  readonly error: Error;
+  readonly resetErrorBoundary: () => void;
 }) {
   return (
     <View style={styles.container}>

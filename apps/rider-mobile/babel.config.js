@@ -1,6 +1,6 @@
-const path = require('path');
+const path = require('node:path');
 
-module.exports = function (api) {
+module.exports = function babelConfig(api) {
   api.cache(true);
 
   return {
