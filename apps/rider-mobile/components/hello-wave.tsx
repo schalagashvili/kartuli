@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Text, View } from 'react-native';
+
+import { usePostHog } from 'posthog-react-native';
 
 import { Sentry } from '@kartuli/core';
 import { Button } from '@kartuli/ui';
 
 const HelloWave = () => {
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    posthog.capture('event_name');
+  }, [posthog]);
+
   return (
     <View style={{ padding: 20 }}>
       <Button
