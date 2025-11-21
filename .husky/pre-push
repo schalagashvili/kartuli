@@ -1,0 +1,32 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+
+branch=$(git symbolic-ref --short HEAD)
+
+# Allow main/develop branches
+if [ "$branch" = "main" ] || [ "$branch" = "develop" ]; then
+  exit 0
+fi
+
+# Pattern: type/description (kebab-case)
+# Types match your commitlint config
+valid_pattern="^(feat|fix|docs|style|refactor|perf|test|chore|ci|revert|build|security|wip)/[a-z0-9-]+$"
+
+if ! echo "$branch" | grep -Eq "$valid_pattern"; then
+  echo ""
+  echo "❌ Branch name '$branch' doesn't follow naming convention."
+  echo ""
+  echo "Expected format: <type>/<description>"
+  echo ""
+  echo "Types: feat, fix, docs, style, refactor, perf, test, chore, ci, revert, build, security, wip"
+  echo ""
+  echo "Examples:"
+  echo "  feat/button-component"
+  echo "  fix/map-marker-crash"
+  echo "  chore/upgrade-expo"
+  echo ""
+  exit 1
+fi
+
+echo "✅ Branch name follows convention"
