@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Animated, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { Sentry, env } from '@kartuli/core';
 import { Button } from '@kartuli/ui';
@@ -27,11 +27,13 @@ const Counter = ({
         <Text style={{ color: 'white' }}>Increment</Text>
       </Pressable>
       <Button
-        title="Try!>>>"
+        fullWidth
         onPress={() => {
           Sentry.captureException(new Error('First error on button'));
         }}
-      />
+      >
+        Hello new button
+      </Button>
     </View>
   );
 };
@@ -86,18 +88,18 @@ const Toggle = ({
 Toggle.whyDidYouRender = true;
 
 const HelloWave = () => {
-  const [count, setCount] = React.useState(0);
-  const [user, setUser] = React.useState({ name: 'John', age: 25 });
-  const [enabled, setEnabled] = React.useState(true);
+  // const [count, setCount] = React.useState(0);
+  // const [user, setUser] = React.useState({ name: 'John', age: 25 });
+  // const [enabled, setEnabled] = React.useState(true);
   // const [timer, setTimer] = React.useState(0);
 
   // Intentionally creating new objects on every render (bad practice)
-  const config = { theme: 'light' };
+  // const config = { theme: 'light' };
 
   // Intentionally creating new function on every render (bad practice)
-  const handleIncrement = () => {
-    setCount((c) => c + 1);
-  };
+  // const handleIncrement = () => {
+  //   setCount((c) => c + 1);
+  // };
 
   // Effect that updates timer every second
   // React.useEffect(() => {
@@ -109,13 +111,13 @@ const HelloWave = () => {
   // }, []);
 
   // Effect with console.log to debug
-  React.useEffect(() => {
-    // console.log('HelloWave effect: count changed', count);
-  }, [count]);
+  // React.useEffect(() => {
+  //   // console.log('HelloWave effect: count changed', count);
+  // }, [count]);
 
   return (
     <View style={{ padding: 20 }}>
-      <Animated.Text
+      {/* <Animated.Text
         style={{
           fontSize: 28,
           lineHeight: 32,
@@ -130,10 +132,8 @@ const HelloWave = () => {
         👋 Timer
       </Animated.Text>
 
-      {/* This will re-render on every parent render due to new function reference */}
       <Counter count={count} onIncrement={handleIncrement} />
 
-      {/* This will re-render on every parent render due to new object references */}
       <DisplayInfo user={user} config={config} />
 
       <Toggle enabled={enabled} onToggle={() => setEnabled(!enabled)} />
@@ -152,7 +152,85 @@ const HelloWave = () => {
 
       <Text style={{ marginTop: 10, fontSize: 12, color: '#666' }}>
         Open debugger and watch WDYR logs!
-      </Text>
+      </Text> */}
+
+      <Button
+        fullWidth
+        onPress={() => {
+          Sentry.captureException(new Error('First error on button'));
+        }}
+      >
+        Hello new button
+      </Button>
+      <Button
+        kind="danger"
+        shape="round"
+        onPress={() => {
+          Sentry.captureException(new Error('Second error on button'));
+        }}
+      >
+        Danger button
+      </Button>
+      <Button
+        kind="minimal"
+        size="compact"
+        onPress={() => {
+          Sentry.captureException(new Error('Third error on button'));
+        }}
+      >
+        Minimal Compact
+      </Button>
+      <Button
+        kind="secondary"
+        size="large"
+        onPress={() => {
+          Sentry.captureException(new Error('Fourth error on button'));
+        }}
+      >
+        Secondary Large
+      </Button>
+      <Button disabled fullWidth>
+        Disabled Button
+      </Button>
+      <Button isLoading>Loading Button</Button>
+      <Button
+        startEnhancer={() => <Text style={{ color: 'white' }}>🚀</Text>}
+        endEnhancer={() => <Text style={{ color: 'white' }}>➡️</Text>}
+        onPress={() => {
+          Sentry.captureException(new Error('Fifth error on button'));
+        }}
+      >
+        With Enhancers
+      </Button>
+      <Button
+        kind="tertiary"
+        shape="round"
+        fullWidth
+        onPress={() => {
+          Sentry.captureException(new Error('Sixth error on button'));
+        }}
+      >
+        Tertiary Round FullWidth
+      </Button>
+      <Button
+        kind="primary"
+        size="large"
+        shape="round"
+        onPress={() => {
+          Sentry.captureException(new Error('Seventh error on button'));
+        }}
+      >
+        Primary Large Round
+      </Button>
+      <Button
+        kind="danger"
+        size="compact"
+        onPress={() => {
+          Sentry.captureException(new Error('Eighth error on button'));
+        }}
+      >
+        Danger Compact
+      </Button>
     </View>
   );
 };

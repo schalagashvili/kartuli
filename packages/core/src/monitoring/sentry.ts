@@ -22,11 +22,10 @@ export function initMobileSentry({
   debug = false,
   integrations = [],
 }: MobileSentryConfig) {
-  console.log('holaa');
-  // if (!dsn) {
-  //   if (debug) console.warn('[Sentry] Skipped: DSN missing');
-  //   return;
-  // }
+  if (!dsn) {
+    if (debug) console.warn('[Sentry] Skipped: DSN missing');
+    return;
+  }
 
   const isProd = environment === 'production';
   const sampleRate = isProd ? 0.2 : 1.0;
@@ -37,12 +36,11 @@ export function initMobileSentry({
     maskAllVectors: true,
   });
 
-  console.log({ dsn });
   Sentry.init({
     dsn,
     environment,
-    // debug,
-    // enabled: environment !== 'development',
+    debug,
+    enabled: environment !== 'development',
 
     tracesSampleRate: sampleRate,
     profilesSampleRate: sampleRate,
@@ -53,10 +51,6 @@ export function initMobileSentry({
 
     integrations: (defaults) => [...defaults, mobileReplay, ...integrations],
   });
-
-  if (debug) {
-    console.log(`[Sentry] Initialized for ${appName} (${environment})`);
-  }
 }
 
 export { Sentry };
