@@ -6,7 +6,13 @@ import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 
 import { logger } from '@kartuli/core';
 
-function ErrorFallback({ error, resetErrorBoundary }: any) {
+function ErrorFallback({
+  error,
+  resetErrorBoundary,
+}: {
+  readonly error: Error;
+  readonly resetErrorBoundary: () => void;
+}) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>😞 Something went wrong</Text>

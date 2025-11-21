@@ -1,6 +1,4 @@
 {
-  "$schema": "https://unpkg.com/syncpack@latest/schema.json",
-
   "source": ["package.json", "apps/*/package.json", "packages/*/package.json"],
 
   "dependencyTypes": ["dev", "prod", "peer", "overrides", "pnpmOverrides"],
