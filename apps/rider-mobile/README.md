@@ -1,50 +1,49 @@
-# Welcome to your Expo app 👋
+# Kartuli Rider Mobile (Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Expo Router app for the rider experience, using Unistyles for theming and shared packages from this monorepo.
 
-## Get started
+## Requirements
 
-1. Install dependencies
+- Node 20+, PNPM (pinned in root `packageManager`)
+- Xcode / Android SDKs for simulators or device builds
+- EAS CLI for remote builds (`npm i -g eas-cli`) if needed
 
-   ```bash
-   npm install
-   ```
+## Setup
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+1. Install deps from the repo root:
 
 ```bash
-npm run reset-project
+pnpm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Environment vars  
+   Create `.env.development` (`preview` and `production`) with `EXPO_PUBLIC_*` keys. See `apps/rider-mobile/.env.development` for required fields (API URL, Google Maps key, Supabase keys, Sentry DSN, etc.).  
+   Runtime variants are selected via `APP_VARIANT` (see `eas.json`).
 
-## Learn more
+3. Unistyles config  
+   Already imported via `apps/rider-mobile/index.ts` and Babel plugin (`apps/rider-mobile/babel.config.js`).
 
-To learn more about developing your project with Expo, look at the following resources:
+4. Sentry  
+   Provide `SENTRY_AUTH_TOKEN` for build-time symbol uploads (set as an EAS secret). Runtime DSN comes from `EXPO_PUBLIC_SENTRY_DSN`.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Typical Commands
 
-## Join the community
+- Start dev server (development variant):  
+  `pnpm --filter @kartuli/rider-mobile dev`
+- Run platform builds locally:  
+  `pnpm --filter @kartuli/rider-mobile ios` or `android`
+- Expo web:  
+  `pnpm --filter @kartuli/rider-mobile web`
+- Lint / Type-check:  
+  `pnpm --filter @kartuli/rider-mobile lint`  
+  `pnpm --filter @kartuli/rider-mobile type-check`
+- EAS builds:  
+  `pnpm --filter @kartuli/rider-mobile eas:build:dev|preview|prod` (remote)  
+  `pnpm --filter @kartuli/rider-mobile eas:local:dev|preview|prod` (local iOS)
 
-Join our community of developers creating universal apps.
+## Project Notes
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Routing: Expo Router inside `app/`.
+- Theming: Unistyles + shared tokens from `@kartuli/ui/theme`.
+- Shared deps: `@kartuli/core`, `@kartuli/ui`, `@kartuli/state`, `@kartuli/types` are linked via PNPM workspaces.
+- Sentry: initialized in `app/_layout.tsx` via `@/sentry`; uses `SENTRY_AUTH_TOKEN` during builds for symbol/source map upload.
