@@ -7,7 +7,7 @@ export interface MobileSentryConfig {
   environment: string;
   appName: MobileAppName;
   debug?: boolean;
-  integrations?: any[];
+  integrations?: any;
   replay?: {
     maskAllText: boolean;
     maskAllImages: boolean;
