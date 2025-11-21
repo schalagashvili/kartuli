@@ -23,6 +23,17 @@ export const unstable_settings = {
   anchor: '(tabs)',
 };
 
+enum AppEnv {
+  Development = 'development',
+  Preview = 'preview',
+  Production = 'production',
+}
+
+const PostHogConfig = {
+  host: env.POSTHOG_HOST,
+  disabled: env.APP_ENV === AppEnv.Development,
+};
+
 function RootLayout() {
   const colorScheme = useColorScheme();
   const navigationRef = useNavigationContainerRef();
@@ -34,10 +45,7 @@ function RootLayout() {
   }, [navigationRef]);
 
   return (
-    <PostHogProvider
-      apiKey={env.POSTHOG_API_KEY}
-      options={{ host: env.POSTHOG_HOST }}
-    >
+    <PostHogProvider apiKey={env.POSTHOG_API_KEY} options={PostHogConfig}>
       <ErrorBoundary>
         <ThemeProvider
           value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
