@@ -11,6 +11,7 @@ import {
 } from '@react-navigation/native';
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { PostHogProvider } from 'posthog-react-native';
 import 'react-native-reanimated';
 
 import { ErrorBoundary } from '@kartuli/ui';
@@ -32,18 +33,25 @@ function RootLayout() {
   }, [navigationRef]);
 
   return (
-    <ErrorBoundary>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="modal"
-            options={{ presentation: 'modal', title: 'Modal' }}
-          />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </ErrorBoundary>
+    <PostHogProvider
+      apiKey="phc_z4sbYKI85qNfsYEstoKwbtYZF9SN5JlxomT6HYChqfK"
+      options={{ host: 'https://us.i.posthog.com' }}
+    >
+      <ErrorBoundary>
+        <ThemeProvider
+          value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+        >
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="modal"
+              options={{ presentation: 'modal', title: 'Modal' }}
+            />
+          </Stack>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </ErrorBoundary>
+    </PostHogProvider>
   );
 }
 
