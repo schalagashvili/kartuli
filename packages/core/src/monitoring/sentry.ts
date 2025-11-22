@@ -1,11 +1,10 @@
+import { MobileAppName } from '@/packages/core/src/types/AppConfig';
 import * as Sentry from '@sentry/react-native';
-
-export type MobileAppName = 'rider' | 'driver';
 
 export interface MobileSentryConfig {
   dsn?: string;
   environment: string;
-  appName: string;
+  appName: MobileAppName;
   debug?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   integrations?: any[];

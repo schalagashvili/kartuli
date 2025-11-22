@@ -1,4 +1,7 @@
-import { GEORGIA_COUNTRY_CODE, GEORGIA_PHONE_LENGTH } from '../constants';
+import {
+  GEORGIA_COUNTRY_CODE,
+  GEORGIA_PHONE_LENGTH,
+} from '../constants/constants';
 
 export function isValidGeorgianPhone(phone: string): boolean {
   // Remove all non-digits

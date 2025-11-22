@@ -165,7 +165,7 @@ export const ButtonGallery = () => {
         {/* ================================================================ */}
         <Section
           title="2. Sizes"
-          description="Small (32px), Medium (48px), Large (56px)"
+          description="Small (36px), Medium (48px), Large (56px)"
         >
           <Row>
             <Button

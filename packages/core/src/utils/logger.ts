@@ -39,7 +39,13 @@ class Logger {
     }[level];
 
     const prefix = `${emoji} [${timestamp}]`;
-    const consoleFn = level === 'error' ? console.error : console.warn;
+    const consoleFn =
+      level === 'error'
+        ? console.error
+        : level === 'warn'
+          ? console.warn
+          : // eslint-disable-next-line no-console
+            console.log;
 
     if (context && Object.keys(context).length > 0) {
       consoleFn(prefix, message, context);
@@ -129,14 +135,7 @@ class Logger {
     if (!error) return undefined;
     if (error instanceof Error) return error;
     if (typeof error === 'string') return new Error(error);
-
-    try {
-      return new Error(JSON.stringify(error));
-    } catch {
-      const type = typeof error;
-      const constructor = (error as object)?.constructor?.name ?? 'Unknown';
-      return new Error(`[Unstringifiable ${type}: ${constructor}]`);
-    }
+    return new Error(JSON.stringify(error));
   }
 
   child(baseContext: LogContext): ChildLogger {

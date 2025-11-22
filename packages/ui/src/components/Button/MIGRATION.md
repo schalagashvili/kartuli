@@ -17,7 +17,7 @@
 | `endEnhancer`       | `trailingIcon`         | Semantic rename               |
 | `isLoading`         | `loading`              | Simplified prop name          |
 | `fullWidth`         | `widthMode="fixed"`    | More explicit control         |
-| `children` (string) | `label`                | Required prop                 |
+| `children` (string) | `label`                | optional prop                 |
 
 ### New Props
 

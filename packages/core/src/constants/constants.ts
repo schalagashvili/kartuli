@@ -20,7 +20,6 @@ export const RIDE_CONFIG = {
 } as const;
 
 export const MAP_CONFIG = {
-  // *Tbilisi center
   defaultRegion: {
     latitude: 41.7151,
     longitude: 44.8271,
@@ -37,7 +36,7 @@ export const MAP_CONFIG = {
 } as const;
 
 export const VALIDATION = {
-  phoneRegex: /^\+995[0-9]{9}$/,
+  phoneRegex: /^\+9955\d{8}$/,
   otpLength: 6,
   otpExpirySeconds: 120,
   maxLoginAttempts: 5,
