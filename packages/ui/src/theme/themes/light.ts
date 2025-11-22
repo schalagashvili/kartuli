@@ -11,8 +11,19 @@ import {
 const lightThemeBase = {
   colors: {
     background: primitiveColors.white,
-    backgroundSecondary: primitiveColors.gray50,
-    backgroundTertiary: primitiveColors.gray100,
+    backgroundSecondary: primitiveColors.gray100,
+    backgroundTertiary: primitiveColors.white,
+
+    backgroundInversePrimary: primitiveColors.gray900,
+    backgroundStateDisabled: primitiveColors.gray200,
+    backgroundNegative: primitiveColors.danger700,
+
+    contentPrimary: primitiveColors.gray900,
+    contentSecondary: primitiveColors.gray600,
+    contentTertiary: primitiveColors.gray500,
+    contentInversePrimary: primitiveColors.white,
+    contentStateDisabled: primitiveColors.gray400,
+    contentNegative: primitiveColors.danger600,
 
     foreground: primitiveColors.gray900,
     foregroundSecondary: primitiveColors.gray600,

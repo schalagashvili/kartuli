@@ -2,6 +2,8 @@ import '../wdyr';
 
 import { useEffect } from 'react';
 
+import ButtonGallery from '@/app/dev/ButtonGallery';
+import { FLAGS } from '@/config/flags';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Sentry, initSentry, navigationIntegration } from '@/sentry';
 import {
@@ -43,6 +45,8 @@ function RootLayout() {
       navigationIntegration.registerNavigationContainer(navigationRef);
     }
   }, [navigationRef]);
+
+  if (FLAGS.SHOW_GALLERY) return <ButtonGallery />;
 
   return (
     <PostHogProvider apiKey={env.POSTHOG_API_KEY} options={PostHogConfig}>

@@ -1,98 +1,191 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import { usePostHog } from 'posthog-react-native';
-
-import { Sentry } from '@kartuli/core';
-import { Button } from '@kartuli/ui';
+import {
+  Button,
+  Car,
+  ChevronDown,
+  Heart,
+  MapPin,
+  TrashIcon,
+} from '@kartuli/ui';
 
 const HelloWave = () => {
-  const posthog = usePostHog();
-
-  useEffect(() => {
-    posthog.capture('event_name');
-  }, [posthog]);
+  const handleConfirm = () => {};
+  const handleChange = () => {};
+  const handleDismiss = () => {};
+  const handleDelete = () => {};
+  const handleConfirmDelete = () => {};
+  const handleFavorite = () => {};
+  const handleOpen = () => {};
+  const toggleFilter = () => {};
+  const handleSave = () => {};
+  const isFilterActive = false;
 
   return (
-    <View style={{ padding: 20 }}>
+    <View>
       <Button
-        fullWidth
-        onPress={() => {
-          Sentry.captureException(new Error('First error on button'));
-        }}
-      >
-        Hello new button
-      </Button>
-      <Button
-        kind="danger"
-        shape="round"
-        onPress={() => {
-          Sentry.captureException(new Error('Second error on button'));
-        }}
-      >
-        Danger button
-      </Button>
-      <Button
-        kind="minimal"
-        size="compact"
-        onPress={() => {
-          Sentry.captureException(new Error('Third error on button'));
-        }}
-      >
-        Minimal Compact
-      </Button>
-      <Button
-        kind="secondary"
+        label="Delete"
+        hierarchy="primary"
+        tone="negative"
         size="large"
-        onPress={() => {
-          Sentry.captureException(new Error('Fourth error on button'));
-        }}
-      >
-        Secondary Large
-      </Button>
-      <Button disabled fullWidth>
-        Disabled Button
-      </Button>
-      <Button isLoading>Loading Button</Button>
+        widthMode="fixed"
+        onPress={handleDelete}
+      />
       <Button
-        startEnhancer={() => <Text style={{ color: 'white' }}>🚀</Text>}
-        endEnhancer={() => <Text style={{ color: 'white' }}>➡️</Text>}
-        onPress={() => {
-          Sentry.captureException(new Error('Fifth error on button'));
-        }}
-      >
-        With Enhancers
-      </Button>
-      <Button
-        kind="tertiary"
-        shape="round"
-        fullWidth
-        onPress={() => {
-          Sentry.captureException(new Error('Sixth error on button'));
-        }}
-      >
-        Tertiary Round FullWidth
-      </Button>
-      <Button
-        kind="primary"
+        label="Delete"
+        hierarchy="secondary"
+        tone="negative"
         size="large"
-        shape="round"
-        onPress={() => {
-          Sentry.captureException(new Error('Seventh error on button'));
-        }}
-      >
-        Primary Large Round
-      </Button>
+        widthMode="fixed"
+        onPress={handleDelete}
+      />
       <Button
-        kind="danger"
-        size="compact"
-        onPress={() => {
-          Sentry.captureException(new Error('Eighth error on button'));
-        }}
-      >
-        Danger Compact
-      </Button>
+        label="Delete"
+        hierarchy="secondary"
+        tone="negative"
+        size="medium"
+        widthMode="intrinsic"
+        shape="pill"
+        onPress={handleDelete}
+      />
+      <Button
+        label="Delete"
+        hierarchy="secondary"
+        tone="negative"
+        size="small"
+        widthMode="intrinsic"
+        shape="pill"
+        onPress={handleDelete}
+      />
+
+      <Button
+        label=""
+        hierarchy="secondary"
+        tone="negative"
+        shape="circle"
+        size="large"
+        leadingIcon={TrashIcon}
+        accessibilityLabel="Add to favorites"
+        onPress={handleFavorite}
+      />
+
+      <Button
+        label="Change"
+        hierarchy="tertiary"
+        size="large"
+        widthMode="fixed"
+        onPress={handleChange}
+      />
+
+      <Button
+        label=""
+        hierarchy="secondary"
+        tone="negative"
+        shape="circle"
+        size="small"
+        leadingIcon={TrashIcon}
+        accessibilityLabel="Add to favorites"
+        onPress={handleFavorite}
+      />
+
+      <Button
+        label="Confirm ride"
+        hierarchy="primary"
+        widthMode="fixed"
+        size="large"
+        onPress={handleConfirm}
+      />
+
+      <Button
+        label="Change"
+        hierarchy="tertiary"
+        size="medium"
+        onPress={handleChange}
+      />
+
+      <Button
+        label="Confirm ride"
+        hierarchy="secondary"
+        size="large"
+        widthMode="fixed"
+        onPress={handleConfirm}
+        leadingIcon={MapPin}
+        trailingIcon={ChevronDown}
+      />
+      <Button
+        label="Confirm ride hello world sandro chalagashvili testing everything"
+        hierarchy="primary"
+        size="small"
+        widthMode="intrinsic"
+        onPress={handleConfirm}
+        leadingIcon={Car}
+      />
+
+      <Button label="Not now" hierarchy="tertiary" onPress={handleDismiss} />
+
+      <Button
+        label="Delete"
+        hierarchy="secondary"
+        tone="negative"
+        onPress={handleDelete}
+        shape="pill"
+      />
+
+      <Button
+        label="Delete my account"
+        hierarchy="primary"
+        tone="negative"
+        onPress={handleConfirmDelete}
+      />
+
+      <Button
+        label=""
+        hierarchy="secondary"
+        shape="circle"
+        leadingIcon={Heart}
+        accessibilityLabel="Add to favorites"
+        onPress={handleFavorite}
+      />
+      <Button
+        disabled
+        label="Loading..."
+        hierarchy="primary"
+        onPress={handleSave}
+      />
+      <Button
+        label="Favorites"
+        hierarchy="secondary"
+        shape="pill"
+        leadingIcon={Heart}
+        trailingIcon={ChevronDown}
+        onPress={handleOpen}
+      />
+
+      <Button
+        disabled
+        label="Loading..."
+        hierarchy="primary"
+        onPress={handleSave}
+        widthMode="fixed"
+      />
+
+      <Button label="Saving..." loading onPress={handleSave} />
+
+      <Button
+        label="Filter"
+        hierarchy="secondary"
+        active={isFilterActive}
+        onPress={toggleFilter}
+      />
+      <Button
+        label="Saving..."
+        size="large"
+        widthMode="fixed"
+        loading
+        onPress={handleSave}
+      />
     </View>
   );
 };

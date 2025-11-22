@@ -1,13 +1,13 @@
+import { MobileAppName } from '@/packages/core/src/types/AppConfig';
 import * as Sentry from '@sentry/react-native';
-
-export type MobileAppName = 'rider';
 
 export interface MobileSentryConfig {
   dsn?: string;
   environment: string;
   appName: MobileAppName;
   debug?: boolean;
-  integrations?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  integrations?: any[];
   replay?: {
     maskAllText: boolean;
     maskAllImages: boolean;
