@@ -1,15 +1,19 @@
-// Component
 export { Button } from './Button';
 
-// Types
 export type {
-  ButtonEnhancer,
-  ButtonEnhancerProps,
-  ButtonKind,
+  ButtonHierarchy,
+  ButtonIcon,
+  ButtonIconProps,
   ButtonProps,
   ButtonRef,
   ButtonShape,
   ButtonSize,
+  ButtonTone,
+  ButtonWidthMode,
 } from './Button.types';
 
-export { getForegroundColor, ICON_SIZES } from './Button.styles';
+export {
+  BUTTON_DIMENSIONS,
+  BUTTON_RADIUS,
+  getPillMinWidth,
+} from './Button.types';

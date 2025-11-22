@@ -1,8 +1,7 @@
-import { env } from '@/packages/core/src';
 import { SeverityLevel } from '@sentry/core';
 import * as Sentry from '@sentry/react-native';
 
-import { ENABLE_DEBUG_LOGS, IS_DEV } from '../config/env';
+import { ENABLE_DEBUG_LOGS, Env, IS_DEV } from '../config/env';
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -11,7 +10,7 @@ interface LogContext {
   [key: string]: unknown;
 }
 
-const IS_PROD_LIKE = env.APP_ENV === 'production' || env.APP_ENV === 'preview';
+const IS_PROD_LIKE = Env.APP_ENV === 'production' || Env.APP_ENV === 'preview';
 
 const SENTRY_SEVERITY: Record<LogLevel, SeverityLevel> = {
   debug: 'debug',
@@ -40,12 +39,7 @@ class Logger {
     }[level];
 
     const prefix = `${emoji} [${timestamp}]`;
-    const consoleFn =
-      level === 'error'
-        ? console.error
-        : level === 'warn'
-          ? console.warn
-          : console.log;
+    const consoleFn = level === 'error' ? console.error : console.warn;
 
     if (context && Object.keys(context).length > 0) {
       consoleFn(prefix, message, context);
@@ -135,7 +129,14 @@ class Logger {
     if (!error) return undefined;
     if (error instanceof Error) return error;
     if (typeof error === 'string') return new Error(error);
-    return new Error(JSON.stringify(error));
+
+    try {
+      return new Error(JSON.stringify(error));
+    } catch {
+      const type = typeof error;
+      const constructor = (error as object)?.constructor?.name ?? 'Unknown';
+      return new Error(`[Unstringifiable ${type}: ${constructor}]`);
+    }
   }
 
   child(baseContext: LogContext): ChildLogger {

@@ -1,27 +1,51 @@
-// Georgian specific
 export const GEORGIA_COUNTRY_CODE = '+995';
 export const GEORGIA_PHONE_LENGTH = 9;
 
-// Tbilisi coordinates
-export const TBILISI_CENTER = {
-  latitude: 41.7151,
-  longitude: 44.8271,
-};
+export const APP_CONFIG = {
+  name: 'Kartuli',
+  version: '1.0.0',
+  defaultLocale: 'ka-GE',
+  supportedLocales: ['ka-GE', 'en-US', 'ru-RU'],
+} as const;
 
-export const TBILISI_BOUNDS = {
-  north: 41.85,
-  south: 41.6,
-  east: 44.95,
-  west: 44.7,
-};
+export const RIDE_CONFIG = {
+  maxSearchRadiusKm: 10,
+  driverTimeoutSeconds: 30,
+  minFareGEL: 3,
+  baseFareGEL: 2.5,
+  pricePerKmGEL: 0.8,
+  pricePerMinuteGEL: 0.2,
+  platformFeePercent: 20,
+  driverSharePercent: 80,
+} as const;
 
-// Ride settings
-export const MIN_FARE = 5; // GEL
-export const PRICE_PER_KM = 0.9; // GEL
-export const BASE_FARE = 2; // GEL
-export const COMMISSION_RATE = 0.08; // 8%
+export const MAP_CONFIG = {
+  // *Tbilisi center
+  defaultRegion: {
+    latitude: 41.7151,
+    longitude: 44.8271,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  },
+  zoomLevels: {
+    city: 12,
+    neighborhood: 14,
+    street: 16,
+  },
+  locationUpdateInterval: 5000, // ms
+  locationUpdateDistance: 10, // meters
+} as const;
 
-// Time settings
-export const RIDE_REQUEST_TIMEOUT = 60000; // 60 seconds
-export const DRIVER_SEARCH_RADIUS = 5; // km
-export const MAX_PICKUP_DISTANCE = 10; // km
+export const VALIDATION = {
+  phoneRegex: /^\+995[0-9]{9}$/,
+  otpLength: 6,
+  otpExpirySeconds: 120,
+  maxLoginAttempts: 5,
+} as const;
+
+export const UI_CONFIG = {
+  animationDuration: 200,
+  toastDuration: 3000,
+  debounceMs: 300,
+  paginationLimit: 20,
+} as const;

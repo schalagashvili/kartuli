@@ -3,8 +3,8 @@ export const primitiveColors = {
   black: '#000000',
 
   gray50: '#FAFAFA',
-  gray100: '#F5F5F5',
-  gray200: '#EEEEEE',
+  gray100: '#F3F3F3',
+  gray200: '#E8E8E8',
   gray300: '#E0E0E0',
   gray400: '#BDBDBD',
   gray500: '#9E9E9E',
@@ -53,7 +53,7 @@ export const primitiveColors = {
   danger400: '#EF5350',
   danger500: '#F44336',
   danger600: '#E53935',
-  danger700: '#D32F2F',
+  danger700: '#DE1035',
   danger800: '#C62828',
   danger900: '#B71C1C',
 } as const;

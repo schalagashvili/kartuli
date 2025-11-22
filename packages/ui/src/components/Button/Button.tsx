@@ -1,4 +1,4 @@
-import React, { forwardRef, isValidElement, memo, useCallback } from 'react';
+import React, { forwardRef, memo, useCallback, useMemo } from 'react';
 
 import {
   ActivityIndicator,
@@ -11,10 +11,16 @@ import {
 import * as Haptics from 'expo-haptics';
 import { useUnistyles } from 'react-native-unistyles';
 
-import { ICON_SIZES, getForegroundColor, styles } from './Button.styles';
+import {
+  ICON_SIZES,
+  SPINNER_SIZES,
+  getForegroundColor,
+  getHitSlop,
+  styles,
+} from './Button.styles';
 import type {
-  ButtonEnhancer,
-  ButtonEnhancerProps,
+  ButtonIcon,
+  ButtonIconProps,
   ButtonProps,
   ButtonRef,
   ButtonSize,
@@ -25,85 +31,85 @@ const triggerHaptic = async (
 ): Promise<void> => {
   try {
     await Haptics.impactAsync(style);
-  } catch {
-    // No-op on unsupported platforms (web, etc.)
-  }
+  } catch {}
 };
 
-interface EnhancerRendererProps {
-  enhancer: ButtonEnhancer;
+const IconRenderer = ({
+  icon,
+  size,
+  color,
+}: {
+  icon: ButtonIcon;
   size: ButtonSize;
   color: string;
-}
+}) => {
+  const iconSize = ICON_SIZES[size];
 
-const EnhancerRenderer = memo<EnhancerRendererProps>(
-  ({ enhancer, size, color }) => {
-    const iconSize = ICON_SIZES[size];
-
-    // Component type - render with props
-    if (typeof enhancer === 'function') {
-      const Component = enhancer as React.ComponentType<ButtonEnhancerProps>;
-      return <Component size={iconSize} color={color} />;
-    }
-
-    // Valid element - clone with props
-    if (isValidElement<ButtonEnhancerProps>(enhancer)) {
-      return React.cloneElement(enhancer, { size: iconSize, color });
-    }
-
-    // Primitive (string, number, null) - render as-is
-    return <>{enhancer}</>;
+  if (React.isValidElement<ButtonIconProps>(icon)) {
+    return React.cloneElement(icon, { size: iconSize, color });
   }
-);
 
-EnhancerRenderer.displayName = 'EnhancerRenderer';
+  const Component = icon as React.ComponentType<ButtonIconProps>;
+  return <Component size={iconSize} color={color} />;
+};
 
 export const Button = memo(
   forwardRef<ButtonRef, ButtonProps>(
     (
       {
-        children,
-
-        kind = 'primary',
-        size = 'default',
-        shape = 'default',
-
+        label = '',
+        hierarchy = 'primary',
+        size = 'medium',
+        shape = 'rect',
+        widthMode = 'intrinsic',
+        tone,
+        leadingIcon,
+        trailingIcon,
         disabled = false,
-        isLoading = false,
-
-        startEnhancer,
-        endEnhancer,
-
-        fullWidth = false,
-
+        loading = false,
+        active = false,
         onPress,
         onLongPress,
         delayLongPress = 500,
         hapticFeedback = false,
-
         accessibilityLabel,
         accessibilityHint,
-
         testID,
-
         style,
         labelStyle,
       },
       ref
     ) => {
-      // useUnistyles is used here ONLY for ActivityIndicator and enhancer colors.
-      // This is one of the valid use cases per Unistyles docs (third-party components).
-      // The actual button styling uses variants which update via ShadowTree.
       const { theme } = useUnistyles();
-      const foregroundColor = getForegroundColor(kind, theme);
 
-      const isDisabled = disabled || isLoading;
-      const variantSize = size === 'default' ? undefined : size;
-      const variantShape = shape === 'default' ? undefined : shape;
+      const isInteractionDisabled = disabled || loading;
+      const isIconOnly = shape === 'circle' || shape === 'square';
+
+      const foregroundColor = getForegroundColor(
+        hierarchy,
+        active,
+        disabled,
+        theme,
+        tone
+      );
+
+      const hitSlop = useMemo(() => getHitSlop(size), [size]);
+      const spinnerSize = SPINNER_SIZES[size];
+
+      styles.useVariants({
+        hierarchy,
+        size,
+        shape,
+        widthMode,
+        tone,
+        disabled,
+        active,
+        loading,
+      });
 
       const handlePress = useCallback(
         (event: GestureResponderEvent) => {
-          if (isDisabled) return;
+          if (isInteractionDisabled) return;
 
           if (hapticFeedback) {
             triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
@@ -111,12 +117,12 @@ export const Button = memo(
 
           onPress?.(event);
         },
-        [isDisabled, hapticFeedback, onPress]
+        [isInteractionDisabled, hapticFeedback, onPress]
       );
 
       const handleLongPress = useCallback(
         (event: GestureResponderEvent) => {
-          if (isDisabled) return;
+          if (isInteractionDisabled) return;
 
           if (hapticFeedback) {
             triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
@@ -124,11 +130,84 @@ export const Button = memo(
 
           onLongPress?.(event);
         },
-        [isDisabled, hapticFeedback, onLongPress]
+        [isInteractionDisabled, hapticFeedback, onLongPress]
       );
 
-      const isTextContent =
-        typeof children === 'string' || typeof children === 'number';
+      const computedAccessibilityLabel = useMemo(() => {
+        if (accessibilityLabel) return accessibilityLabel;
+        if (isIconOnly) {
+          console.warn(
+            'Button: accessibilityLabel is required for icon-only buttons (circle/square shapes)'
+          );
+        }
+        return label;
+      }, [accessibilityLabel, isIconOnly, label]);
+
+      const renderInnerContent = () => {
+        const commonLabelStyle = [
+          styles.label,
+          { color: foregroundColor },
+          labelStyle,
+        ];
+
+        if (isIconOnly) {
+          return leadingIcon ? (
+            <IconRenderer
+              icon={leadingIcon}
+              size={size}
+              color={foregroundColor}
+            />
+          ) : null;
+        }
+
+        if (widthMode === 'fixed' && trailingIcon) {
+          return (
+            <View style={styles.contentFixed}>
+              <View style={styles.contentFixedCenter}>
+                {leadingIcon && (
+                  <IconRenderer
+                    icon={leadingIcon}
+                    size={size}
+                    color={foregroundColor}
+                  />
+                )}
+                <Text style={commonLabelStyle} numberOfLines={1}>
+                  {label}
+                </Text>
+              </View>
+              <View style={styles.trailingIconFixed}>
+                <IconRenderer
+                  icon={trailingIcon}
+                  size={size}
+                  color={foregroundColor}
+                />
+              </View>
+            </View>
+          );
+        }
+
+        return (
+          <>
+            {leadingIcon && (
+              <IconRenderer
+                icon={leadingIcon}
+                size={size}
+                color={foregroundColor}
+              />
+            )}
+            <Text style={commonLabelStyle} numberOfLines={1}>
+              {label}
+            </Text>
+            {trailingIcon && (
+              <IconRenderer
+                icon={trailingIcon}
+                size={size}
+                color={foregroundColor}
+              />
+            )}
+          </>
+        );
+      };
 
       return (
         <Pressable
@@ -136,57 +215,36 @@ export const Button = memo(
           onPress={handlePress}
           onLongPress={onLongPress ? handleLongPress : undefined}
           delayLongPress={delayLongPress}
-          disabled={isDisabled}
+          disabled={isInteractionDisabled}
+          hitSlop={hitSlop}
           accessible
           accessibilityRole="button"
-          accessibilityLabel={accessibilityLabel}
+          accessibilityLabel={computedAccessibilityLabel}
           accessibilityHint={accessibilityHint}
           accessibilityState={{
-            disabled: isDisabled,
-            busy: isLoading,
+            disabled: isInteractionDisabled,
+            busy: loading,
+            selected: active,
           }}
+          style={styles.pressable}
           testID={testID}
-          style={({ pressed }) => {
-            styles.useVariants({
-              kind,
-              size: variantSize,
-              shape: variantShape,
-              fullWidth,
-              disabled: isDisabled,
-              pressed: pressed && !isDisabled,
-              isLoading,
-            });
-
-            return [styles.container, style];
-          }}
         >
-          <View style={styles.content}>
-            {startEnhancer && (
-              <EnhancerRenderer
-                enhancer={startEnhancer}
-                size={size}
-                color={foregroundColor}
-              />
-            )}
+          {({ pressed }) => (
+            <View style={[styles.container, style]}>
+              {pressed && !isInteractionDisabled && (
+                <View style={styles.pressedOverlay} pointerEvents="none" />
+              )}
 
-            {isTextContent ? (
-              <Text style={[styles.label, labelStyle]}>{children}</Text>
-            ) : (
-              children
-            )}
+              <View style={styles.content}>{renderInnerContent()}</View>
 
-            {endEnhancer && (
-              <EnhancerRenderer
-                enhancer={endEnhancer}
-                size={size}
-                color={foregroundColor}
-              />
-            )}
-          </View>
-
-          {isLoading && (
-            <View style={styles.loadingOverlay}>
-              <ActivityIndicator size="small" color={foregroundColor} />
+              {loading && (
+                <View style={styles.loadingOverlay}>
+                  <ActivityIndicator
+                    size={spinnerSize}
+                    color={foregroundColor}
+                  />
+                </View>
+              )}
             </View>
           )}
         </Pressable>

@@ -33,6 +33,17 @@ module.exports = defineConfig([
       '@typescript-eslint': tsPlugin,
       'react-native': reactNativePlugin,
     },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: ['./apps/rider-mobile/tsconfig.json', './tsconfig.json'],
+        },
+        node: {
+          extensions: ['.ts', '.tsx', '.js', '.jsx'],
+          paths: ['apps/rider-mobile', 'packages'],
+        },
+      },
+    },
     rules: {
       // TypeScript base rules
       ...tsPlugin.configs.recommended.rules,
