@@ -1,0 +1,15 @@
+{
+  "goOnline": "Go Online",
+  "goOffline": "Go Offline",
+  "acceptRide": "Accept",
+  "declineRide": "Decline",
+  "navigateToPickup": "Navigate to Pickup",
+  "arrivedAtPickup": "I've Arrived",
+  "startTrip": "Start Trip",
+  "completeTrip": "Complete Trip",
+  "earnings": "Earnings",
+  "todayEarnings": "Today's Earnings",
+  "rideRequest": "New Ride Request",
+  "passengerPickup": "Pickup Passenger",
+  "awaitingPassenger": "Waiting for Passenger"
+}

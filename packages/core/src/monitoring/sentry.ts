@@ -1,5 +1,6 @@
-import { MobileAppName } from '@/packages/core/src/types/AppConfig';
 import * as Sentry from '@sentry/react-native';
+
+import { MobileAppName } from '../types/AppConfig';
 
 export interface MobileSentryConfig {
   dsn?: string;

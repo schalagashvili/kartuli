@@ -1,7 +1,9 @@
 import Constants from 'expo-constants';
 
+import { MobileAppName } from '@kartuli/core';
+
 export interface AppIdentity {
-  appName: string;
+  appName: MobileAppName;
   appVersion: string;
   bundleId: string;
 }
@@ -13,7 +15,7 @@ if (!expoConfig) {
 }
 
 export const APP_IDENTITY: AppIdentity = {
-  appName: expoConfig.name,
+  appName: 'rider',
   appVersion: expoConfig.version ?? '1.0.0',
   bundleId:
     expoConfig.ios?.bundleIdentifier ??
