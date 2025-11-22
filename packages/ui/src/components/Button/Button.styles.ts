@@ -314,8 +314,6 @@ export const styles = StyleSheet.create((theme) => ({
   },
 
   pressable: {
-    //!remove after testing
-    marginTop: 10,
     variants: {
       widthMode: {
         fixed: {
