@@ -1,11 +1,7 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-
 branch=$(git symbolic-ref --short HEAD)
 
 # Allow main/develop branches
-if [ "$branch" = "main" ] || [ "$branch" = "develop" ]; then
+if [ "$branch" = "main" ] || [ "$branch" = "staging" ] || [ "$branch" = "develop" ]; then
   exit 0
 fi
 

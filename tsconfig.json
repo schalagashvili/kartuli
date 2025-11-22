@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
@@ -8,7 +9,11 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@/*": ["./*"]
+      "@kartuli/ui/*": ["packages/ui/src/*"],
+      "@kartuli/types/*": ["packages/types/src/*"],
+      "@kartuli/state/*": ["packages/state/src/*"],
+      "@kartuli/core/*": ["packages/core/src/*"],
+      "@/*": ["apps/rider-mobile/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
