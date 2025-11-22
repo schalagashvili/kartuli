@@ -19,9 +19,9 @@ const HelloWave = () => {
   const handleConfirmDelete = () => {};
   const handleFavorite = () => {};
   const handleOpen = () => {};
+  const toggleFilter = () => {};
   const handleSave = () => {};
   const isFilterActive = false;
-  const toggleFilter = () => {};
 
   return (
     <View>
