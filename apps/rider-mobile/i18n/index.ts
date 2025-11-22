@@ -3,6 +3,7 @@ import { getLocales } from 'expo-localization';
 import { getSupportedLocale, i18n, registerTranslations } from '@kartuli/core';
 import { setInitialDeviceLocale, useLocaleStore } from '@kartuli/state';
 
+import type { RiderKey } from './namespaces';
 import { namespaces } from './namespaces';
 
 // Register all app namespaces from the registry
@@ -31,7 +32,7 @@ useLocaleStore.subscribe((state) => {
 });
 
 // Re-export types and helpers from namespaces
-export { type RiderKey } from './namespaces';
+export type { RiderKey } from './namespaces';
 
 // Export translation helper function - uses i18n instance which is synced with locale store
-export const tr = (key: string): string => i18n.t(`rider.${key}`);
+export const tr = (key: RiderKey): string => i18n.t(`rider.${key}`);

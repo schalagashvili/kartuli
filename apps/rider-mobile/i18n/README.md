@@ -60,11 +60,8 @@ Add your namespace to `namespaces.ts`:
 ```typescript
 import enOrders from './locales/en/orders.json';
 import enRider from './locales/en/rider.json';
-// ✅ Import new namespace
 import kaOrders from './locales/ka/orders.json';
 import kaRider from './locales/ka/rider.json';
-
-// ✅ Import new namespace
 
 export const namespaces = {
   rider: {

@@ -5,16 +5,17 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { SUPPORTED_LOCALES, SupportedLocale, i18n } from '@kartuli/core';
 
 // Lazy initialization - storage is created only when first accessed
-let storage: MMKV | undefined;
-const getStorage = (): MMKV => {
-  if (!storage) {
-    // Dynamic import to avoid instantiation at module load time
-    const { createMMKV } = require('react-native-mmkv');
-    storage = createMMKV({ id: 'locale-storage' });
-  }
-  // At this point storage is guaranteed to be defined
-  return storage as MMKV;
-};
+const getStorage = (() => {
+  let instance: MMKV | undefined;
+  return (): MMKV => {
+    if (!instance) {
+      // Dynamic import to avoid instantiation at module load time
+      const { createMMKV } = require('react-native-mmkv');
+      instance = createMMKV({ id: 'locale-storage' });
+    }
+    return instance as MMKV;
+  };
+})();
 
 interface LocaleState {
   locale: SupportedLocale;
