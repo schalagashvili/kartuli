@@ -9,10 +9,8 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@kartuli/ui/*": ["packages/ui/src/*"],
-      "@kartuli/types/*": ["packages/types/src/*"],
-      "@kartuli/state/*": ["packages/state/src/*"],
-      "@kartuli/core/*": ["packages/core/src/*"],
+      // Workspace paths inherited from tsconfig.base.json
+      // App-specific path (not in base)
       "@/*": ["apps/rider-mobile/*"]
     }
   },

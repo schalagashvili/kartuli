@@ -1,4 +1,12 @@
-import React, { forwardRef, memo, useCallback, useMemo } from 'react';
+/**
+ * OPTIMIZED VERSION OF BUTTON COMPONENT
+ *
+ * This file shows how to optimize styles.useVariants if it causes performance issues.
+ * Compare with the current Button.tsx to measure impact.
+ *
+ * ONLY USE THIS IF TESTING SHOWS PERFORMANCE PROBLEMS!
+ */
+import { forwardRef, memo, useCallback, useMemo } from 'react';
 
 import {
   ActivityIndicator,
@@ -10,18 +18,18 @@ import {
 
 import { useUnistyles } from 'react-native-unistyles';
 
-import { haptics } from '../../utils';
-import type { ButtonProps, ButtonRef } from './Button.types';
-import { IconRenderer } from './components/IconRenderer';
+import { haptics } from '../../../utils';
+import type { ButtonProps, ButtonRef } from '../Button.types';
+import { IconRenderer } from '../components/IconRenderer';
 import {
   ICON_SIZES,
   SPINNER_SIZES,
   getForegroundColor,
   getHitSlop,
   styles,
-} from './styles';
+} from '../styles';
 
-export const Button = memo(
+export const ButtonOptimized = memo(
   forwardRef<ButtonRef, ButtonProps>(
     (
       {
@@ -51,12 +59,10 @@ export const Button = memo(
     ) => {
       const { theme } = useUnistyles();
 
-      // console.log('this is button re-rendering');
       const isInteractionDisabled = disabled || loading;
       const isIconOnly = shape === 'circle' || shape === 'square';
 
       // Coerce widthMode to 'intrinsic' for icon-only shapes
-      // Icon-only buttons (circle/square) should never stretch to fill container
       const effectiveWidthMode = isIconOnly ? 'intrinsic' : widthMode;
 
       if (__DEV__ && isIconOnly && widthMode === 'fixed') {
@@ -77,18 +83,33 @@ export const Button = memo(
       const iconSize = ICON_SIZES[size];
       const spinnerSize = SPINNER_SIZES[size];
 
-      styles.useVariants({
-        hierarchy,
-        size,
-        shape,
-        widthMode: effectiveWidthMode,
-        // Map 'default' → undefined because base hierarchy styles handle default colors
-        // Only 'negative' tone requires variant overrides
-        tone: tone === 'default' ? undefined : tone,
-        disabled,
-        active,
-        loading,
-      });
+      // ✨ OPTIMIZATION: Memoize variant config to prevent object recreation
+      const variantConfig = useMemo(
+        () => ({
+          hierarchy,
+          size,
+          shape,
+          widthMode: effectiveWidthMode,
+          // Map 'default' → undefined because base hierarchy styles handle default colors
+          // Only 'negative' tone requires variant overrides
+          tone: tone === 'default' ? undefined : tone,
+          disabled,
+          active,
+          loading,
+        }),
+        [
+          hierarchy,
+          size,
+          shape,
+          effectiveWidthMode,
+          tone,
+          disabled,
+          active,
+          loading,
+        ]
+      );
+
+      styles.useVariants(variantConfig);
 
       const handlePress = useCallback(
         (event: GestureResponderEvent) => {
@@ -126,9 +147,11 @@ export const Button = memo(
         return label;
       }, [accessibilityLabel, isIconOnly, label]);
 
-      const renderInnerContent = () => {
+      // ✨ OPTIMIZATION: Memoize render function if profiling shows it's needed
+      // (Usually NOT needed - inline is fine)
+      const renderInnerContent = useCallback(() => {
         const commonLabelStyle = [styles.label, labelStyle];
-
+        console.log('renderInnerContent called');
         if (isIconOnly) {
           return leadingIcon ? (
             <IconRenderer
@@ -186,9 +209,17 @@ export const Button = memo(
             )}
           </>
         );
-      };
+      }, [
+        isIconOnly,
+        leadingIcon,
+        trailingIcon,
+        widthMode,
+        label,
+        labelStyle,
+        iconSize,
+        foregroundColor,
+      ]);
 
-      // console.log('outside button');
       return (
         <Pressable
           ref={ref}
@@ -233,4 +264,4 @@ export const Button = memo(
   )
 );
 
-Button.displayName = 'Button';
+ButtonOptimized.displayName = 'ButtonOptimized';

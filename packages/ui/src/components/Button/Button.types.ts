@@ -1,4 +1,4 @@
-import type { ComponentType, ReactNode } from 'react';
+import type { ComponentType, ReactElement } from 'react';
 
 import type {
   GestureResponderEvent,
@@ -50,7 +50,7 @@ export type ButtonWidthMode = 'fixed' | 'intrinsic';
 // Default:  Standard button colors
 // Negative: Destructive actions (delete, remove) - uses negative color tokens
 // =============================================================================
-export type ButtonTone = 'negative';
+export type ButtonTone = 'default' | 'negative';
 
 // =============================================================================
 // ICON ENHANCER
@@ -64,7 +64,12 @@ export interface ButtonIconProps {
   fill?: string;
 }
 
-export type ButtonIcon = ReactNode | ComponentType<ButtonIconProps>;
+export type ButtonIcon =
+  | ReactElement<ButtonIconProps>
+  | ComponentType<ButtonIconProps>
+  | null
+  | false
+  | undefined;
 
 // =============================================================================
 // BUTTON PROPS
@@ -195,6 +200,12 @@ export interface ButtonProps {
   testID?: string;
 
   /**
+   * Additional outer pressable styles (for layout/margin control).
+   * Use sparingly - prefer variants.
+   */
+  pressableStyle?: StyleProp<ViewStyle>;
+
+  /**
    * Additional container styles.
    * Use sparingly - prefer variants.
    */
@@ -220,7 +231,6 @@ export const BUTTON_DIMENSIONS = {
     lineHeight: 20,
     paddingHorizontal: 12,
     gap: 8,
-    minTouchTarget: 48,
     hitSlop: 6, // (48 - 36) / 2
   },
   medium: {
@@ -230,7 +240,6 @@ export const BUTTON_DIMENSIONS = {
     lineHeight: 20,
     paddingHorizontal: 16,
     gap: 8,
-    minTouchTarget: 48,
     hitSlop: 0,
   },
   large: {
@@ -239,9 +248,7 @@ export const BUTTON_DIMENSIONS = {
     fontSize: 18,
     lineHeight: 24,
     paddingHorizontal: 16,
-    paddingHorizontalTrailing: 20, // Asymmetric for large
     gap: 8,
-    minTouchTarget: 56,
     hitSlop: 0,
   },
 } as const;
