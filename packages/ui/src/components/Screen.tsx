@@ -8,7 +8,7 @@ import {
   type ViewStyle,
 } from 'react-native';
 
-import { theme } from '../theme';
+import { lightTheme } from '../theme';
 
 interface ScreenProps {
   children: ReactNode;
@@ -19,7 +19,7 @@ interface ScreenProps {
 export function Screen({
   children,
   style,
-  backgroundColor = theme.colors.background,
+  backgroundColor = lightTheme.colors.background,
 }: ScreenProps) {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor }, style]}>

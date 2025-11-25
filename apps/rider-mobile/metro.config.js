@@ -1,5 +1,5 @@
-const { getSentryExpoConfig } = require('@sentry/react-native/metro');
 const path = require('path');
+const { getSentryExpoConfig } = require('@sentry/react-native/metro');
 
 const projectRoot = __dirname;
 const monorepoRoot = path.resolve(projectRoot, '../..');
@@ -25,9 +25,28 @@ config.resolver.sourceExts = [
   'json',
 ];
 
-// Exclude test files, mocks, and dev directory from the bundle
-// Metro requires a single RegExp (combining patterns with |)
-config.resolver.blockList =
-  /(__tests__|__mocks__|\.test\.[jt]sx?$|\.spec\.[jt]sx?$|\\.perf\\.test\.[jt]sx?$|\/app\/dev\/)/;
+// Determine if we should exclude dev directory
+// Dev directory should ONLY be available in development mode
+const isDevelopment =
+  process.env.NODE_ENV !== 'production' &&
+  process.env.APP_VARIANT !== 'production' &&
+  process.env.APP_VARIANT !== 'preview';
+
+// Build blockList patterns
+const blockPatterns = [
+  '__tests__',
+  '__mocks__',
+  '\\.test\\.[jt]sx?$',
+  '\\.spec\\.[jt]sx?$',
+  '\\.perf\\.test\\.[jt]sx?$',
+];
+
+// Exclude dev directory in production/preview builds
+if (!isDevelopment) {
+  blockPatterns.push('/app/dev/');
+  blockPatterns.push('/app/dev$');
+}
+
+config.resolver.blockList = new RegExp(`(${blockPatterns.join('|')})`);
 
 module.exports = config;
