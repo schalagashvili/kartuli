@@ -13,6 +13,7 @@
     "@sentry/react-native": "^7.6.0"
   },
   "devDependencies": {
-    "@sentry/react-native": "^7.6.0"
+    "@sentry/react-native": "^7.6.0",
+    "@types/node": "^24.10.1"
   }
 }

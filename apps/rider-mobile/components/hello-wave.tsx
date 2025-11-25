@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Text, View } from 'react-native';
 
@@ -15,7 +15,8 @@ import {
 } from '@kartuli/ui';
 
 const HelloWave = () => {
-  const { locale, setLocale } = useTranslation();
+  const { locale } = useTranslation();
+  const [state, setState] = useState('heloo');
 
   const handleConfirm = () => {};
   const handleChange = () => {};
@@ -28,21 +29,18 @@ const HelloWave = () => {
   const handleSave = () => {};
   const isFilterActive = false;
 
-  const toggleLanguage = () => {
-    setLocale(locale === 'en' ? 'ka' : 'en');
-  };
-
   return (
     <View style={{ marginTop: 50, padding: 20 }}>
       <Text style={{ fontSize: 16, marginBottom: 10 }}>
-        Current language: {locale === 'en' ? 'English' : 'ქართული'}
+        {state} language: {locale === 'en' ? 'English' : 'ქართული'}
       </Text>
+
       <Button
         label={locale === 'en' ? 'Switch to ქართული' : 'Switch to English'}
         hierarchy="primary"
         size="large"
         widthMode="fixed"
-        onPress={toggleLanguage}
+        onPress={() => setState(Math.random().toString())}
       />
       <View style={{ marginTop: 20 }}>
         <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>

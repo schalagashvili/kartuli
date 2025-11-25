@@ -20,6 +20,7 @@ import 'react-native-reanimated';
 
 import { env } from '@kartuli/core';
 import { useLocaleStore } from '@kartuli/state';
+// Initialize Unistyles before importing any UI components
 import { ErrorBoundary } from '@kartuli/ui';
 
 initSentry();

@@ -4,6 +4,22 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "files": [
+    "src",
+    "!src/**/__tests__",
+    "!src/**/__mocks__",
+    "!src/**/*.test.*",
+    "!src/**/*.spec.*",
+    "!src/**/*.perf.test.*"
+  ],
+  "scripts": {
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch --passWithNoTests",
+    "test:coverage": "jest --coverage --passWithNoTests",
+    "test:perf": "TEST_RUNNER_ARGS='--runInBand --testMatch \"**/__tests__/**/*.perf.test.[jt]s?(x)\"' reassure",
+    "test:perf:baseline": "TEST_RUNNER_ARGS='--runInBand --testMatch \"**/__tests__/**/*.perf.test.[jt]s?(x)\"' reassure --baseline",
+    "test:perf:compare": "TEST_RUNNER_ARGS='--runInBand --testMatch \"**/__tests__/**/*.perf.test.[jt]s?(x)\"' reassure --compare"
+  },
   "dependencies": {
     "@kartuli/core": "workspace:*",
     "@kartuli/types": "workspace:*",
@@ -11,7 +27,17 @@
     "react-error-boundary": "^6.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@react-native/babel-preset": "^0.82.1",
+    "@testing-library/react-native": "^13.3.3",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.1",
     "@types/react": "^19.1.0",
+    "babel-jest": "^30.2.0",
+    "jest": "^30.2.0",
+    "react-test-renderer": "^19.1.0",
+    "reassure": "^1.4.0",
+    "ts-jest": "^29.4.5",
     "typescript": "5.9.3"
   },
   "peerDependencies": {

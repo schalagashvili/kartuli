@@ -30,7 +30,6 @@ export const namespaces = {
  * Type-safe keys for each namespace
  */
 export type RiderKey = keyof typeof enRider;
-// export type OrdersKey = keyof typeof enOrders;
 
 /**
  * Get all namespace names

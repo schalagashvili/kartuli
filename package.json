@@ -6,16 +6,22 @@
     "clean:check": "knip",
     "clean:fix": "knip --fix",
     "prepare": "husky",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "verify:bundle": "bash scripts/verify-bundle-exclusions.sh",
+    "verify:all": "pnpm verify:bundle && pnpm --filter @kartuli/ui test:perf",
+    "test:perf": "pnpm --filter @kartuli/ui test:perf"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.47.0",
     "@typescript-eslint/parser": "^8.47.0",
     "eslint": "^9.39.1",
     "eslint-config-expo": "^10.0.0",
+    "eslint-config-universe": "^15.0.3",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-native": "^5.0.0",
     "husky": "^9.1.7",
@@ -23,8 +29,7 @@
     "lint-staged": "^16.2.6",
     "prettier": "^3.6.2",
     "syncpack": "^13.0.4",
-    "typescript": "5.9.3",
-    "eslint-config-universe": "^15.0.3"
+    "typescript": "5.9.3"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

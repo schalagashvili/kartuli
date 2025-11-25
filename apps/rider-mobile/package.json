@@ -12,6 +12,7 @@
     "web": "expo start --web",
     "expo-doctor": "npx expo-doctor",
     "dev": "APP_VARIANT=development expo start",
+    "prod": "npx expo start --no-dev --minify",
     "type-check": "tsc --noEmit",
     "eas:build:dev": "eas build --profile development --platform all",
     "eas:build:preview": "eas build --profile preview --platform all",
