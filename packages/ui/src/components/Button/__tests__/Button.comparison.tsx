@@ -7,9 +7,11 @@ import { ScrollView, Text, View } from 'react-native';
 import { Button } from '../Button';
 import { ButtonOptimized } from './Button.optimized.example';
 
+type ProfilerPhase = 'mount' | 'update' | 'nested-update';
+
 interface ProfilerData {
   id: string;
-  phase: 'mount' | 'update' | 'nested-update';
+  phase: ProfilerPhase;
   actualDuration: number;
   baseDuration: number;
   startTime: number;
@@ -23,7 +25,7 @@ export const ButtonComparisonTest = () => {
 
   const onCurrentRender = (
     id: string,
-    phase: 'mount' | 'update' | 'nested-update',
+    phase: ProfilerPhase,
     actualDuration: number,
     baseDuration: number,
     startTime: number,
@@ -37,7 +39,7 @@ export const ButtonComparisonTest = () => {
 
   const onOptimizedRender = (
     id: string,
-    phase: 'mount' | 'update' | 'nested-update',
+    phase: ProfilerPhase,
     actualDuration: number,
     baseDuration: number,
     startTime: number,

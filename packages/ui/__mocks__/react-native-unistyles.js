@@ -43,8 +43,7 @@ const createStyleSheet = jest.fn((stylesOrFn) => {
   }
 
   // Create stylesheet object with useVariants method that returns self
-  // Use Object.assign to ensure properties are properly set
-  const stylesheet = Object.assign({}, baseStyles);
+  const stylesheet = { ...baseStyles };
 
   // useVariants should be a no-op that returns the stylesheet for chaining
   stylesheet.useVariants = jest.fn(() => stylesheet);

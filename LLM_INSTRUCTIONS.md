@@ -564,7 +564,6 @@ export const useRiderTranslation = () => {
   // Testing
   "jest": "latest",
   "@testing-library/react-native": "latest",
-  "@testing-library/jest-native": "latest",
   "msw": "latest",                           // API mocking
   "maestro": "latest",                       // E2E UI testing
 

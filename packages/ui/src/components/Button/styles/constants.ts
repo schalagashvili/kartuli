@@ -13,9 +13,9 @@ export const ICON_SIZES: Record<ButtonSize, number> = {
 // SPINNER SIZE MAP (matches icon size per Uber spec)
 // =============================================================================
 export const SPINNER_SIZES: Record<ButtonSize, number> = {
-  small: 16,
-  medium: 20,
-  large: 24,
+  small: BUTTON_DIMENSIONS.small.spinnerSize,
+  medium: BUTTON_DIMENSIONS.medium.spinnerSize,
+  large: BUTTON_DIMENSIONS.large.spinnerSize,
 };
 
 // =============================================================================
@@ -28,7 +28,7 @@ export const getHitSlop = (
   return {
     top: slop,
     bottom: slop,
-    left: slop,
-    right: slop,
+    left: 0,
+    right: 0,
   };
 };

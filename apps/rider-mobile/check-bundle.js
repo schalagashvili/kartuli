@@ -11,6 +11,7 @@ async function checkBundle() {
   console.log('🔍 Checking Metro bundle configuration...\n');
 
   const config = await Metro.loadConfig({
+    // eslint-disable-next-line no-undef
     config: path.resolve(__dirname, 'metro.config.js'),
   });
 
@@ -24,20 +25,21 @@ async function checkBundle() {
 
   console.log('\n✅ Test patterns to check:');
   const testPatterns = [
-    '__tests__/QuickTest.tsx',
-    '__tests__/Button.perf.test.tsx',
-    '__mocks__/expo-haptics.js',
-    'Button.test.tsx',
-    'Button.spec.tsx',
-    'Button.perf.test.tsx',
+    'packages/ui/src/components/Button/__tests__/QuickTest.tsx',
+    'packages/ui/src/components/Button/__tests__/Button.perf.test.tsx',
+    'packages/ui/src/components/Button/__mocks__/expo-haptics.js',
+    'packages/ui/src/components/Button/Button.test.tsx',
+    'packages/ui/src/components/Button/Button.spec.tsx',
+    'packages/ui/src/components/Button/Button.perf.test.tsx',
+    'apps/rider-mobile/app/dev/ButtonGallery.tsx',
+    // Add more test/mocks files from other components as needed
   ];
 
-  testPatterns.forEach((pattern) => {
-    const testPath = `/packages/ui/src/components/Button/${pattern}`;
+  testPatterns.forEach((testPath) => {
     // blockList is a single RegExp, not an array
     const isBlocked = config.resolver.blockList?.test(testPath);
     const status = isBlocked ? '🚫 BLOCKED' : '⚠️  ALLOWED';
-    console.log(`  ${status}: ${pattern}`);
+    console.log(`  ${status}: ${testPath}`);
   });
 
   console.log('\n✨ Done!');

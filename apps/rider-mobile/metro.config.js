@@ -1,5 +1,6 @@
-const path = require('path');
 const { getSentryExpoConfig } = require('@sentry/react-native/metro');
+const path = require('path');
+
 const projectRoot = __dirname;
 const monorepoRoot = path.resolve(projectRoot, '../..');
 
@@ -24,8 +25,9 @@ config.resolver.sourceExts = [
   'json',
 ];
 
-// Exclude test files and mocks from the bundle
+// Exclude test files, mocks, and dev directory from the bundle
 // Metro requires a single RegExp (combining patterns with |)
-config.resolver.blockList = /(__tests__|__mocks__|\.test\.[jt]sx?$|\.spec\.[jt]sx?$|\.perf\.test\.[jt]sx?$)/;
+config.resolver.blockList =
+  /(__tests__|__mocks__|\.test\.[jt]sx?$|\.spec\.[jt]sx?$|\\.perf\\.test\.[jt]sx?$|\/app\/dev\/)/;
 
 module.exports = config;

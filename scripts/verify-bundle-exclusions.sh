@@ -22,13 +22,14 @@ if grep -q '"files"' package.json; then
   TEMP_DIR=$(mktemp -d)
   trap 'rm -rf "$TEMP_DIR"' EXIT
 
-  # Run npm pack in temp directory to avoid polluting repo
-  (cd "$TEMP_DIR" && npm pack "$ROOT_DIR/packages/ui" --silent) > /dev/null 2>&1
+  # Run pnpm pack to temp directory to avoid polluting repo
+  cd "$ROOT_DIR/packages/ui"
+  pnpm pack --pack-destination "$TEMP_DIR" > /dev/null 2>&1
 
   # Check the tarball contents
   TARBALL=$(find "$TEMP_DIR" -name "*.tgz" | head -n 1)
   if [ -n "$TARBALL" ]; then
-    tar -tzf "$TARBALL" | grep -E "__tests__|__mocks__|\.test\.|\.spec\.|\.perf\.test\." && {
+    tar -tzf "$TARBALL" | grep -E "(__tests__|__mocks__|\.test\.|\.spec\.|\.perf\.test\.)" && {
       echo "   ⚠️  WARNING: Test files found in package!"
       exit 1
     } || echo "   ✅ No test files in package output"

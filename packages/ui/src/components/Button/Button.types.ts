@@ -229,6 +229,7 @@ export const BUTTON_DIMENSIONS = {
     iconSize: 16,
     fontSize: 14,
     lineHeight: 20,
+    spinnerSize: 16,
     paddingHorizontal: 12,
     gap: 8,
     hitSlop: 6, // (48 - 36) / 2
@@ -238,6 +239,7 @@ export const BUTTON_DIMENSIONS = {
     iconSize: 20,
     fontSize: 16,
     lineHeight: 20,
+    spinnerSize: 20,
     paddingHorizontal: 16,
     gap: 8,
     hitSlop: 0,
@@ -247,6 +249,7 @@ export const BUTTON_DIMENSIONS = {
     iconSize: 24,
     fontSize: 18,
     lineHeight: 24,
+    spinnerSize: 24,
     paddingHorizontal: 16,
     gap: 8,
     hitSlop: 0,
