@@ -19,7 +19,7 @@ export const getForegroundColor = (
   active: boolean,
   disabled: boolean,
   theme: AppTheme,
-  tone: ButtonTone
+  tone?: ButtonTone
 ): string => {
   // Disabled takes highest priority
   if (disabled) {
