@@ -3,12 +3,13 @@
  *
  * A comprehensive, interactive gallery for testing all Checkbox variants.
  * Features global state toggles to test Disabled/Error across all checkboxes.
+ * Includes performance monitoring to detect unnecessary re-renders.
  *
  * Setup:
  * 1. Place at: apps/rider-mobile/app/dev/checkbox-gallery.tsx
  * 2. In _layout.tsx, add dev route (see bottom of file)
  */
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   ScrollView,
@@ -22,32 +23,72 @@ import {
 import { ComponentPerfMonitor } from '@/app/dev/components/ComponentPerfMonitor';
 import { ScreenPerfMonitor } from '@/app/dev/components/ScreenPerfMonitor';
 
-import { Checkbox as BaseCheckbox } from '@kartuli/ui';
+import { Checkbox as BaseCheckbox, Button } from '@kartuli/ui';
 
 // =============================================================================
 // INSTRUMENTED CHECKBOX (shows last render time)
+// Uses ref + separate display component to avoid re-render cascade
 // =============================================================================
 
 type DevCheckboxProps = React.ComponentProps<typeof BaseCheckbox>;
 
-const Checkbox = (props: DevCheckboxProps) => {
-  const [metrics, setMetrics] = useState<{
+interface MetricsDisplayProps {
+  metricsRef: React.RefObject<{
     duration: number;
-    phase: 'mount' | 'update' | 'nested-update';
-  } | null>(null);
+    phase: string;
+    renderCount: number;
+  }>;
+}
+
+// Separate component that polls the ref for display updates
+const MetricsDisplay = ({ metricsRef }: MetricsDisplayProps) => {
+  const [displayMetrics, setDisplayMetrics] = useState(metricsRef.current);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (metricsRef.current.renderCount !== displayMetrics.renderCount) {
+        setDisplayMetrics({ ...metricsRef.current });
+      }
+    }, 500); // Poll every 500ms, not every frame
+
+    return () => clearInterval(interval);
+  }, [metricsRef, displayMetrics]);
+
+  const metrics = metricsRef.current;
+  if (!metrics) {
+    return (
+      <Text style={styles.renderTime} numberOfLines={1}>
+        render...
+      </Text>
+    );
+  }
+  const { phase, duration, renderCount } = metrics;
+  return (
+    <Text style={styles.renderTime} numberOfLines={1}>
+      {phase} {duration.toFixed(1)}ms{' '}
+      <Text style={styles.renderCount}>#{renderCount}</Text>
+    </Text>
+  );
+};
+
+const Checkbox = (props: DevCheckboxProps) => {
+  const metricsRef = useRef({
+    duration: 0,
+    phase: 'mount',
+    renderCount: 0,
+  });
 
   const handleRender: React.ProfilerOnRenderCallback = (
     _id,
     phase,
     actualDuration
   ) => {
-    setMetrics((prev) => {
-      const unchanged =
-        prev &&
-        prev.phase === phase &&
-        Math.abs(prev.duration - actualDuration) < 0.05;
-      return unchanged ? prev : { duration: actualDuration, phase };
-    });
+    // Store in ref - no state update, no re-render cascade
+    metricsRef.current = {
+      duration: actualDuration,
+      phase,
+      renderCount: metricsRef.current.renderCount + 1,
+    };
   };
 
   const labelForId =
@@ -58,17 +99,12 @@ const Checkbox = (props: DevCheckboxProps) => {
   return (
     <View style={styles.instrumentedCheckbox}>
       <React.Profiler id={`checkbox-${labelForId}`} onRender={handleRender}>
-        {/* ✅ FIX: Override width: '100%' so it allows the timer to exist on the right */}
         <BaseCheckbox
           {...props}
           style={[props.style, { width: 'auto', flex: 1 }]}
         />
       </React.Profiler>
-      <Text style={styles.renderTime} numberOfLines={1}>
-        {metrics
-          ? `${metrics.phase} ${metrics.duration.toFixed(1)}ms`
-          : 'render...'}
-      </Text>
+      <MetricsDisplay metricsRef={metricsRef} />
     </View>
   );
 };
@@ -215,6 +251,339 @@ const ParentChildDemo = ({
           </ComponentPerfMonitor>
         ))}
       </View>
+    </View>
+  );
+};
+
+// =============================================================================
+// MONITORED CHECKBOX (Tracks Render Count for Performance Testing)
+// =============================================================================
+interface MonitoredCheckboxProps {
+  label: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  size?: 'small' | 'medium' | 'large';
+  disabled?: boolean;
+  onRenderCountChange: (count: number) => void;
+}
+
+const MonitoredCheckbox = React.memo<MonitoredCheckboxProps>(
+  ({ onRenderCountChange, ...checkboxProps }) => {
+    const renderCount = useRef(0);
+
+    useEffect(() => {
+      renderCount.current += 1;
+      onRenderCountChange(renderCount.current);
+      // eslint-disable-next-line no-console
+      console.log(
+        `[MonitoredCheckbox "${checkboxProps.label}"] Render #${renderCount.current}`
+      );
+    });
+
+    return <BaseCheckbox {...checkboxProps} />;
+  }
+);
+
+MonitoredCheckbox.displayName = 'MonitoredCheckbox';
+
+// =============================================================================
+// TOGGLE PROPS TEST
+// =============================================================================
+const TogglePropsTest = () => {
+  const [checked, setChecked] = useState(false);
+  const buttonRenderCount = useRef(0);
+  const [displayCount, setDisplayCount] = useState(0);
+
+  return (
+    <View style={styles.testContainer}>
+      <MonitoredCheckbox
+        label="Toggle Checked"
+        checked={checked}
+        onChange={(val) => setChecked(val)}
+        onRenderCountChange={(count) => {
+          buttonRenderCount.current = count;
+          setDisplayCount(count);
+        }}
+      />
+      <Text style={styles.renderInfo}>Checkbox renders: {displayCount}</Text>
+      <Text style={styles.expectation}>
+        Expected: Increments when you click (checked changes)
+      </Text>
+    </View>
+  );
+};
+
+// =============================================================================
+// SAME PROPS TEST (Different Object References)
+// =============================================================================
+const SamePropsTest = () => {
+  const [, forceUpdate] = useState(0);
+  const [checked, setChecked] = useState(false);
+  const buttonRenderCount = useRef(0);
+  const [displayCount, setDisplayCount] = useState(0);
+
+  // ⚠️ Creating new function reference on every render
+  const handleChange = (val: boolean) => {
+    setChecked(val);
+  };
+
+  return (
+    <View style={styles.testContainer}>
+      <MonitoredCheckbox
+        label="Same Props Checkbox"
+        size="medium"
+        checked={checked}
+        onChange={handleChange} // ⚠️ New reference every render
+        onRenderCountChange={(count) => {
+          buttonRenderCount.current = count;
+          setDisplayCount(count);
+        }}
+      />
+      <Text style={styles.renderInfo}>Checkbox renders: {displayCount}</Text>
+      <Button
+        label="Force Parent Re-render"
+        size="small"
+        onPress={() => forceUpdate((u) => u + 1)}
+      />
+      <Text style={styles.expectation}>
+        Expected: Should NOT re-render when parent re-renders{'\n'}
+        (Checkbox is memoized, onChange change should be ignored)
+      </Text>
+    </View>
+  );
+};
+
+// =============================================================================
+// MANY CHECKBOXES TEST
+// Tests if useVariants causes issues with many instances
+// =============================================================================
+const ManyCheckboxesTest = () => {
+  const [parentRenderCount, setParentRenderCount] = useState(0);
+  const startTime = useRef<number | null>(null);
+  const [renderTime, setRenderTime] = useState(0);
+
+  useEffect(() => {
+    if (startTime.current !== null) {
+      const time = Date.now() - startTime.current;
+      setRenderTime(time);
+      // eslint-disable-next-line no-console
+      console.log(
+        `[ManyCheckboxesTest] Rendered ${parentRenderCount} - took ${time}ms`
+      );
+      startTime.current = null;
+    }
+  }, [parentRenderCount]);
+
+  const handleRerender = () => {
+    startTime.current = Date.now(); // Start timing RIGHT before state update
+    setParentRenderCount((c) => c + 1);
+  };
+
+  return (
+    <View style={styles.testContainer}>
+      <Text style={styles.testTitle}>20 Checkboxes Test</Text>
+      <Text style={styles.renderInfo}>
+        Last render time: {renderTime}ms (should be &lt;100ms)
+      </Text>
+
+      <Button
+        label={`Force Re-render (${parentRenderCount})`}
+        size="small"
+        onPress={handleRerender}
+      />
+
+      <View style={styles.checkboxGrid}>
+        {Array.from({ length: 20 }).map((_, i) => (
+          <BaseCheckbox
+            key={i}
+            label={`Checkbox ${i + 1}`}
+            size={i % 3 === 0 ? 'small' : i % 3 === 1 ? 'medium' : 'large'}
+            checked={i % 2 === 0}
+            onChange={() => {}}
+          />
+        ))}
+      </View>
+    </View>
+  );
+};
+
+// =============================================================================
+// VARIANT CHANGES TEST
+// Tests if changing variants causes efficient re-renders
+// =============================================================================
+const VariantChangesTest = () => {
+  const [size, setSize] = useState<'small' | 'medium' | 'large'>('medium');
+  const [checked, setChecked] = useState(false);
+  const renderCount = useRef(0);
+  const [displayCount, setDisplayCount] = useState(0);
+
+  useEffect(() => {
+    renderCount.current += 1;
+    setDisplayCount(renderCount.current);
+    // eslint-disable-next-line no-console
+    console.log(
+      `[VariantChangesTest] Checkbox should re-render. Count: ${renderCount.current}`
+    );
+  }, [size, checked]);
+
+  return (
+    <View style={styles.testContainer}>
+      <Text style={styles.testTitle}>Variant Changes Test</Text>
+      <Text style={styles.expectation}>
+        Changing size/checked should cause exactly ONE checkbox re-render.
+      </Text>
+
+      <Text style={styles.renderInfo}>Parent renders: {displayCount}</Text>
+
+      <BaseCheckbox
+        label="Test Checkbox"
+        size={size}
+        checked={checked}
+        onChange={setChecked}
+      />
+
+      <View style={styles.buttonRow}>
+        <Text style={styles.buttonRowLabel}>Change Size:</Text>
+        <Button
+          label="Small"
+          size="small"
+          hierarchy={size === 'small' ? 'primary' : 'secondary'}
+          onPress={() => setSize('small')}
+        />
+        <Button
+          label="Medium"
+          size="small"
+          hierarchy={size === 'medium' ? 'primary' : 'secondary'}
+          onPress={() => setSize('medium')}
+        />
+        <Button
+          label="Large"
+          size="small"
+          hierarchy={size === 'large' ? 'primary' : 'secondary'}
+          onPress={() => setSize('large')}
+        />
+      </View>
+    </View>
+  );
+};
+
+// =============================================================================
+// STRESS TEST
+// Rapidly changes props to test performance
+// =============================================================================
+const StressTest = () => {
+  const [counter, setCounter] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(
+    undefined
+  );
+
+  const startStressTest = () => {
+    setIsRunning(true);
+    intervalRef.current = setInterval(() => {
+      setCounter((c) => c + 1);
+    }, 16); // ~60fps
+  };
+
+  const stopStressTest = () => {
+    setIsRunning(false);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <View style={styles.testContainer}>
+      <Text style={styles.testTitle}>Stress Test (60fps prop changes)</Text>
+      <Text style={styles.expectation}>
+        Updates checkbox props 60 times/sec. Should stay smooth.
+      </Text>
+
+      <Text style={styles.renderInfo}>Updates: {counter}</Text>
+
+      <BaseCheckbox
+        label={`Dynamic ${counter}`}
+        checked={counter % 2 === 0}
+        indeterminate={counter % 10 === 0}
+        disabled={counter % 15 === 0}
+        onChange={() => {}}
+      />
+
+      <View style={styles.buttonRow}>
+        <Button
+          label={isRunning ? 'Running...' : 'Start Stress Test'}
+          onPress={startStressTest}
+          disabled={isRunning}
+          size="small"
+        />
+        <Button
+          label="Stop"
+          hierarchy="secondary"
+          onPress={stopStressTest}
+          disabled={!isRunning}
+          size="small"
+        />
+      </View>
+    </View>
+  );
+};
+
+// =============================================================================
+// PERFORMANCE TAB CONTENT
+// =============================================================================
+const PerformanceTests = () => {
+  const [activeTest, setActiveTest] = useState<
+    'toggle' | 'sameProps' | 'many' | 'variants' | 'stress'
+  >('toggle');
+
+  return (
+    <View>
+      <View style={styles.tabBar}>
+        <Button
+          label="Toggle"
+          size="small"
+          hierarchy={activeTest === 'toggle' ? 'primary' : 'tertiary'}
+          onPress={() => setActiveTest('toggle')}
+        />
+        <Button
+          label="Refs"
+          size="small"
+          hierarchy={activeTest === 'sameProps' ? 'primary' : 'tertiary'}
+          onPress={() => setActiveTest('sameProps')}
+        />
+        <Button
+          label="Many"
+          size="small"
+          hierarchy={activeTest === 'many' ? 'primary' : 'tertiary'}
+          onPress={() => setActiveTest('many')}
+        />
+        <Button
+          label="Variants"
+          size="small"
+          hierarchy={activeTest === 'variants' ? 'primary' : 'tertiary'}
+          onPress={() => setActiveTest('variants')}
+        />
+        <Button
+          label="Stress"
+          size="small"
+          hierarchy={activeTest === 'stress' ? 'primary' : 'tertiary'}
+          onPress={() => setActiveTest('stress')}
+        />
+      </View>
+
+      {activeTest === 'toggle' && <TogglePropsTest />}
+      {activeTest === 'sameProps' && <SamePropsTest />}
+      {activeTest === 'many' && <ManyCheckboxesTest />}
+      {activeTest === 'variants' && <VariantChangesTest />}
+      {activeTest === 'stress' && <StressTest />}
     </View>
   );
 };
@@ -450,6 +819,14 @@ const CheckboxGallery = () => {
             </ComponentPerfMonitor>
           </Section>
 
+          {/* 8. PERFORMANCE TESTS */}
+          <Section
+            title="8. Performance Tests"
+            description="Test render efficiency and detect unnecessary re-renders"
+          >
+            <PerformanceTests />
+          </Section>
+
           <View style={styles.footer} />
         </ScrollView>
       </View>
@@ -499,7 +876,6 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   scrollContent: {
-    padding: 16,
     paddingBottom: 100,
   },
   section: {
@@ -541,8 +917,13 @@ const styles = StyleSheet.create({
     color: '#999',
     fontFamily: 'monospace',
     flexShrink: 0,
-    minWidth: 85,
+    minWidth: 100,
     textAlign: 'right',
+  },
+  renderCount: {
+    fontSize: 10,
+    color: '#4CAF50',
+    fontWeight: '600',
   },
   note: {
     fontSize: 12,
@@ -577,6 +958,56 @@ const styles = StyleSheet.create({
   perfHintText: {
     fontSize: 12,
     color: '#92400E',
+  },
+  // Performance Test Styles
+  testContainer: {
+    backgroundColor: '#FFF',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  testTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 8,
+    color: '#333',
+  },
+  renderInfo: {
+    fontSize: 14,
+    color: '#666',
+    marginVertical: 8,
+    fontFamily: 'monospace',
+  },
+  expectation: {
+    fontSize: 12,
+    color: '#888',
+    marginTop: 8,
+    fontStyle: 'italic',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 12,
+    alignItems: 'center',
+  },
+  buttonRowLabel: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#333',
+    marginRight: 4,
+  },
+  checkboxGrid: {
+    marginTop: 12,
+    gap: 8,
+  },
+  tabBar: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginBottom: 16,
   },
 });
 

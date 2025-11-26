@@ -46,7 +46,6 @@ export const Checkbox = memo(
     labelStyle,
   }: CheckboxProps) => {
     const { theme } = useUnistyles();
-
     // ─────────────────────────────────────────────────────────────
     // 1. Derived State
     // ─────────────────────────────────────────────────────────────

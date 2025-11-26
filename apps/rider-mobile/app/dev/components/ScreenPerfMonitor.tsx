@@ -77,8 +77,8 @@ export const ScreenPerfMonitor = ({
     return '#EF4444'; // Red (slow)
   };
 
+  return <>{children}</>;
   if (!enabled || !__DEV__) {
-    return <>{children}</>;
   }
 
   return (
