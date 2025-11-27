@@ -9,7 +9,9 @@
     "type-check": "tsc --noEmit",
     "verify:bundle": "bash scripts/verify-bundle-exclusions.sh",
     "verify:all": "pnpm verify:bundle && pnpm --filter @kartuli/ui test:perf",
-    "test:perf": "pnpm --filter @kartuli/ui test:perf"
+    "test:perf": "pnpm --filter @kartuli/ui test:perf",
+    "storybook": "pnpm --filter @kartuli/storybook start",
+    "storybook:generate": "pnpm --filter @kartuli/storybook storybook:generate"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",

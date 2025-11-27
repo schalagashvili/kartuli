@@ -33,6 +33,7 @@ const normalizedStories = [
 declare global {
   var view: ReturnType<typeof start>;
   var STORIES: typeof normalizedStories;
+
   interface NodeModule {
     hot?: {
       accept?: () => void;

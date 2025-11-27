@@ -9,29 +9,15 @@ import type { Meta, StoryObj } from '@storybook/react';
 // Import your real icons for accurate rendering tests
 import { ArrowRight, Check, ChevronDown, Heart, Trash2, X } from '../../icons';
 import { Button } from './Button';
-import type { ButtonIconProps } from './Button.types';
-
-// Fallback icon for environments where real icons aren't available
-// Respects size prop to accurately test size variants
-const FallbackIcon = ({ color, size }: ButtonIconProps) => (
-  <View
-    style={{
-      width: size,
-      height: size,
-      backgroundColor: color,
-      borderRadius: size * 0.15,
-    }}
-  />
-);
 
 // Use real icons with fallback safety
 const Icons = {
-  Heart: Heart ?? FallbackIcon,
-  ArrowRight: ArrowRight ?? FallbackIcon,
-  Trash: Trash2 ?? FallbackIcon,
-  Close: X ?? FallbackIcon,
-  Check: Check ?? FallbackIcon,
-  ChevronDown: ChevronDown ?? FallbackIcon,
+  Heart: Heart,
+  ArrowRight: ArrowRight,
+  Trash: Trash2,
+  Close: X,
+  Check: Check,
+  ChevronDown: ChevronDown,
 };
 
 // =============================================================================
@@ -1403,9 +1389,4 @@ export const KitchenSink: Story = {
       },
     },
   },
-};
-
-export const Small: Story = { args: { label: 'Small Button', size: 'small' } };
-export const Medium: Story = {
-  args: { label: 'Medium Button', size: 'medium' },
 };
