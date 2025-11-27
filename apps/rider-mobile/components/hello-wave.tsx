@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
+import { tr } from '@/i18n';
+
+import { useTranslation } from '@kartuli/state';
 import {
   Button,
   Car,
@@ -12,6 +15,9 @@ import {
 } from '@kartuli/ui';
 
 const HelloWave = () => {
+  const { locale } = useTranslation();
+  const [state, setState] = useState('heloo');
+
   const handleConfirm = () => {};
   const handleChange = () => {};
   const handleDismiss = () => {};
@@ -24,7 +30,23 @@ const HelloWave = () => {
   const isFilterActive = false;
 
   return (
-    <View>
+    <View style={{ marginTop: 50, padding: 20 }}>
+      <Text style={{ fontSize: 16, marginBottom: 10 }}>
+        {state} language: {locale === 'en' ? 'English' : 'ქართული'}
+      </Text>
+
+      <Button
+        label={locale === 'en' ? 'Switch to ქართული' : 'Switch to English'}
+        hierarchy="primary"
+        size="large"
+        widthMode="fixed"
+        onPress={() => setState(Math.random().toString())}
+      />
+      <View style={{ marginTop: 20 }}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>
+          {tr('goOnline')}
+        </Text>
+      </View>
       <Button
         label="Delete"
         hierarchy="primary"

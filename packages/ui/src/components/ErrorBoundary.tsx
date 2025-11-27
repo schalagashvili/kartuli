@@ -22,7 +22,11 @@ function ErrorFallback({
   );
 }
 
-export function ErrorBoundary({ children }: { children: React.ReactNode }) {
+export function ErrorBoundary({
+  children,
+}: {
+  readonly children: React.ReactNode;
+}) {
   return (
     <ReactErrorBoundary
       FallbackComponent={ErrorFallback}

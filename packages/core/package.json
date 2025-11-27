@@ -6,12 +6,14 @@
   "dependencies": {
     "@kartuli/types": "workspace:*",
     "@sentry/core": "^10.26.0",
+    "i18n-js": "^4.5.1",
     "zod": "^4.1.12"
   },
   "peerDependencies": {
     "@sentry/react-native": "^7.6.0"
   },
   "devDependencies": {
-    "@sentry/react-native": "^7.6.0"
+    "@sentry/react-native": "^7.6.0",
+    "@types/node": "^24.10.1"
   }
 }

@@ -1,6 +1,4 @@
-import type { KnipConfig } from 'knip';
-
-const config: KnipConfig = {
+const config = {
   // 1. Tell Knip about your workspaces
   workspaces: {
     '.': {

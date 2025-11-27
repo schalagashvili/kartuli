@@ -8,50 +8,18 @@ import {
   View,
 } from 'react-native';
 
-import * as Haptics from 'expo-haptics';
 import { useUnistyles } from 'react-native-unistyles';
 
+import { haptics } from '../../utils';
+import type { ButtonProps, ButtonRef } from './Button.types';
+import { IconRenderer } from './components/IconRenderer';
 import {
   ICON_SIZES,
   SPINNER_SIZES,
   getForegroundColor,
   getHitSlop,
   styles,
-} from './Button.styles';
-import type {
-  ButtonIcon,
-  ButtonIconProps,
-  ButtonProps,
-  ButtonRef,
-  ButtonSize,
-} from './Button.types';
-
-const triggerHaptic = async (
-  style: Haptics.ImpactFeedbackStyle
-): Promise<void> => {
-  try {
-    await Haptics.impactAsync(style);
-  } catch {}
-};
-
-const IconRenderer = ({
-  icon,
-  size,
-  color,
-}: {
-  icon: ButtonIcon;
-  size: ButtonSize;
-  color: string;
-}) => {
-  const iconSize = ICON_SIZES[size];
-
-  if (React.isValidElement<ButtonIconProps>(icon)) {
-    return React.cloneElement(icon, { size: iconSize, color });
-  }
-
-  const Component = icon as React.ComponentType<ButtonIconProps>;
-  return <Component size={iconSize} color={color} />;
-};
+} from './styles';
 
 export const Button = memo(
   forwardRef<ButtonRef, ButtonProps>(
@@ -62,7 +30,7 @@ export const Button = memo(
         size = 'medium',
         shape = 'rect',
         widthMode = 'intrinsic',
-        tone,
+        tone = 'default',
         leadingIcon,
         trailingIcon,
         disabled = false,
@@ -75,6 +43,7 @@ export const Button = memo(
         accessibilityLabel,
         accessibilityHint,
         testID,
+        pressableStyle,
         style,
         labelStyle,
       },
@@ -82,8 +51,19 @@ export const Button = memo(
     ) => {
       const { theme } = useUnistyles();
 
+      // console.log('this is button re-rendering');
       const isInteractionDisabled = disabled || loading;
       const isIconOnly = shape === 'circle' || shape === 'square';
+
+      // Coerce widthMode to 'intrinsic' for icon-only shapes
+      // Icon-only buttons (circle/square) should never stretch to fill container
+      const effectiveWidthMode = isIconOnly ? 'intrinsic' : widthMode;
+
+      if (__DEV__ && isIconOnly && widthMode === 'fixed') {
+        console.warn(
+          '[Button] widthMode="fixed" is not supported for icon-only shapes (circle/square). Using "intrinsic" instead.'
+        );
+      }
 
       const foregroundColor = getForegroundColor(
         hierarchy,
@@ -94,14 +74,17 @@ export const Button = memo(
       );
 
       const hitSlop = useMemo(() => getHitSlop(size), [size]);
+      const iconSize = ICON_SIZES[size];
       const spinnerSize = SPINNER_SIZES[size];
 
       styles.useVariants({
         hierarchy,
         size,
         shape,
-        widthMode,
-        tone,
+        widthMode: effectiveWidthMode,
+        // Map 'default' → undefined because base hierarchy styles handle default colors
+        // Only 'negative' tone requires variant overrides
+        tone: tone === 'default' ? undefined : tone,
         disabled,
         active,
         loading,
@@ -112,7 +95,7 @@ export const Button = memo(
           if (isInteractionDisabled) return;
 
           if (hapticFeedback) {
-            triggerHaptic(Haptics.ImpactFeedbackStyle.Light);
+            haptics.light();
           }
 
           onPress?.(event);
@@ -125,7 +108,7 @@ export const Button = memo(
           if (isInteractionDisabled) return;
 
           if (hapticFeedback) {
-            triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
+            haptics.medium();
           }
 
           onLongPress?.(event);
@@ -136,25 +119,21 @@ export const Button = memo(
       const computedAccessibilityLabel = useMemo(() => {
         if (accessibilityLabel) return accessibilityLabel;
         if (isIconOnly) {
-          console.warn(
-            'Button: accessibilityLabel is required for icon-only buttons (circle/square shapes)'
-          );
+          // console.warn(
+          //   'Button: accessibilityLabel is required for icon-only buttons (circle/square shapes)'
+          // );
         }
         return label;
       }, [accessibilityLabel, isIconOnly, label]);
 
       const renderInnerContent = () => {
-        const commonLabelStyle = [
-          styles.label,
-          { color: foregroundColor },
-          labelStyle,
-        ];
+        const commonLabelStyle = [styles.label, labelStyle];
 
         if (isIconOnly) {
           return leadingIcon ? (
             <IconRenderer
               icon={leadingIcon}
-              size={size}
+              size={iconSize}
               color={foregroundColor}
             />
           ) : null;
@@ -167,7 +146,7 @@ export const Button = memo(
                 {leadingIcon && (
                   <IconRenderer
                     icon={leadingIcon}
-                    size={size}
+                    size={iconSize}
                     color={foregroundColor}
                   />
                 )}
@@ -178,7 +157,7 @@ export const Button = memo(
               <View style={styles.trailingIconFixed}>
                 <IconRenderer
                   icon={trailingIcon}
-                  size={size}
+                  size={iconSize}
                   color={foregroundColor}
                 />
               </View>
@@ -191,7 +170,7 @@ export const Button = memo(
             {leadingIcon && (
               <IconRenderer
                 icon={leadingIcon}
-                size={size}
+                size={iconSize}
                 color={foregroundColor}
               />
             )}
@@ -201,7 +180,7 @@ export const Button = memo(
             {trailingIcon && (
               <IconRenderer
                 icon={trailingIcon}
-                size={size}
+                size={iconSize}
                 color={foregroundColor}
               />
             )}
@@ -209,6 +188,7 @@ export const Button = memo(
         );
       };
 
+      // console.log('outside button');
       return (
         <Pressable
           ref={ref}
@@ -226,7 +206,7 @@ export const Button = memo(
             busy: loading,
             selected: active,
           }}
-          style={styles.pressable}
+          style={[styles.pressable, pressableStyle]}
           testID={testID}
         >
           {({ pressed }) => (

@@ -1,13 +1,10 @@
-import { StyleSheet, useUnistyles } from 'react-native-unistyles';
+import { StyleSheet } from 'react-native-unistyles';
 
 import {
   BUTTON_DIMENSIONS,
   BUTTON_RADIUS,
-  type ButtonHierarchy,
-  type ButtonSize,
-  type ButtonTone,
   getPillMinWidth,
-} from './Button.types';
+} from '../Button.types';
 
 // =============================================================================
 // UBER BASE DESIGN SYSTEM - BUTTON STYLES
@@ -544,82 +541,3 @@ export const styles = StyleSheet.create((theme) => ({
     justifyContent: 'center',
   },
 }));
-
-// =============================================================================
-// ICON SIZE MAP
-// =============================================================================
-export const ICON_SIZES: Record<ButtonSize, number> = {
-  small: BUTTON_DIMENSIONS.small.iconSize,
-  medium: BUTTON_DIMENSIONS.medium.iconSize,
-  large: BUTTON_DIMENSIONS.large.iconSize,
-};
-
-// =============================================================================
-// SPINNER SIZE MAP (matches icon size per Uber spec)
-// =============================================================================
-export const SPINNER_SIZES: Record<ButtonSize, number> = {
-  small: 16,
-  medium: 20,
-  large: 24,
-};
-
-// =============================================================================
-// HIT SLOP (for 48px minimum touch target)
-// =============================================================================
-export const getHitSlop = (
-  size: ButtonSize
-): { top: number; bottom: number; left: number; right: number } => {
-  const slop = BUTTON_DIMENSIONS[size].hitSlop;
-  return {
-    top: slop,
-    bottom: slop,
-    left: 0,
-    right: 0,
-  };
-};
-
-// =============================================================================
-// FOREGROUND COLOR GETTER
-// For ActivityIndicator and icon colors
-//
-// This function determines the correct foreground (text/icon) color based on
-// the button's current state. The logic follows Uber spec exactly:
-//
-// Priority order (highest to lowest):
-// 1. Disabled → contentStateDisabled
-// 2. Secondary + Active → contentInversePrimary (white)
-// 3. Negative tone (secondary/tertiary) → contentNegative (red)
-// 4. Default hierarchy colors
-// =============================================================================
-export const getForegroundColor = (
-  hierarchy: ButtonHierarchy,
-  active: boolean,
-  disabled: boolean,
-  theme: ReturnType<typeof useUnistyles>['theme'],
-  tone?: ButtonTone
-): string => {
-  // Disabled takes highest priority
-  if (disabled) {
-    return theme.colors.contentStateDisabled;
-  }
-
-  // Secondary + active = inverted (white on black)
-  if (hierarchy === 'secondary' && active) {
-    return theme.colors.contentInversePrimary;
-  }
-
-  // Negative tone for secondary/tertiary = red text
-  // Note: Primary + negative keeps white text (on red background)
-  if (tone === 'negative' && hierarchy !== 'primary') {
-    return theme.colors.backgroundNegative;
-  }
-
-  // Default hierarchy colors
-  const colorMap: Record<ButtonHierarchy, string> = {
-    primary: theme.colors.contentInversePrimary, // White
-    secondary: theme.colors.contentPrimary, // Black
-    tertiary: theme.colors.contentPrimary, // Black
-  };
-
-  return colorMap[hierarchy];
-};

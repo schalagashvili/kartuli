@@ -1,0 +1,15 @@
+{
+  "goOnline": "ონლაინ რეჟიმი",
+  "goOffline": "ოფლაინ რეჟიმი",
+  "acceptRide": "მიღება",
+  "declineRide": "უარყოფა",
+  "navigateToPickup": "ნავიგაცია აყვანამდე",
+  "arrivedAtPickup": "მივედი",
+  "startTrip": "მგზავრობის დაწყება",
+  "completeTrip": "მგზავრობის დასრულება",
+  "earnings": "შემოსავალი",
+  "todayEarnings": "დღევანდელი შემოსავალი",
+  "rideRequest": "ახალი შეკვეთა",
+  "passengerPickup": "მგზავრის აყვანა",
+  "awaitingPassenger": "მგზავრის მოლოდინი"
+}

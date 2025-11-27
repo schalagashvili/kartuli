@@ -8,6 +8,16 @@ export const darkTheme: AppTheme = {
     background: primitiveColors.gray900,
     backgroundSecondary: primitiveColors.gray800,
     backgroundTertiary: primitiveColors.gray700,
+    backgroundInversePrimary: primitiveColors.white,
+    backgroundStateDisabled: primitiveColors.gray700,
+    backgroundNegative: primitiveColors.danger800,
+
+    contentPrimary: primitiveColors.white,
+    contentSecondary: primitiveColors.gray300,
+    contentTertiary: primitiveColors.gray400,
+    contentInversePrimary: primitiveColors.gray900,
+    contentStateDisabled: primitiveColors.gray500,
+    contentNegative: primitiveColors.danger400,
 
     foreground: primitiveColors.white,
     foregroundSecondary: primitiveColors.gray300,

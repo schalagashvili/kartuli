@@ -1,4 +1,4 @@
-# Run lint-staged first (if you have it)
+# Run lint-staged first
 pnpm lint-staged
 
 # Check for dependency mismatches
@@ -15,3 +15,39 @@ fi
 
 echo "✅ No dependency mismatches"
 
+# Check if UI package files are staged
+UI_FILES_STAGED=$(git diff --cached --name-only | grep "^packages/ui/src" || true)
+
+if [ -n "$UI_FILES_STAGED" ]; then
+  echo ""
+  echo "📦 UI package changes detected, running additional checks..."
+
+  # Verify bundle exclusions
+  echo ""
+  echo "🔍 Verifying bundle exclusions..."
+  if ! pnpm verify:bundle; then
+    echo ""
+    echo "❌ Bundle verification failed!"
+    echo "Test files may be included in production bundle."
+    exit 1
+  fi
+
+  # Run performance tests (only if component files changed)
+  COMPONENT_FILES_STAGED=$(echo "$UI_FILES_STAGED" | grep "packages/ui/src/components" || true)
+  if [ -n "$COMPONENT_FILES_STAGED" ]; then
+    echo ""
+    echo "⚡ Running performance tests..."
+    if ! pnpm --filter @kartuli/ui test:perf; then
+      echo ""
+      echo "❌ Performance tests failed!"
+      echo "Review performance regressions before committing."
+      echo ""
+      echo "💡 To skip this check, use: git commit --no-verify"
+      exit 1
+    fi
+    echo "✅ Performance tests passed"
+  fi
+fi
+
+echo ""
+echo "✨ All pre-commit checks passed!"
