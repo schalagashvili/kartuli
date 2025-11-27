@@ -105,10 +105,10 @@ export const styles = StyleSheet.create((theme) => ({
     bottom: 0,
     variants: {
       visualState: {
-        unchecked: { backgroundColor: 'rgba(0, 0, 0, 0.08)' },
-        preselected: { backgroundColor: 'rgba(0, 0, 0, 0.08)' },
-        checked: { backgroundColor: 'rgba(255, 255, 255, 0.20)' },
-        indeterminate: { backgroundColor: 'rgba(255, 255, 255, 0.20)' },
+        unchecked: { backgroundColor: theme.colors.overlayLight },
+        preselected: { backgroundColor: theme.colors.overlayLight },
+        checked: { backgroundColor: theme.colors.overlay },
+        indeterminate: { backgroundColor: theme.colors.overlay },
       },
     },
   },
