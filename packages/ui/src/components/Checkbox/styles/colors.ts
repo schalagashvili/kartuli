@@ -21,11 +21,9 @@ export const getCheckboxColors = (
   if (disabled) {
     const isFilled = state === 'checked' || state === 'indeterminate';
     return {
-      boxBorder: theme.colors.contentStateDisabled,
-      boxBackground: isFilled
-        ? theme.colors.backgroundStateDisabled
-        : 'transparent',
-      icon: theme.colors.contentStateDisabled,
+      boxBorder: theme.colors.disabled,
+      boxBackground: isFilled ? theme.colors.disabled : 'transparent',
+      icon: theme.colors.disabled,
     };
   }
 
@@ -34,11 +32,9 @@ export const getCheckboxColors = (
   if (isError) {
     const isFilled = state === 'checked' || state === 'indeterminate';
     return {
-      boxBorder: theme.colors.backgroundNegative,
-      boxBackground: isFilled ? theme.colors.backgroundNegative : 'transparent',
-      icon: isFilled
-        ? theme.colors.contentInversePrimary
-        : theme.colors.backgroundNegative,
+      boxBorder: theme.colors.danger,
+      boxBackground: isFilled ? theme.colors.danger : 'transparent',
+      icon: isFilled ? theme.colors.contentInversePrimary : theme.colors.danger,
     };
   }
 
@@ -54,8 +50,8 @@ export const getCheckboxColors = (
   // 4. Checked / Indeterminate (Filled box with inverse icon)
   if (state === 'checked' || state === 'indeterminate') {
     return {
-      boxBorder: theme.colors.backgroundInversePrimary,
-      boxBackground: theme.colors.backgroundInversePrimary,
+      boxBorder: theme.colors.primary,
+      boxBackground: theme.colors.primary,
       icon: theme.colors.contentInversePrimary,
     };
   }

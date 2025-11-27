@@ -21,6 +21,7 @@
     "test:perf:compare": "TEST_RUNNER_ARGS='--runInBand --testMatch \"**/__tests__/**/*.perf.test.[jt]s?(x)\"' reassure --compare"
   },
   "dependencies": {
+    "@gorhom/bottom-sheet": "^5.2.6",
     "@kartuli/core": "workspace:*",
     "@kartuli/types": "workspace:*",
     "lucide-react-native": "^0.554.0",
@@ -45,6 +46,7 @@
     "expo-haptics": "15.0.7",
     "react": "19.1.0",
     "react-native": "0.81.5",
+    "react-native-keyboard-controller": "^1.18.5",
     "react-native-reanimated": "4.1.5",
     "react-native-svg": "^15.12.1",
     "react-native-unistyles": "^3.0.18"

@@ -274,10 +274,6 @@ const MonitoredCheckbox = React.memo<MonitoredCheckboxProps>(
     useEffect(() => {
       renderCount.current += 1;
       onRenderCountChange(renderCount.current);
-      // eslint-disable-next-line no-console
-      console.log(
-        `[MonitoredCheckbox "${checkboxProps.label}"] Render #${renderCount.current}`
-      );
     });
 
     return <BaseCheckbox {...checkboxProps} />;
@@ -366,10 +362,7 @@ const ManyCheckboxesTest = () => {
     if (startTime.current !== null) {
       const time = Date.now() - startTime.current;
       setRenderTime(time);
-      // eslint-disable-next-line no-console
-      console.log(
-        `[ManyCheckboxesTest] Rendered ${parentRenderCount} - took ${time}ms`
-      );
+
       startTime.current = null;
     }
   }, [parentRenderCount]);
@@ -420,10 +413,6 @@ const VariantChangesTest = () => {
   useEffect(() => {
     renderCount.current += 1;
     setDisplayCount(renderCount.current);
-    // eslint-disable-next-line no-console
-    console.log(
-      `[VariantChangesTest] Checkbox should re-render. Count: ${renderCount.current}`
-    );
   }, [size, checked]);
 
   return (

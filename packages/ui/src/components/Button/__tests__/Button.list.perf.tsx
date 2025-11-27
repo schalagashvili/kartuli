@@ -41,7 +41,6 @@ const ListItem = React.memo(
 
     useEffect(() => {
       renderCount.current += 1;
-      // console.log(`[Item ${item.id}] Render #${renderCount.current}`);
     });
 
     return (
@@ -77,7 +76,6 @@ export const ButtonListPerformanceTest = () => {
   // CRITICAL: Callbacks must be stable with useCallback
   const handleItemPress = useCallback((_id: string) => {
     setPressCount((prev) => prev + 1);
-    // console.log(`Item pressed: ${_id}`);
   }, []);
 
   const renderItem = useCallback(

@@ -23,7 +23,7 @@ export const getForegroundColor = (
 ): string => {
   // Disabled takes highest priority
   if (disabled) {
-    return theme.colors.contentStateDisabled;
+    return theme.colors.disabled;
   }
 
   // Secondary + active = inverted (white on black)
@@ -34,7 +34,7 @@ export const getForegroundColor = (
   // Negative tone for secondary/tertiary = red text
   // Note: Primary + negative keeps white text (on red background)
   if (tone === 'negative' && hierarchy !== 'primary') {
-    return theme.colors.backgroundNegative;
+    return theme.colors.danger;
   }
 
   // Default hierarchy colors

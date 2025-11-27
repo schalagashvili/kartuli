@@ -50,7 +50,7 @@ export const styles = StyleSheet.create((theme) => ({
       // -----------------------------------------------------------------------
       hierarchy: {
         primary: {
-          backgroundColor: theme.colors.backgroundInversePrimary,
+          backgroundColor: theme.colors.primary,
         },
         secondary: {
           backgroundColor: theme.colors.backgroundSecondary,
@@ -264,7 +264,7 @@ export const styles = StyleSheet.create((theme) => ({
         hierarchy: 'primary',
         tone: 'negative',
         styles: {
-          backgroundColor: theme.colors.backgroundNegative,
+          backgroundColor: theme.colors.danger,
         },
       },
       {
@@ -283,7 +283,7 @@ export const styles = StyleSheet.create((theme) => ({
         hierarchy: 'secondary',
         active: true,
         styles: {
-          backgroundColor: theme.colors.backgroundInversePrimary,
+          backgroundColor: theme.colors.primary,
         },
       },
 
@@ -295,7 +295,7 @@ export const styles = StyleSheet.create((theme) => ({
       {
         disabled: true,
         styles: {
-          backgroundColor: theme.colors.backgroundStateDisabled,
+          backgroundColor: theme.colors.disabled,
         },
       },
 
@@ -495,14 +495,14 @@ export const styles = StyleSheet.create((theme) => ({
         hierarchy: 'secondary',
         tone: 'negative',
         styles: {
-          color: theme.colors.backgroundNegative, // Red text
+          color: theme.colors.danger, // Red text
         },
       },
       {
         hierarchy: 'tertiary',
         tone: 'negative',
         styles: {
-          color: theme.colors.backgroundNegative, // Red text
+          color: theme.colors.danger, // Red text
         },
       },
 
@@ -525,7 +525,7 @@ export const styles = StyleSheet.create((theme) => ({
       {
         disabled: true,
         styles: {
-          color: theme.colors.contentStateDisabled,
+          color: theme.colors.contentDisabled,
         },
       },
     ],

@@ -4,8 +4,6 @@ import { useEffect } from 'react';
 
 import { ActivityIndicator, View } from 'react-native';
 
-import Button24Gallery from '@/app/dev/ButtonGallery';
-import { FLAGS } from '@/config/flags';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Sentry, initSentry, navigationIntegration } from '@/sentry';
 import {
@@ -16,6 +14,8 @@ import {
 import { Stack, useNavigationContainerRef } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { PostHogProvider } from 'posthog-react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import 'react-native-reanimated';
 
 import { env } from '@kartuli/core';
@@ -61,23 +61,27 @@ function RootLayout() {
     );
   }
 
-  if (FLAGS.SHOW_GALLERY) return <Button24Gallery />;
+  // if (FLAGS.SHOW_GALLERY) return <Button24Gallery />;
 
   return (
     <PostHogProvider apiKey={env.POSTHOG_API_KEY} options={PostHogConfig}>
       <ErrorBoundary>
-        <ThemeProvider
-          value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-        >
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="modal"
-              options={{ presentation: 'modal', title: 'Modal' }}
-            />
-          </Stack>
-          <StatusBar style="auto" />
-        </ThemeProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <KeyboardProvider statusBarTranslucent navigationBarTranslucent>
+            <ThemeProvider
+              value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+            >
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="modal"
+                  options={{ presentation: 'modal', title: 'Modal' }}
+                />
+              </Stack>
+              <StatusBar style="auto" />
+            </ThemeProvider>
+          </KeyboardProvider>
+        </GestureHandlerRootView>
       </ErrorBoundary>
     </PostHogProvider>
   );

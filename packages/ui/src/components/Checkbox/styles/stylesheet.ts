@@ -135,7 +135,7 @@ export const styles = StyleSheet.create((theme) => ({
     color: theme.colors.contentPrimary,
     variants: {
       disabled: {
-        true: { color: theme.colors.contentStateDisabled },
+        true: { color: theme.colors.contentDisabled },
       },
       size: {
         small: {
@@ -161,7 +161,7 @@ export const styles = StyleSheet.create((theme) => ({
     marginTop: 2,
     variants: {
       disabled: {
-        true: { color: theme.colors.contentStateDisabled },
+        true: { color: theme.colors.contentDisabled },
       },
       size: {
         small: { fontSize: 12, lineHeight: 16 },
@@ -174,7 +174,7 @@ export const styles = StyleSheet.create((theme) => ({
   errorText: {
     fontFamily: theme.fonts.sans,
     fontWeight: theme.fontWeights.normal,
-    color: theme.colors.contentNegative,
+    color: theme.colors.danger,
     marginTop: 2,
     variants: {
       size: {

@@ -1,67 +1,99 @@
 import { primitiveColors } from '../tokens/colors';
-import { type AppTheme, lightTheme } from './light';
+import { type AppTheme, sharedTokens } from './light';
 
 export const darkTheme: AppTheme = {
-  ...lightTheme,
-
+  ...sharedTokens,
   colors: {
-    background: primitiveColors.gray900,
-    backgroundSecondary: primitiveColors.gray800,
-    backgroundTertiary: primitiveColors.gray700,
-    backgroundInversePrimary: primitiveColors.white,
-    backgroundStateDisabled: primitiveColors.gray700,
-    backgroundNegative: primitiveColors.danger800,
+    // --- Surfaces ---
+    background: primitiveColors.black,
+    backgroundSecondary: primitiveColors.gray900,
+    backgroundTertiary: primitiveColors.gray800,
+    backgroundInverse: primitiveColors.white,
 
+    // --- Inputs ---
+    inputBackground: primitiveColors.gray800,
+    inputPlaceholder: primitiveColors.gray500,
+
+    // --- Content ---
     contentPrimary: primitiveColors.white,
-    contentSecondary: primitiveColors.gray300,
-    contentTertiary: primitiveColors.gray400,
-    contentInversePrimary: primitiveColors.gray900,
-    contentStateDisabled: primitiveColors.gray500,
-    contentNegative: primitiveColors.danger400,
+    contentSecondary: primitiveColors.gray400,
+    contentTertiary: primitiveColors.gray500,
+    contentInversePrimary: primitiveColors.black,
+    contentDisabled: primitiveColors.gray600,
 
-    foreground: primitiveColors.white,
-    foregroundSecondary: primitiveColors.gray300,
-    foregroundTertiary: primitiveColors.gray400,
-    foregroundInverse: primitiveColors.gray900,
+    // --- Borders ---
+    borderSubtle: primitiveColors.gray900,
+    border: primitiveColors.gray800,
+    borderStrong: primitiveColors.gray700,
+    borderFocus: primitiveColors.white,
+    borderError: primitiveColors.danger400,
 
-    border: primitiveColors.gray700,
-    borderSecondary: primitiveColors.gray600,
-    borderFocus: primitiveColors.primary400,
-
+    // --- Interactive: Primary ---
     primary: primitiveColors.white,
-    primaryForeground: primitiveColors.gray900,
-    primaryHover: primitiveColors.gray100,
-    primaryActive: primitiveColors.gray200,
+    primaryForeground: primitiveColors.black,
+    primaryHover: primitiveColors.gray200,
+    primaryActive: primitiveColors.gray300,
 
+    // --- Interactive: Secondary ---
     secondary: primitiveColors.gray800,
     secondaryForeground: primitiveColors.white,
     secondaryHover: primitiveColors.gray700,
     secondaryActive: primitiveColors.gray600,
 
-    tertiary: 'transparent',
-    tertiaryForeground: primitiveColors.white,
-    tertiaryHover: primitiveColors.gray800,
-    tertiaryActive: primitiveColors.gray700,
+    // --- Interactive: Brand / Links ---
+    brand: primitiveColors.blue500,
+    brandForeground: primitiveColors.white,
+    brandBackground: 'rgba(39, 110, 241, 0.2)',
+    link: primitiveColors.blue400, // Lighter blue for dark mode legibility
 
-    minimal: 'transparent',
-    minimalForeground: primitiveColors.gray300,
-    minimalHover: primitiveColors.gray800,
-    minimalActive: primitiveColors.gray700,
+    // --- Interactive: Ghost ---
+    ghost: 'transparent',
+    ghostForeground: primitiveColors.gray400,
+    ghostHover: primitiveColors.gray800,
+    ghostActive: primitiveColors.gray700,
 
-    danger: primitiveColors.danger400,
-    dangerForeground: primitiveColors.white,
-    dangerHover: primitiveColors.danger500,
-    dangerActive: primitiveColors.danger600,
+    // --- Interactive: Disabled ---
+    disabled: primitiveColors.gray800,
+    disabledForeground: primitiveColors.gray600,
+
+    // --- Semantic ---
+    rating: primitiveColors.rating500,
 
     success: primitiveColors.success400,
-    successForeground: primitiveColors.white,
+    successBackground: 'rgba(5, 163, 87, 0.2)',
 
     warning: primitiveColors.warning400,
-    warningForeground: primitiveColors.gray900,
+    warningBackground: 'rgba(255, 192, 67, 0.2)',
 
-    disabled: primitiveColors.gray700,
-    disabledForeground: primitiveColors.gray500,
+    danger: primitiveColors.danger400,
+    dangerBackground: 'rgba(225, 25, 0, 0.2)',
 
+    // --- Overlays ---
+    overlayLight: 'rgba(255, 255, 255, 0.05)',
     overlay: 'rgba(0, 0, 0, 0.7)',
+    overlayHeavy: 'rgba(0, 0, 0, 0.9)',
+  },
+  shadows: {
+    sm: {
+      shadowColor: primitiveColors.black,
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.5,
+      shadowRadius: 2,
+      elevation: 2,
+    },
+    md: {
+      shadowColor: primitiveColors.black,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.6,
+      shadowRadius: 8,
+      elevation: 5,
+    },
+    lg: {
+      shadowColor: primitiveColors.black,
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.8,
+      shadowRadius: 16,
+      elevation: 10,
+    },
   },
 };

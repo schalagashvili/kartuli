@@ -1,0 +1,103 @@
+import React, { memo } from 'react';
+
+import { ActivityIndicator, Pressable, View } from 'react-native';
+
+import {
+  CheckCircle2,
+  Eye,
+  EyeOff,
+  XCircle as IncompleteIcon,
+  XCircle,
+} from 'lucide-react-native';
+import { useUnistyles } from 'react-native-unistyles';
+
+import type {
+  TextFieldEnhancer as EnhancerType,
+  TextFieldValidationState,
+} from '../TextField.types';
+import { styles } from '../styles/stylesheet';
+import { TextFieldEnhancer } from './TextFieldEnhancer';
+
+interface Props {
+  loading: boolean;
+  showClear: boolean;
+  onClear: () => void;
+  passwordToggle: boolean;
+  isPasswordVisible: boolean;
+  onTogglePassword: () => void;
+  validationState: TextFieldValidationState;
+  trailingEnhancer?: EnhancerType; // ✅ Strict typing
+  iconSize: number;
+  iconColor: string;
+}
+
+export const TrailingActions = memo(
+  ({
+    loading,
+    showClear,
+    onClear,
+    passwordToggle,
+    isPasswordVisible,
+    onTogglePassword,
+    validationState,
+    trailingEnhancer,
+    iconSize,
+    iconColor,
+  }: Props) => {
+    const { theme } = useUnistyles();
+
+    if (loading) {
+      return <ActivityIndicator size="small" color={iconColor} />;
+    }
+
+    const showValidation = validationState !== 'none';
+
+    return (
+      <View style={styles.trailingActions}>
+        {/* 1. Clear Button */}
+        {showClear && (
+          <Pressable onPress={onClear} hitSlop={8} accessibilityRole="button">
+            <XCircle size={iconSize} color={iconColor} />
+          </Pressable>
+        )}
+
+        {/* 2. Password Toggle */}
+        {passwordToggle && (
+          <Pressable
+            onPress={onTogglePassword}
+            hitSlop={8}
+            accessibilityRole="button"
+          >
+            {isPasswordVisible ? (
+              <EyeOff size={iconSize} color={iconColor} />
+            ) : (
+              <Eye size={iconSize} color={iconColor} />
+            )}
+          </Pressable>
+        )}
+
+        {/* 3. Validation Icon */}
+        {showValidation ? (
+          validationState === 'complete' ? (
+            <CheckCircle2 size={iconSize} color={theme.colors.success} />
+          ) : (
+            <IncompleteIcon size={iconSize} color={theme.colors.danger} />
+          )
+        ) : (
+          /* 4. Trailing Enhancer */
+          trailingEnhancer && (
+            <View style={styles.enhancer}>
+              <TextFieldEnhancer
+                enhancer={trailingEnhancer}
+                iconSize={iconSize}
+                iconColor={iconColor}
+              />
+            </View>
+          )
+        )}
+      </View>
+    );
+  }
+);
+
+TrailingActions.displayName = 'TrailingActions';
