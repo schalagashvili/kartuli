@@ -1,7 +1,6 @@
 import type { AppTheme } from '../../../theme/themes/light';
 import type { CheckboxProps, CheckboxVisualState } from '../Checkbox.types';
 
-// Re-export for convenience in other files
 export { CheckboxVisualState };
 
 interface CheckboxColors {
@@ -17,32 +16,25 @@ export const getCheckboxColors = (
   tone: CheckboxProps['tone'],
   theme: AppTheme
 ): CheckboxColors => {
-  // 1. Disabled takes highest priority
   if (disabled) {
     const isFilled = state === 'checked' || state === 'indeterminate';
     return {
-      boxBorder: theme.colors.contentStateDisabled,
-      boxBackground: isFilled
-        ? theme.colors.backgroundStateDisabled
-        : 'transparent',
-      icon: theme.colors.contentStateDisabled,
+      boxBorder: theme.colors.disabled,
+      boxBackground: isFilled ? theme.colors.disabled : 'transparent',
+      icon: theme.colors.disabled,
     };
   }
 
-  // 2. Error/Negative tone
   const isError = error || tone === 'negative';
   if (isError) {
     const isFilled = state === 'checked' || state === 'indeterminate';
     return {
-      boxBorder: theme.colors.backgroundNegative,
-      boxBackground: isFilled ? theme.colors.backgroundNegative : 'transparent',
-      icon: isFilled
-        ? theme.colors.contentInversePrimary
-        : theme.colors.backgroundNegative,
+      boxBorder: theme.colors.danger,
+      boxBackground: isFilled ? theme.colors.danger : 'transparent',
+      icon: isFilled ? theme.colors.contentInversePrimary : theme.colors.danger,
     };
   }
 
-  // 3. Preselected (Outlined box with small icon)
   if (state === 'preselected') {
     return {
       boxBorder: theme.colors.contentTertiary,
@@ -51,16 +43,14 @@ export const getCheckboxColors = (
     };
   }
 
-  // 4. Checked / Indeterminate (Filled box with inverse icon)
   if (state === 'checked' || state === 'indeterminate') {
     return {
-      boxBorder: theme.colors.backgroundInversePrimary,
-      boxBackground: theme.colors.backgroundInversePrimary,
+      boxBorder: theme.colors.primary,
+      boxBackground: theme.colors.primary,
       icon: theme.colors.contentInversePrimary,
     };
   }
 
-  // 5. Default Unchecked (Outlined box, no icon)
   return {
     boxBorder: theme.colors.contentTertiary,
     boxBackground: 'transparent',

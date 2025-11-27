@@ -172,7 +172,7 @@ class ChildLogger {
 
 export const logger = new Logger();
 
-export const rideLogger = logger.child({ tag: 'ride' });
-export const paymentLogger = logger.child({ tag: 'payment' });
-export const locationLogger = logger.child({ tag: 'location' });
-export const authLogger = logger.child({ tag: 'auth' });
+// export const rideLogger = logger.child({ tag: 'ride' });
+// export const paymentLogger = logger.child({ tag: 'payment' });
+// export const locationLogger = logger.child({ tag: 'location' });
+// export const authLogger = logger.child({ tag: 'auth' });

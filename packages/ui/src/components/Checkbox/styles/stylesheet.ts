@@ -105,10 +105,10 @@ export const styles = StyleSheet.create((theme) => ({
     bottom: 0,
     variants: {
       visualState: {
-        unchecked: { backgroundColor: 'rgba(0, 0, 0, 0.08)' },
-        preselected: { backgroundColor: 'rgba(0, 0, 0, 0.08)' },
-        checked: { backgroundColor: 'rgba(255, 255, 255, 0.20)' },
-        indeterminate: { backgroundColor: 'rgba(255, 255, 255, 0.20)' },
+        unchecked: { backgroundColor: theme.colors.overlayLight },
+        preselected: { backgroundColor: theme.colors.overlayLight },
+        checked: { backgroundColor: theme.colors.overlay },
+        indeterminate: { backgroundColor: theme.colors.overlay },
       },
     },
   },
@@ -135,7 +135,7 @@ export const styles = StyleSheet.create((theme) => ({
     color: theme.colors.contentPrimary,
     variants: {
       disabled: {
-        true: { color: theme.colors.contentStateDisabled },
+        true: { color: theme.colors.contentDisabled },
       },
       size: {
         small: {
@@ -161,7 +161,7 @@ export const styles = StyleSheet.create((theme) => ({
     marginTop: 2,
     variants: {
       disabled: {
-        true: { color: theme.colors.contentStateDisabled },
+        true: { color: theme.colors.contentDisabled },
       },
       size: {
         small: { fontSize: 12, lineHeight: 16 },
@@ -174,7 +174,7 @@ export const styles = StyleSheet.create((theme) => ({
   errorText: {
     fontFamily: theme.fonts.sans,
     fontWeight: theme.fontWeights.normal,
-    color: theme.colors.contentNegative,
+    color: theme.colors.danger,
     marginTop: 2,
     variants: {
       size: {

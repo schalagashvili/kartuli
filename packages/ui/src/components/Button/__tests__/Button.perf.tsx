@@ -20,9 +20,6 @@ export const ButtonRenderCounter = () => {
   renderCountRef.current += 1;
 
   // Log renders in dev
-  useEffect(() => {
-    console.log(`[ButtonRenderCounter] Render #${renderCountRef.current}`);
-  });
 
   return (
     <View style={{ padding: 20 }}>
@@ -100,9 +97,7 @@ const SamePropsTest = () => {
   const buttonRenderCount = useRef(0);
 
   // ⚠️ Creating new function reference on every render
-  const handlePress = () => {
-    console.log('Pressed');
-  };
+  const handlePress = () => {};
 
   return (
     <View>
@@ -147,9 +142,6 @@ const MonitoredButton = React.memo<MonitoredButtonProps>(
     useEffect(() => {
       renderCount.current += 1;
       onRenderCountChange(renderCount.current);
-      console.log(
-        `[MonitoredButton "${buttonProps.label}"] Render #${renderCount.current}`
-      );
     });
 
     return <Button {...buttonProps} />;
@@ -209,10 +201,6 @@ const ManyButtonsTest = () => {
   const startTime = useRef(Date.now());
 
   useEffect(() => {
-    const renderTime = Date.now() - startTime.current;
-    console.log(
-      `[ManyButtonsTest] Rendered ${parentRenderCount} - took ${renderTime}ms`
-    );
     startTime.current = Date.now();
   });
 
@@ -260,9 +248,6 @@ const VariantChangesTest = () => {
 
   useEffect(() => {
     renderCount.current += 1;
-    console.log(
-      `[VariantChangesTest] Button should re-render. Count: ${renderCount.current}`
-    );
   });
 
   return (

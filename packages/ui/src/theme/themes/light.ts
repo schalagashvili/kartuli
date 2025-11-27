@@ -8,87 +8,104 @@ import {
   lineHeights,
 } from '../tokens/typography';
 
-const lightThemeBase = {
-  colors: {
-    background: primitiveColors.white,
-    backgroundSecondary: primitiveColors.gray100,
-    backgroundTertiary: primitiveColors.white,
-
-    backgroundInversePrimary: primitiveColors.gray900,
-    backgroundStateDisabled: primitiveColors.gray200,
-    backgroundNegative: primitiveColors.danger700,
-
-    contentPrimary: primitiveColors.gray900,
-    contentSecondary: primitiveColors.gray600,
-    contentTertiary: primitiveColors.gray500,
-    contentInversePrimary: primitiveColors.white,
-    contentStateDisabled: primitiveColors.gray400,
-    contentNegative: primitiveColors.danger600,
-
-    foreground: primitiveColors.gray900,
-    foregroundSecondary: primitiveColors.gray600,
-    foregroundTertiary: primitiveColors.gray500,
-    foregroundInverse: primitiveColors.white,
-
-    border: primitiveColors.gray200,
-    borderSecondary: primitiveColors.gray300,
-    borderFocus: primitiveColors.primary500,
-
-    primary: primitiveColors.primary500,
-    primaryForeground: primitiveColors.white,
-    primaryHover: primitiveColors.primary600,
-    primaryActive: primitiveColors.primary700,
-
-    secondary: primitiveColors.gray100,
-    secondaryForeground: primitiveColors.gray900,
-    secondaryHover: primitiveColors.gray200,
-    secondaryActive: primitiveColors.gray300,
-
-    tertiary: 'transparent',
-    tertiaryForeground: primitiveColors.gray900,
-    tertiaryHover: primitiveColors.gray100,
-    tertiaryActive: primitiveColors.gray200,
-
-    minimal: 'transparent',
-    minimalForeground: primitiveColors.gray700,
-    minimalHover: primitiveColors.gray50,
-    minimalActive: primitiveColors.gray100,
-
-    danger: primitiveColors.danger500,
-    dangerForeground: primitiveColors.white,
-    dangerHover: primitiveColors.danger600,
-    dangerActive: primitiveColors.danger700,
-
-    success: primitiveColors.success500,
-    successForeground: primitiveColors.white,
-
-    warning: primitiveColors.warning500,
-    warningForeground: primitiveColors.gray900,
-
-    disabled: primitiveColors.gray200,
-    disabledForeground: primitiveColors.gray400,
-
-    overlay: 'rgba(0, 0, 0, 0.5)',
-  },
-
+// ------------------------------------------------------------
+// 1. Shared Tokens
+// ------------------------------------------------------------
+export const sharedTokens = {
   spacing,
   gap,
-
   fonts: fontFamilies,
   fontSizes,
   fontWeights,
   lineHeights,
-
   radius,
+  animation: {
+    fast: 200,
+    normal: 400,
+    slow: 600,
+  },
+  opacity: {
+    disabled: 0.3,
+    pressed: 0.7,
+  },
+};
 
+// ------------------------------------------------------------
+// 2. Base Implementation (Light Theme)
+// ------------------------------------------------------------
+const lightThemeBase = {
+  ...sharedTokens,
+  colors: {
+    // --- Surfaces ---
+    background: primitiveColors.white,
+    backgroundSecondary: primitiveColors.gray50,
+    backgroundTertiary: primitiveColors.gray100,
+    backgroundInverse: primitiveColors.black,
+
+    // --- Inputs ---
+    inputBackground: primitiveColors.gray100,
+    inputPlaceholder: primitiveColors.gray600,
+
+    // --- Content ---
+    contentPrimary: primitiveColors.black,
+    contentSecondary: primitiveColors.gray600,
+    contentTertiary: primitiveColors.gray500,
+    contentInversePrimary: primitiveColors.white,
+    contentDisabled: primitiveColors.gray400,
+
+    // --- Borders (The Hierarchy you need) ---
+    borderSubtle: primitiveColors.gray50, // Very faint
+    border: primitiveColors.gray200, // Default dividers
+    borderStrong: primitiveColors.gray300, // Inputs / Cards
+    borderFocus: primitiveColors.black,
+    borderError: primitiveColors.danger500,
+
+    // --- Interactive: Primary ---
+    primary: primitiveColors.black,
+    primaryForeground: primitiveColors.white,
+    primaryHover: primitiveColors.gray800,
+    primaryActive: primitiveColors.gray700,
+
+    // --- Interactive: Secondary ---
+    secondary: primitiveColors.gray100,
+    secondaryForeground: primitiveColors.black,
+    secondaryHover: primitiveColors.gray200,
+    secondaryActive: primitiveColors.gray300,
+
+    // --- Interactive: Brand / Links ---
+    brand: primitiveColors.blue500,
+    brandForeground: primitiveColors.white,
+    brandBackground: primitiveColors.blue50,
+    link: primitiveColors.blue500, // Explicit link color
+
+    // --- Interactive: Ghost ---
+    ghost: 'transparent',
+    ghostForeground: primitiveColors.gray600,
+    ghostHover: primitiveColors.gray50,
+    ghostActive: primitiveColors.gray100,
+
+    // --- Interactive: Disabled ---
+    disabled: primitiveColors.gray100,
+    disabledForeground: primitiveColors.gray400,
+
+    // --- Semantic ---
+    rating: primitiveColors.rating500,
+
+    success: primitiveColors.success600,
+    successBackground: primitiveColors.success50,
+
+    warning: primitiveColors.warning500,
+    warningBackground: primitiveColors.warning50,
+
+    danger: primitiveColors.danger500,
+    dangerBackground: primitiveColors.danger50,
+
+    // --- Overlays (The Tiers you need) ---
+    overlayLight: 'rgba(0, 0, 0, 0.05)',
+    overlay: 'rgba(0, 0, 0, 0.4)',
+    overlayHeavy: 'rgba(0, 0, 0, 0.7)',
+  },
   shadows: {
-    none: {
-      shadowColor: 'transparent',
-      shadowOffset: { width: 0, height: 0 },
-      shadowOpacity: 0,
-      shadowRadius: 0,
-      elevation: 0,
-    },
     sm: {
       shadowColor: primitiveColors.black,
       shadowOffset: { width: 0, height: 1 },
@@ -98,36 +115,46 @@ const lightThemeBase = {
     },
     md: {
       shadowColor: primitiveColors.black,
-      shadowOffset: { width: 0, height: 2 },
+      shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 2,
+      shadowRadius: 10,
+      elevation: 4,
     },
     lg: {
       shadowColor: primitiveColors.black,
-      shadowOffset: { width: 0, height: 4 },
+      shadowOffset: { width: 0, height: 8 },
       shadowOpacity: 0.15,
-      shadowRadius: 8,
-      elevation: 4,
+      shadowRadius: 20,
+      elevation: 10,
     },
-  },
-
-  animation: {
-    fast: 150,
-    normal: 250,
-    slow: 400,
-  },
-
-  opacity: {
-    disabled: 0.5,
-    pressed: 0.7,
   },
 } as const;
 
-type ThemeColors = { [K in keyof typeof lightThemeBase.colors]: string };
+// ------------------------------------------------------------
+// 3. Type Definitions
+// ------------------------------------------------------------
 
-export type AppTheme = Omit<typeof lightThemeBase, 'colors'> & {
-  colors: ThemeColors;
+type ThemeShadow = {
+  shadowColor: string;
+  shadowOffset: { width: number; height: number };
+  shadowOpacity: number;
+  shadowRadius: number;
+  elevation: number;
 };
+
+export type ThemeColors = {
+  [K in keyof typeof lightThemeBase.colors]: string;
+};
+
+export type AppTheme = Omit<typeof lightThemeBase, 'colors' | 'shadows'> & {
+  colors: ThemeColors;
+  shadows: {
+    [K in keyof typeof lightThemeBase.shadows]: ThemeShadow;
+  };
+};
+
+// ------------------------------------------------------------
+// 4. Exports
+// ------------------------------------------------------------
 
 export const lightTheme: AppTheme = lightThemeBase;

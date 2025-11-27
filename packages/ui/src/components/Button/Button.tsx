@@ -51,7 +51,6 @@ export const Button = memo(
     ) => {
       const { theme } = useUnistyles();
 
-      // console.log('this is button re-rendering');
       const isInteractionDisabled = disabled || loading;
       const isIconOnly = shape === 'circle' || shape === 'square';
 
@@ -188,7 +187,6 @@ export const Button = memo(
         );
       };
 
-      // console.log('outside button');
       return (
         <Pressable
           ref={ref}

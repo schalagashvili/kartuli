@@ -2,7 +2,10 @@ module.exports = function (api) {
   api.cache(true);
   return {
     presets: [
-      ['@react-native/babel-preset', { useTransformReactJSXExperimental: false }],
+      [
+        '@react-native/babel-preset',
+        { useTransformReactJSXExperimental: false },
+      ],
     ],
     // Unistyles plugin must run before Reanimated
     plugins: [

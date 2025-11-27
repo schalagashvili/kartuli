@@ -148,9 +148,19 @@ export const Checkbox = memo(
       onChange(!checked);
     }, [disabled, hapticFeedback, onChange, checked]);
 
-    // ─────────────────────────────────────────────────────────────
-    // 7. Render
-    // ─────────────────────────────────────────────────────────────
+    const renderHelperContent = () => {
+      // Error takes priority
+      if (errorText) {
+        return <Text style={styles.errorText}>{errorText}</Text>;
+      }
+      // Then description
+      if (description) {
+        return <Text style={styles.description}>{description}</Text>;
+      }
+      // Default/Nothing
+      return null;
+    };
+
     return (
       <Pressable
         onPress={handlePress}
@@ -196,11 +206,7 @@ export const Checkbox = memo(
                 {label && (
                   <Text style={[styles.label, labelStyle]}>{label}</Text>
                 )}
-                {errorText ? (
-                  <Text style={styles.errorText}>{errorText}</Text>
-                ) : description ? (
-                  <Text style={styles.description}>{description}</Text>
-                ) : null}
+                {renderHelperContent()}
               </View>
             )}
           </>
