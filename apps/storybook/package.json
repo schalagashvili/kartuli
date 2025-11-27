@@ -1,0 +1,44 @@
+{
+  "name": "@kartuli/storybook",
+  "version": "0.0.1",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "storybook:generate": "sb-rn-get-stories --config-path .storybook",
+    "prestart": "pnpm storybook:generate"
+  },
+  "dependencies": {
+    "@kartuli/ui": "workspace:*",
+    "@kartuli/core": "workspace:*",
+    "@kartuli/types": "workspace:*",
+    "@shopify/flash-list": "2.2.0",
+    "expo": "54.0.24",
+    "expo-dev-client": "6.0.18",
+    "expo-router": "6.0.15",
+    "expo-constants": "18.0.10",
+    "expo-haptics": "15.0.7",
+    "expo-status-bar": "3.0.8",
+    "@react-native-async-storage/async-storage": "^1.23.1",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-gesture-handler": "2.28.0",
+    "react-native-keyboard-controller": "^1.18.5",
+    "react-native-reanimated": "4.1.5",
+    "react-native-safe-area-context": "5.6.0",
+    "react-native-screens": "4.16.0",
+    "react-native-svg": "^15.12.1",
+    "react-native-unistyles": "^3.0.18"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@storybook/addon-ondevice-actions": "^8.4.4",
+    "@storybook/addon-ondevice-controls": "^8.4.4",
+    "@storybook/react-native": "^8.4.4",
+    "@types/react": "^19.1.0",
+    "@types/react-native": "^0.73.0",
+    "typescript": "5.9.3"
+  }
+}

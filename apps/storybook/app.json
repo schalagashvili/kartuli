@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Kartuli Storybook",
+    "slug": "kartuli-storybook",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "kartuli-storybook",
+    "userInterfaceStyle": "automatic",
+    "platforms": ["ios", "android"],
+    "ios": {
+      "bundleIdentifier": "com.kartuli.storybook"
+    },
+    "android": {
+      "package": "com.kartuli.storybook"
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
