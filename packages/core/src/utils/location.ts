@@ -1,11 +1,7 @@
 import type { Location } from '@kartuli/types';
 
-/**
- * Calculate distance between two points using Haversine formula
- * Returns distance in kilometers
- */
 export function calculateDistance(loc1: Location, loc2: Location): number {
-  const R = 6371; // Earth's radius in km
+  const R = 6371;
   const dLat = toRad(loc2.latitude - loc1.latitude);
   const dLon = toRad(loc2.longitude - loc1.longitude);
 
@@ -25,9 +21,8 @@ function toRad(degrees: number): number {
 }
 
 export function estimateDuration(distanceKm: number): number {
-  // Average speed in Tbilisi: 25 km/h
   const avgSpeed = 25;
-  return Math.round((distanceKm / avgSpeed) * 60); // minutes
+  return Math.round((distanceKm / avgSpeed) * 60);
 }
 
 export function calculateFare(distanceKm: number): number {

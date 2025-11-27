@@ -31,8 +31,8 @@ export const MAP_CONFIG = {
     neighborhood: 14,
     street: 16,
   },
-  locationUpdateInterval: 5000, // ms
-  locationUpdateDistance: 10, // meters
+  locationUpdateInterval: 5000,
+  locationUpdateDistance: 10,
 } as const;
 
 export const VALIDATION = {

@@ -1,146 +1,172 @@
-import { primitiveColors } from '../tokens/colors';
-import { radius } from '../tokens/radius';
-import { gap, spacing } from '../tokens/spacing';
+import { durations, easings } from '../tokens/primitives/animation';
+import { borderWidths } from '../tokens/primitives/borders';
+import { palette } from '../tokens/primitives/colors';
+import {
+  alignContent,
+  alignItems,
+  alignSelf,
+  direction,
+  flex,
+  grow,
+  justify,
+  shrink,
+  size,
+  wrap,
+} from '../tokens/primitives/layout';
+import { opacity } from '../tokens/primitives/opacity';
+import { radius } from '../tokens/primitives/radius';
+import { spacing } from '../tokens/primitives/spacing';
 import {
   fontFamilies,
   fontSizes,
   fontWeights,
+  letterSpacing,
   lineHeights,
-} from '../tokens/typography';
+} from '../tokens/primitives/typography';
+import { zIndex } from '../tokens/primitives/zIndex';
+import {
+  semanticRadius,
+  semanticSpacing,
+  textStyles,
+} from '../tokens/semantics';
+import type { ThemeShadow } from '../types';
 
-// ------------------------------------------------------------
-// 1. Shared Tokens
-// ------------------------------------------------------------
 export const sharedTokens = {
   spacing,
-  gap,
-  fonts: fontFamilies,
+  radius,
+  borderWidths,
+  opacity,
+  zIndex,
+  size,
+  fontFamilies,
   fontSizes,
   fontWeights,
   lineHeights,
-  radius,
+  letterSpacing,
   animation: {
-    fast: 200,
-    normal: 400,
-    slow: 600,
+    durations,
+    easings,
   },
-  opacity: {
-    disabled: 0.3,
-    pressed: 0.7,
+  textStyles,
+  semanticSpacing,
+  semanticRadius,
+  flex: {
+    flex,
+    shrink,
+    grow,
+    direction,
+    wrap,
+    alignItems,
+    alignSelf,
+    justify,
+    alignContent,
   },
-};
+} as const;
 
-// ------------------------------------------------------------
-// 2. Base Implementation (Light Theme)
-// ------------------------------------------------------------
 const lightThemeBase = {
   ...sharedTokens,
   colors: {
-    // --- Surfaces ---
-    background: primitiveColors.white,
-    backgroundSecondary: primitiveColors.gray50,
-    backgroundTertiary: primitiveColors.gray100,
-    backgroundInverse: primitiveColors.black,
+    transparent: palette.transparent,
 
-    // --- Inputs ---
-    inputBackground: primitiveColors.gray100,
-    inputPlaceholder: primitiveColors.gray600,
+    background: palette.white,
+    backgroundSecondary: palette.gray50,
+    backgroundTertiary: palette.gray100,
+    backgroundInverse: palette.black,
 
-    // --- Content ---
-    contentPrimary: primitiveColors.black,
-    contentSecondary: primitiveColors.gray600,
-    contentTertiary: primitiveColors.gray500,
-    contentInversePrimary: primitiveColors.white,
-    contentDisabled: primitiveColors.gray400,
+    surfaceModal: palette.white,
 
-    // --- Borders (The Hierarchy you need) ---
-    borderSubtle: primitiveColors.gray50, // Very faint
-    border: primitiveColors.gray200, // Default dividers
-    borderStrong: primitiveColors.gray300, // Inputs / Cards
-    borderFocus: primitiveColors.black,
-    borderError: primitiveColors.danger500,
+    inputBackground: palette.gray100,
+    inputPlaceholder: palette.gray600,
+    inputText: palette.black,
 
-    // --- Interactive: Primary ---
-    primary: primitiveColors.black,
-    primaryForeground: primitiveColors.white,
-    primaryHover: primitiveColors.gray800,
-    primaryActive: primitiveColors.gray700,
+    contentPrimary: palette.black,
+    contentSecondary: palette.gray600,
+    contentTertiary: palette.gray500,
+    contentInversePrimary: palette.white,
+    contentDisabled: palette.gray400,
+    contentBrand: palette.blue600,
 
-    // --- Interactive: Secondary ---
-    secondary: primitiveColors.gray100,
-    secondaryForeground: primitiveColors.black,
-    secondaryHover: primitiveColors.gray200,
-    secondaryActive: primitiveColors.gray300,
+    borderSubtle: palette.gray50,
+    border: palette.gray200,
+    borderStrong: palette.gray300,
+    borderFocus: palette.black,
+    borderError: palette.danger500,
 
-    // --- Interactive: Brand / Links ---
-    brand: primitiveColors.blue500,
-    brandForeground: primitiveColors.white,
-    brandBackground: primitiveColors.blue50,
-    link: primitiveColors.blue500, // Explicit link color
+    primary: palette.black,
+    primaryForeground: palette.white,
+    primaryHover: palette.gray800,
+    primaryActive: palette.gray700,
 
-    // --- Interactive: Ghost ---
-    ghost: 'transparent',
-    ghostForeground: primitiveColors.gray600,
-    ghostHover: primitiveColors.gray50,
-    ghostActive: primitiveColors.gray100,
+    secondary: palette.gray100,
+    secondaryForeground: palette.black,
+    secondaryHover: palette.gray200,
+    secondaryActive: palette.gray300,
 
-    // --- Interactive: Disabled ---
-    disabled: primitiveColors.gray100,
-    disabledForeground: primitiveColors.gray400,
+    tertiary: palette.transparent,
+    tertiaryForeground: palette.gray600,
+    tertiaryHover: palette.gray50,
+    tertiaryActive: palette.gray100,
 
-    // --- Semantic ---
-    rating: primitiveColors.rating500,
+    brand: palette.blue500,
+    brandForeground: palette.white,
+    brandBackground: palette.blue50,
 
-    success: primitiveColors.success600,
-    successBackground: primitiveColors.success50,
+    link: palette.blue600,
 
-    warning: primitiveColors.warning500,
-    warningBackground: primitiveColors.warning50,
+    disabled: palette.gray100,
+    disabledForeground: palette.gray400,
 
-    danger: primitiveColors.danger500,
-    dangerBackground: primitiveColors.danger50,
+    rating: palette.rating,
 
-    // --- Overlays (The Tiers you need) ---
-    overlayLight: 'rgba(0, 0, 0, 0.05)',
-    overlay: 'rgba(0, 0, 0, 0.4)',
-    overlayHeavy: 'rgba(0, 0, 0, 0.7)',
+    success: palette.success600,
+    successBackground: palette.success50,
+    successForeground: palette.success800,
+
+    warning: palette.warning700,
+    warningBackground: palette.warning50,
+    warningForeground: palette.warning900,
+
+    danger: palette.danger600,
+    dangerBackground: palette.danger50,
+    dangerForeground: palette.danger900,
+
+    overlayLight: palette.blackAlpha5,
+    overlay: palette.blackAlpha40,
+    overlayHeavy: palette.blackAlpha70,
+    overlayMuted: palette.blackAlpha10,
   },
+
   shadows: {
     sm: {
-      shadowColor: primitiveColors.black,
+      shadowColor: palette.black,
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.05,
       shadowRadius: 2,
       elevation: 1,
-    },
+    } as ThemeShadow,
     md: {
-      shadowColor: primitiveColors.black,
+      shadowColor: palette.black,
       shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
+      shadowOpacity: 0.08,
       shadowRadius: 10,
       elevation: 4,
-    },
+    } as ThemeShadow,
     lg: {
-      shadowColor: primitiveColors.black,
+      shadowColor: palette.black,
       shadowOffset: { width: 0, height: 8 },
-      shadowOpacity: 0.15,
+      shadowOpacity: 0.12,
       shadowRadius: 20,
       elevation: 10,
-    },
+    } as ThemeShadow,
+    xl: {
+      shadowColor: palette.black,
+      shadowOffset: { width: 0, height: 12 },
+      shadowOpacity: 0.15,
+      shadowRadius: 24,
+      elevation: 16,
+    } as ThemeShadow,
   },
 } as const;
-
-// ------------------------------------------------------------
-// 3. Type Definitions
-// ------------------------------------------------------------
-
-type ThemeShadow = {
-  shadowColor: string;
-  shadowOffset: { width: number; height: number };
-  shadowOpacity: number;
-  shadowRadius: number;
-  elevation: number;
-};
 
 export type ThemeColors = {
   [K in keyof typeof lightThemeBase.colors]: string;
@@ -148,13 +174,7 @@ export type ThemeColors = {
 
 export type AppTheme = Omit<typeof lightThemeBase, 'colors' | 'shadows'> & {
   colors: ThemeColors;
-  shadows: {
-    [K in keyof typeof lightThemeBase.shadows]: ThemeShadow;
-  };
+  shadows: Record<keyof typeof lightThemeBase.shadows, ThemeShadow>;
 };
-
-// ------------------------------------------------------------
-// 4. Exports
-// ------------------------------------------------------------
 
 export const lightTheme: AppTheme = lightThemeBase;

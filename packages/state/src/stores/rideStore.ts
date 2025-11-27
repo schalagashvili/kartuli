@@ -5,8 +5,6 @@ import type { Ride } from '@kartuli/types';
 interface RideState {
   currentRide: Ride | null;
   rideHistory: Ride[];
-
-  // Actions
   setCurrentRide: (ride: Ride | null) => void;
   addToHistory: (ride: Ride) => void;
   clearHistory: () => void;

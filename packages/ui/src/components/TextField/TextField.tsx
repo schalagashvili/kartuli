@@ -167,10 +167,10 @@ export const TextField = memo(
             />
 
             <TrailingActions
-              loading={loading ?? false}
+              loading={!!loading}
               showClear={logic.showClear}
               onClear={logic.handleClear}
-              passwordToggle={passwordToggle ?? false}
+              passwordToggle={!!passwordToggle}
               isPasswordVisible={logic.isPasswordVisible}
               onTogglePassword={logic.togglePassword}
               validationState={validationState ?? 'none'}
@@ -192,7 +192,7 @@ export const TextField = memo(
             style={[
               styles.hint,
               { color: colors.hintColor },
-              !displayHint && { opacity: 0 },
+              !displayHint && styles.hidden,
               hintStyle,
             ]}
           >

@@ -1,4 +1,3 @@
-// apps/rider-mobile/app/dev/TextFieldGallery.tsx
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Text, View } from 'react-native';
@@ -56,10 +55,6 @@ export default function TextFieldGallery() {
   );
 }
 
-// =============================================================================
-// SECTION COMPONENTS
-// =============================================================================
-
 function SectionHeader({
   title,
   description,
@@ -91,10 +86,6 @@ function ExampleRow({
     </View>
   );
 }
-
-// =============================================================================
-// BASIC SECTION
-// =============================================================================
 
 function BasicSection() {
   const [value, setValue] = useState('');
@@ -146,10 +137,6 @@ function BasicSection() {
   );
 }
 
-// =============================================================================
-// SIZES SECTION
-// =============================================================================
-
 function SizesSection() {
   const [small, setSmall] = useState('');
   const [medium, setMedium] = useState('');
@@ -194,7 +181,6 @@ function SizesSection() {
         />
       </ExampleRow>
 
-      {/* Side by side comparison */}
       <ExampleRow label="Comparison">
         <View style={styles.row}>
           {sizes.map((size) => (
@@ -212,10 +198,6 @@ function SizesSection() {
     </View>
   );
 }
-
-// =============================================================================
-// STATES SECTION
-// =============================================================================
 
 function StatesSection() {
   const [focused, setFocused] = useState('');
@@ -307,10 +289,6 @@ function StatesSection() {
   );
 }
 
-// =============================================================================
-// VALIDATION SECTION (Complete/Incomplete)
-// =============================================================================
-
 function ValidationSection() {
   const [complete, setComplete] = useState('Saanvi Chavan');
   const [incomplete, setIncomplete] = useState('');
@@ -366,10 +344,6 @@ function ValidationSection() {
   );
 }
 
-// =============================================================================
-// CHARACTER COUNT SECTION
-// =============================================================================
-
 function CharacterCountSection() {
   const [bio, setBio] = useState('');
   const [name, setName] = useState('Carolina Macgillavrylaan 182');
@@ -423,10 +397,6 @@ function CharacterCountSection() {
   );
 }
 
-// =============================================================================
-// ENHANCERS SECTION
-// =============================================================================
-
 function EnhancersSection() {
   const [currency, setCurrency] = useState('1,400.00');
   const [search, setSearch] = useState('');
@@ -439,7 +409,6 @@ function EnhancersSection() {
         description="Leading/Trailing: Artwork, Label, or Both"
       />
 
-      {/* Leading Enhancers */}
       <Text style={styles.subsectionTitle}>Leading Enhancer</Text>
 
       <ExampleRow label="Icon (Artwork)">
@@ -476,7 +445,6 @@ function EnhancersSection() {
         />
       </ExampleRow>
 
-      {/* Trailing Enhancers */}
       <Text style={styles.subsectionTitle}>Trailing Enhancer</Text>
 
       <ExampleRow label="Icon (Artwork)">
@@ -513,7 +481,6 @@ function EnhancersSection() {
         />
       </ExampleRow>
 
-      {/* Both Enhancers */}
       <Text style={styles.subsectionTitle}>Leading + Trailing</Text>
 
       <ExampleRow label="Currency Field">
@@ -549,10 +516,6 @@ function EnhancersSection() {
     </View>
   );
 }
-
-// =============================================================================
-// CLEARABLE SECTION
-// =============================================================================
 
 function ClearableSection() {
   const [search, setSearch] = useState('San Francisco');
@@ -613,10 +576,6 @@ function ClearableSection() {
     </View>
   );
 }
-
-// =============================================================================
-// SECURE ENTRY SECTION
-// =============================================================================
 
 function SecureEntrySection() {
   const [password, setPassword] = useState('mypassword123');
@@ -682,10 +641,6 @@ function SecureEntrySection() {
     </View>
   );
 }
-
-// =============================================================================
-// INPUT TYPES SECTION
-// =============================================================================
 
 function InputTypesSection() {
   const [email, setEmail] = useState('');
@@ -765,10 +720,6 @@ function InputTypesSection() {
   );
 }
 
-// =============================================================================
-// REAL WORLD EXAMPLES
-// =============================================================================
-
 function RealWorldExamplesSection() {
   const [firstName, setFirstName] = useState('Roberto');
   const [lastName, setLastName] = useState('Gonzales');
@@ -786,7 +737,6 @@ function RealWorldExamplesSection() {
         description="Common form patterns from Uber apps"
       />
 
-      {/* Personal Information Form */}
       <Text style={styles.subsectionTitle}>Personal Information</Text>
 
       <View style={styles.formRow}>
@@ -820,7 +770,6 @@ function RealWorldExamplesSection() {
         leadingEnhancer={{ type: 'artwork', icon: Mail }}
       />
 
-      {/* Ride Booking */}
       <Text style={styles.subsectionTitle}>Ride Booking</Text>
 
       <TextField
@@ -843,7 +792,6 @@ function RealWorldExamplesSection() {
         clearable
       />
 
-      {/* Payment Card */}
       <Text style={styles.subsectionTitle}>Add Payment Card</Text>
 
       <TextField
@@ -880,7 +828,6 @@ function RealWorldExamplesSection() {
         </View>
       </View>
 
-      {/* All Sizes with Enhancers */}
       <Text style={styles.subsectionTitle}>Size Comparison with Enhancers</Text>
 
       {(['small', 'medium', 'large'] as TextFieldSize[]).map((size) => (
@@ -900,10 +847,6 @@ function RealWorldExamplesSection() {
     </View>
   );
 }
-
-// =============================================================================
-// PERFORMANCE TESTING COMPONENTS
-// =============================================================================
 
 interface MonitoredTextFieldProps {
   label: string;
@@ -929,10 +872,6 @@ const MonitoredTextField = React.memo<MonitoredTextFieldProps>(
 );
 
 MonitoredTextField.displayName = 'MonitoredTextField';
-
-// =============================================================================
-// TOGGLE PROPS TEST
-// =============================================================================
 function TogglePropsTest() {
   const [value, setValue] = useState('');
   const renderCount = useRef(0);
@@ -957,17 +896,11 @@ function TogglePropsTest() {
     </View>
   );
 }
-
-// =============================================================================
-// SAME PROPS TEST (Different Object References)
-// =============================================================================
 function SamePropsTest() {
   const [, forceUpdate] = useState(0);
   const [value, setValue] = useState('test value');
   const renderCount = useRef(0);
   const [displayCount, setDisplayCount] = useState(0);
-
-  // ⚠️ Creating new function reference on every render
   const handleChange = (text: string) => {
     setValue(text);
   };
@@ -978,7 +911,7 @@ function SamePropsTest() {
         label="Same Props TextField"
         size="medium"
         value={value}
-        onChangeText={handleChange} // ⚠️ New reference every render
+        onChangeText={handleChange}
         onRenderCountChange={(count) => {
           renderCount.current = count;
           setDisplayCount(count);
@@ -997,10 +930,6 @@ function SamePropsTest() {
     </View>
   );
 }
-
-// =============================================================================
-// MANY TEXTFIELDS TEST
-// =============================================================================
 function ManyTextFieldsTest() {
   const [parentRenderCount, setParentRenderCount] = useState(0);
   const startTime = useRef<number | null>(null);
@@ -1048,10 +977,6 @@ function ManyTextFieldsTest() {
     </View>
   );
 }
-
-// =============================================================================
-// VARIANT CHANGES TEST
-// =============================================================================
 function VariantChangesTest() {
   const [size, setSize] = useState<TextFieldSize>('medium');
   const [value, setValue] = useState('');
@@ -1075,8 +1000,6 @@ function VariantChangesTest() {
     hasTrailingLabel,
     isClearable,
   ]);
-
-  // Build enhancers based on toggle state
   const leadingEnhancer =
     hasLeadingIcon && hasLeadingLabel
       ? { type: 'artworkLabel' as const, icon: Search, text: 'USD' }
@@ -1181,10 +1104,6 @@ function VariantChangesTest() {
     </View>
   );
 }
-
-// =============================================================================
-// STRESS TEST
-// =============================================================================
 function StressTest() {
   const [counter, setCounter] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -1197,7 +1116,7 @@ function StressTest() {
     setIsRunning(true);
     intervalRef.current = setInterval(() => {
       setCounter((c) => c + 1);
-    }, 16); // ~60fps
+    }, 16);
   };
 
   const stopStressTest = () => {
@@ -1214,8 +1133,6 @@ function StressTest() {
       }
     };
   }, []);
-
-  // Cycle through different enhancer combinations
   const enhancerCycle = counter % 4;
   const leadingEnhancer = includeEnhancers
     ? enhancerCycle === 0
@@ -1284,10 +1201,6 @@ function StressTest() {
     </View>
   );
 }
-
-// =============================================================================
-// PERFORMANCE TAB CONTENT
-// =============================================================================
 function PerformanceTests() {
   const [activeTest, setActiveTest] = useState<
     'toggle' | 'sameProps' | 'many' | 'variants' | 'stress'
@@ -1337,10 +1250,6 @@ function PerformanceTests() {
   );
 }
 
-// =============================================================================
-// PERFORMANCE SECTION
-// =============================================================================
-
 function PerformanceSection() {
   return (
     <View style={styles.section}>
@@ -1352,10 +1261,6 @@ function PerformanceSection() {
     </View>
   );
 }
-
-// =============================================================================
-// STYLES
-// =============================================================================
 
 const styles = StyleSheet.create((theme) => ({
   container: {
@@ -1426,7 +1331,6 @@ const styles = StyleSheet.create((theme) => ({
   spacerSmall: {
     height: 12,
   },
-  // Performance Test Styles
   testContainer: {
     backgroundColor: theme.colors.background,
     padding: 16,

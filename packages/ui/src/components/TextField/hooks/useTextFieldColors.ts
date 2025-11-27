@@ -4,7 +4,6 @@ import { useUnistyles } from 'react-native-unistyles';
 
 import type { TextFieldProps } from '../TextField.types';
 
-// Only accept the props needed for color calculation
 type ColorProps = Pick<
   TextFieldProps,
   'error' | 'errorText' | 'success' | 'successText' | 'readOnly' | 'disabled'
@@ -24,7 +23,6 @@ export const useTextFieldColors = ({
   const hasSuccess = !!(success || successText);
 
   return useMemo(() => {
-    // 1. Border Logic
     let borderUnfocused = 'transparent';
     let borderFocused = theme.colors.borderFocus;
 
@@ -39,7 +37,6 @@ export const useTextFieldColors = ({
       borderFocused = theme.colors.border;
     }
 
-    // 2. Background Logic
     const bgUnfocused = disabled
       ? theme.colors.disabled
       : theme.colors.inputBackground;
@@ -47,8 +44,6 @@ export const useTextFieldColors = ({
       ? theme.colors.disabled
       : theme.colors.background;
 
-    // 3. Icon/Text Colors
-    // Fixed: Using correct token 'contentDisabled'
     const iconColor = disabled
       ? theme.colors.contentDisabled
       : theme.colors.contentPrimary;
@@ -57,7 +52,6 @@ export const useTextFieldColors = ({
       : theme.colors.contentPrimary;
     const placeholderColor = theme.colors.contentTertiary;
 
-    // 4. Hint Color
     const hintColor = hasError
       ? theme.colors.danger
       : hasSuccess

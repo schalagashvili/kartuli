@@ -7,8 +7,6 @@ interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-
-  // Actions
   setUser: (user: User, token: string) => void;
   clearAuth: () => void;
   setLoading: (loading: boolean) => void;

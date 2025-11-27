@@ -26,7 +26,7 @@ interface Props {
   isPasswordVisible: boolean;
   onTogglePassword: () => void;
   validationState: TextFieldValidationState;
-  trailingEnhancer?: EnhancerType; // ✅ Strict typing
+  trailingEnhancer?: EnhancerType;
   iconSize: number;
   iconColor: string;
 }

@@ -11,8 +11,6 @@ export const i18n = new I18n({
 i18n.defaultLocale = 'en';
 i18n.enableFallback = true;
 
-// Explicit helper instead of relying on i18n.store()
-// (clearer intent, easier to search codebase)
 export function registerTranslations(
   translations: Record<string, Record<string, Record<string, string>>>
 ) {
@@ -24,7 +22,6 @@ export function registerTranslations(
   }
 }
 
-// Dev-only missing translation warnings
 if (__DEV__) {
   i18n.missingTranslation.register('warn', (_i18n, scope, _options) => {
     console.warn(
@@ -32,6 +29,5 @@ if (__DEV__) {
     );
     return `[MISSING: ${scope}]`;
   });
-  // Activate the registered 'warn' handler
   i18n.missingBehavior = 'warn';
 }

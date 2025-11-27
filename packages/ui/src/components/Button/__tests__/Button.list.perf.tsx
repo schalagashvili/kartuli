@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { FlashList } from '@shopify/flash-list';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from '../Button';
 
-// Item type
 type ListItemType = {
   id: string;
   title: string;
@@ -14,7 +14,6 @@ type ListItemType = {
   hierarchy: 'primary' | 'secondary' | 'tertiary';
 };
 
-// Generate test data
 const generateItems = (count: number): ListItemType[] => {
   return Array.from({ length: count }, (_, i) => {
     const hierarchy =
@@ -28,7 +27,6 @@ const generateItems = (count: number): ListItemType[] => {
   });
 };
 
-// List item component - CRITICAL: Must be memoized
 const ListItem = React.memo(
   ({
     item,
@@ -68,12 +66,10 @@ export const ButtonListPerformanceTest = () => {
   const [items, setItems] = useState(() => generateItems(100));
   const [pressCount, setPressCount] = useState(0);
 
-  // Update items when count changes
   useEffect(() => {
     setItems(generateItems(itemCount));
   }, [itemCount]);
 
-  // CRITICAL: Callbacks must be stable with useCallback
   const handleItemPress = useCallback((_id: string) => {
     setPressCount((prev) => prev + 1);
   }, []);
@@ -89,14 +85,12 @@ export const ButtonListPerformanceTest = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>Button List Performance</Text>
         <Text style={styles.subtitle}>
           {itemCount} items • {pressCount} presses
         </Text>
 
-        {/* Item count controls */}
         <View style={styles.controls}>
           <Button label="50" size="small" onPress={() => setItemCount(50)} />
           <Button label="100" size="small" onPress={() => setItemCount(100)} />
@@ -114,7 +108,6 @@ export const ButtonListPerformanceTest = () => {
         </View>
       </View>
 
-      {/* FlashList */}
       <FlashList
         data={items}
         renderItem={renderItem}
@@ -124,28 +117,62 @@ export const ButtonListPerformanceTest = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f5f5f5' },
-  header: {
-    backgroundColor: '#fff',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.backgroundSecondary,
   },
-  title: { fontSize: 20, fontWeight: 'bold' },
-  subtitle: { fontSize: 14, color: '#666', marginTop: 4 },
-  controls: { flexDirection: 'row', marginTop: 12, gap: 8 },
+  header: {
+    backgroundColor: theme.colors.background,
+    padding: theme.spacing.lg,
+    borderBottomWidth: theme.borderWidths.thin,
+    borderBottomColor: theme.colors.border,
+  },
+  title: {
+    fontSize: theme.fontSizes['2xl'],
+    fontWeight: theme.fontWeights.bold,
+    fontFamily: theme.fontFamilies.sans,
+    color: theme.colors.contentPrimary,
+  },
+  subtitle: {
+    fontSize: theme.fontSizes.sm,
+    fontFamily: theme.fontFamilies.sans,
+    color: theme.colors.contentSecondary,
+    marginTop: theme.spacing.xs,
+  },
+  controls: {
+    flexDirection: 'row',
+    marginTop: theme.spacing.md,
+    gap: theme.spacing.sm,
+  },
   listItem: {
-    backgroundColor: '#fff',
-    padding: 16,
-    marginHorizontal: 16,
-    marginVertical: 8,
-    borderRadius: 12,
+    backgroundColor: theme.colors.background,
+    padding: theme.spacing.lg,
+    marginHorizontal: theme.spacing.lg,
+    marginVertical: theme.spacing.sm,
+    borderRadius: theme.radius.lg,
     flexDirection: 'row',
     alignItems: 'center',
   },
-  itemContent: { flex: 1, marginRight: 12 },
-  itemTitle: { fontSize: 16, fontWeight: '600' },
-  itemSubtitle: { fontSize: 14, color: '#666' },
-  renderCount: { fontSize: 11, color: '#999', marginTop: 4 },
-});
+  itemContent: {
+    flex: 1,
+    marginRight: theme.spacing.md,
+  },
+  itemTitle: {
+    fontSize: theme.fontSizes.lg,
+    fontWeight: theme.fontWeights.semibold,
+    fontFamily: theme.fontFamilies.sans,
+    color: theme.colors.contentPrimary,
+  },
+  itemSubtitle: {
+    fontSize: theme.fontSizes.sm,
+    fontFamily: theme.fontFamilies.sans,
+    color: theme.colors.contentSecondary,
+  },
+  renderCount: {
+    fontSize: theme.fontSizes.xs,
+    fontFamily: theme.fontFamilies.sans,
+    color: theme.colors.contentTertiary,
+    marginTop: theme.spacing.xs,
+  },
+}));

@@ -1,4 +1,3 @@
-// User types
 export interface User {
   id: string;
   phoneNumber: string;
@@ -25,7 +24,6 @@ export interface Driver extends User {
   documents: DriverDocuments;
 }
 
-// Vehicle types
 export interface VehicleInfo {
   make: string;
   model: string;
@@ -41,7 +39,6 @@ export interface DriverDocuments {
   verified: boolean;
 }
 
-// Location types
 export interface Location {
   latitude: number;
   longitude: number;
@@ -49,7 +46,6 @@ export interface Location {
   timestamp?: string;
 }
 
-// Ride types
 export type RideStatus =
   | 'requested'
   | 'accepted'
@@ -66,8 +62,8 @@ export interface Ride {
   pickupLocation: Location;
   dropoffLocation: Location;
   fare: number;
-  distance: number; // in km
-  estimatedDuration: number; // in minutes
+  distance: number;
+  estimatedDuration: number;
   requestedAt: string;
   acceptedAt?: string;
   startedAt?: string;
@@ -76,7 +72,6 @@ export interface Ride {
   cancelledBy?: 'rider' | 'driver';
 }
 
-// Payment types
 export type PaymentMethod = 'cash' | 'card';
 export type PaymentStatus = 'pending' | 'completed' | 'failed';
 
@@ -89,7 +84,6 @@ export interface Payment {
   createdAt: string;
 }
 
-// API Response types
 export interface ApiResponse<T> {
   data?: T;
   error?: string;

@@ -1,25 +1,15 @@
-/**
- * Performance test for Button component
- * Tests for unnecessary re-renders caused by styles.useVariants
- */
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Text, View } from 'react-native';
 
 import { Button } from '../Button';
 
-// =============================================================================
-// RENDER COUNTER COMPONENT
-// =============================================================================
 export const ButtonRenderCounter = () => {
   const [, forceUpdate] = useState(0);
   const renderCountRef = useRef(0);
   const [count, setCount] = useState(0);
 
-  // Increment render counter
   renderCountRef.current += 1;
-
-  // Log renders in dev
 
   return (
     <View style={{ padding: 20 }}>
@@ -31,13 +21,11 @@ export const ButtonRenderCounter = () => {
         Expected: Should only re-render when props actually change
       </Text>
 
-      {/* Test 1: Static props - should render once */}
       <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: 20 }}>
         Test 1: Static Props (should render once)
       </Text>
       <Button label="Static Button" size="medium" hierarchy="primary" />
 
-      {/* Test 2: Parent re-renders but button props unchanged */}
       <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: 20 }}>
         Test 2: Parent Re-renders (button should NOT re-render)
       </Text>
@@ -51,13 +39,11 @@ export const ButtonRenderCounter = () => {
         }}
       />
 
-      {/* Test 3: Toggle props - should re-render on change */}
       <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: 20 }}>
         Test 3: Toggle Props (should re-render on toggle)
       </Text>
       <TogglePropsTest />
 
-      {/* Test 4: Same props, different references */}
       <Text style={{ fontSize: 16, fontWeight: 'bold', marginTop: 20 }}>
         Test 4: Same Props, Different References
       </Text>
@@ -66,9 +52,6 @@ export const ButtonRenderCounter = () => {
   );
 };
 
-// =============================================================================
-// TOGGLE PROPS TEST
-// =============================================================================
 const TogglePropsTest = () => {
   const [loading, setLoading] = useState(false);
   const buttonRenderCount = useRef(0);
@@ -89,14 +72,10 @@ const TogglePropsTest = () => {
   );
 };
 
-// =============================================================================
-// SAME PROPS TEST (Different Object References)
-// =============================================================================
 const SamePropsTest = () => {
   const [, forceUpdate] = useState(0);
   const buttonRenderCount = useRef(0);
 
-  // ⚠️ Creating new function reference on every render
   const handlePress = () => {};
 
   return (
@@ -105,7 +84,7 @@ const SamePropsTest = () => {
         label="Same Props Button"
         size="medium"
         hierarchy="primary"
-        onPress={handlePress} // ⚠️ New reference every render
+        onPress={handlePress}
         onRenderCountChange={(count) => {
           buttonRenderCount.current = count;
         }}
@@ -123,9 +102,6 @@ const SamePropsTest = () => {
   );
 };
 
-// =============================================================================
-// MONITORED BUTTON (Tracks Render Count)
-// =============================================================================
 interface MonitoredButtonProps {
   label: string;
   loading?: boolean;
@@ -150,9 +126,6 @@ const MonitoredButton = React.memo<MonitoredButtonProps>(
 
 MonitoredButton.displayName = 'MonitoredButton';
 
-// =============================================================================
-// STYLES.USEVARIANTS PERFORMANCE TEST
-// =============================================================================
 export const UseVariantsPerformanceTest = () => {
   const [activeTab, setActiveTab] = useState<'test1' | 'test2' | 'test3'>(
     'test1'
@@ -164,7 +137,6 @@ export const UseVariantsPerformanceTest = () => {
         styles.useVariants Performance Test
       </Text>
 
-      {/* Tab Switcher */}
       <View style={{ flexDirection: 'row', marginBottom: 20 }}>
         <Button
           label="Test 1"
@@ -192,10 +164,6 @@ export const UseVariantsPerformanceTest = () => {
   );
 };
 
-// =============================================================================
-// MANY BUTTONS TEST
-// Tests if useVariants causes issues with many instances
-// =============================================================================
 const ManyButtonsTest = () => {
   const [parentRenderCount, setParentRenderCount] = useState(0);
   const startTime = useRef(Date.now());
@@ -235,10 +203,6 @@ const ManyButtonsTest = () => {
   );
 };
 
-// =============================================================================
-// VARIANT CHANGES TEST
-// Tests if changing variants causes efficient re-renders
-// =============================================================================
 const VariantChangesTest = () => {
   const [size, setSize] = useState<'small' | 'medium' | 'large'>('medium');
   const [hierarchy, setHierarchy] = useState<
@@ -308,10 +272,6 @@ const VariantChangesTest = () => {
   );
 };
 
-// =============================================================================
-// STRESS TEST
-// Rapidly changes props to test performance
-// =============================================================================
 const StressTest = () => {
   const [counter, setCounter] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -323,7 +283,7 @@ const StressTest = () => {
     setIsRunning(true);
     intervalRef.current = setInterval(() => {
       setCounter((c) => c + 1);
-    }, 16); // ~60fps
+    }, 16);
   };
 
   const stopStressTest = () => {

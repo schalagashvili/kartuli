@@ -9,7 +9,6 @@ export function useRiderTranslation() {
     locale,
     setLocale,
     tc,
-    // Rider-specific translation helper
     tr: (key: RiderKey): string => t(`rider.${key}`),
   };
 }
