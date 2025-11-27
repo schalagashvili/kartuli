@@ -3,12 +3,10 @@ import '@kartuli/ui/src/theme/unistyles';
 
 import { View } from 'react-native';
 
-import type { Preview } from '@storybook/react';
-
-const preview: Preview = {
+const preview = {
   decorators: [
-    (Story) => (
-      <View style={{ flex: 1, padding: 16, backgroundColor: '#fff' }}>
+    (Story: React.FC) => (
+      <View>
         <Story />
       </View>
     ),

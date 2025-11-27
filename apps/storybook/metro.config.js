@@ -25,6 +25,10 @@ config.resolver.extraNodeModules = {
     projectRoot,
     'node_modules/react-native-unistyles'
   ),
+  'react-native-worklets': path.resolve(
+    projectRoot,
+    'node_modules/react-native-worklets'
+  ),
   '@react-native-async-storage/async-storage': path.resolve(
     monorepoRoot,
     'node_modules/@react-native-async-storage/async-storage'

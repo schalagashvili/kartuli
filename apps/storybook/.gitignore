@@ -1,6 +1,6 @@
 # @end expo-cli
 # Storybook auto-generated files
-storybook.requires.ts
+.storybook/storybook.requires.ts
 # React Native/Expo standard patterns
 *.log
 .expo-shared/

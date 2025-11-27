@@ -1,5 +1,6 @@
 import type { MMKV } from 'react-native-mmkv';
 import { create } from 'zustand';
+import type { StateStorage } from 'zustand/middleware';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { SUPPORTED_LOCALES, SupportedLocale, i18n } from '@kartuli/core';
@@ -16,6 +17,51 @@ const getStorage = (() => {
     return instance as MMKV;
   };
 })();
+
+const inMemoryStorage: StateStorage = {
+  getItem: () => null,
+  setItem: () => undefined,
+  removeItem: () => undefined,
+};
+
+const createStateStorage = (): StateStorage => {
+  // Avoid touching browser storage or MMKV when rendering on the server
+  if (typeof window === 'undefined') {
+    return inMemoryStorage;
+  }
+
+  return {
+    getItem: (key) => {
+      try {
+        const value = getStorage().getString(key);
+        return value ?? null;
+      } catch (error) {
+        console.error(
+          '[LocaleStore] Failed to get locale from storage:',
+          error
+        );
+        return null;
+      }
+    },
+    setItem: (key, value) => {
+      try {
+        getStorage().set(key, value);
+      } catch (error) {
+        console.error('[LocaleStore] Failed to save locale to storage:', error);
+      }
+    },
+    removeItem: (key) => {
+      try {
+        getStorage().remove(key);
+      } catch (error) {
+        console.error(
+          '[LocaleStore] Failed to remove locale from storage:',
+          error
+        );
+      }
+    },
+  };
+};
 
 interface LocaleState {
   locale: SupportedLocale;
@@ -47,40 +93,7 @@ export const useLocaleStore = create<LocaleState>()(
     }),
     {
       name: 'locale-storage',
-      storage: createJSONStorage(() => ({
-        getItem: (key) => {
-          try {
-            const value = getStorage().getString(key);
-            return value ?? null;
-          } catch (error) {
-            console.error(
-              '[LocaleStore] Failed to get locale from storage:',
-              error
-            );
-            return null;
-          }
-        },
-        setItem: (key, value) => {
-          try {
-            getStorage().set(key, value);
-          } catch (error) {
-            console.error(
-              '[LocaleStore] Failed to save locale to storage:',
-              error
-            );
-          }
-        },
-        removeItem: (key) => {
-          try {
-            getStorage().remove(key);
-          } catch (error) {
-            console.error(
-              '[LocaleStore] Failed to remove locale from storage:',
-              error
-            );
-          }
-        },
-      })),
+      storage: createJSONStorage(createStateStorage),
       onRehydrateStorage: () => (state, error) => {
         if (error) {
           console.error(
