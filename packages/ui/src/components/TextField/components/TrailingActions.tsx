@@ -52,16 +52,38 @@ export const TrailingActions = memo(
 
     const showValidation = validationState !== 'none';
 
+    const renderTrailingContent = () => {
+      if (showValidation) {
+        const isComplete = validationState === 'complete';
+        const Icon = isComplete ? CheckCircle2 : IncompleteIcon;
+        const color = isComplete ? theme.colors.success : theme.colors.danger;
+
+        return <Icon size={iconSize} color={color} />;
+      }
+
+      if (trailingEnhancer) {
+        return (
+          <View style={styles.enhancer}>
+            <TextFieldEnhancer
+              enhancer={trailingEnhancer}
+              iconSize={iconSize}
+              iconColor={iconColor}
+            />
+          </View>
+        );
+      }
+
+      return null;
+    };
+
     return (
       <View style={styles.trailingActions}>
-        {/* 1. Clear Button */}
         {showClear && (
           <Pressable onPress={onClear} hitSlop={8} accessibilityRole="button">
             <XCircle size={iconSize} color={iconColor} />
           </Pressable>
         )}
 
-        {/* 2. Password Toggle */}
         {passwordToggle && (
           <Pressable
             onPress={onTogglePassword}
@@ -76,25 +98,7 @@ export const TrailingActions = memo(
           </Pressable>
         )}
 
-        {/* 3. Validation Icon */}
-        {showValidation ? (
-          validationState === 'complete' ? (
-            <CheckCircle2 size={iconSize} color={theme.colors.success} />
-          ) : (
-            <IncompleteIcon size={iconSize} color={theme.colors.danger} />
-          )
-        ) : (
-          /* 4. Trailing Enhancer */
-          trailingEnhancer && (
-            <View style={styles.enhancer}>
-              <TextFieldEnhancer
-                enhancer={trailingEnhancer}
-                iconSize={iconSize}
-                iconColor={iconColor}
-              />
-            </View>
-          )
-        )}
+        {renderTrailingContent()}
       </View>
     );
   }

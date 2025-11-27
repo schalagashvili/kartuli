@@ -17,20 +17,15 @@ import { styles } from './styles/stylesheet';
 
 export const TextField = memo(
   forwardRef<TextFieldRef, TextFieldProps>((props, ref) => {
-    // 1. Destructure custom props to separate them from native TextInput props
     const {
-      // Core
       onChangeText,
       placeholder,
-      // Label/Hint
       label,
       hint,
       error,
       errorText,
       success,
       successText,
-      // Enhancers
-      // Config
       size = 'medium',
       disabled,
       readOnly,
@@ -40,21 +35,17 @@ export const TextField = memo(
       hapticFeedback,
       showCharacterCount,
       maxLength,
-      // Styles
       style,
       inputContainerStyle,
       inputStyle,
       labelStyle,
       hintStyle,
-      // Handlers (extracted by hook, but destructured to prevent spreading)
       onFocus,
       onBlur,
-      // Test
       testID,
-      ...textInputProps // ✅ Only native props remain here
+      ...textInputProps
     } = props;
 
-    // 2. Hooks
     const logic = useTextFieldLogic(props, ref);
     const colors = useTextFieldColors({
       error,
@@ -74,7 +65,6 @@ export const TextField = memo(
     const { theme } = useUnistyles();
     const iconSize = ICON_SIZES[size];
 
-    // 3. Styles
     styles.useVariants({
       size,
       hintState: colors.hasError
@@ -85,15 +75,16 @@ export const TextField = memo(
       overLimit: logic.isOverLimit,
     });
 
-    const displayHint = colors.hasError
-      ? errorText
-      : colors.hasSuccess
-        ? successText
-        : hint;
+    const displayHint = getDisplayHint(
+      colors.hasError,
+      colors.hasSuccess,
+      errorText,
+      successText,
+      hint
+    );
 
     return (
       <View style={[styles.root, style]} testID={testID}>
-        {/* INLINED LABEL ROW */}
         {(label || (showCharacterCount && maxLength !== undefined)) && (
           <View style={styles.labelRow}>
             {label && (
@@ -179,7 +170,6 @@ export const TextField = memo(
           </Animated.View>
         </Pressable>
 
-        {/* INLINED HINT ROW */}
         <View style={styles.hintRow}>
           {(colors.hasError || colors.hasSuccess) &&
             (colors.hasError ? (
@@ -202,5 +192,17 @@ export const TextField = memo(
     );
   })
 );
+
+export const getDisplayHint = (
+  hasError: boolean,
+  hasSuccess: boolean,
+  errorText?: string,
+  successText?: string,
+  hintText?: string
+): string | undefined => {
+  if (hasError) return errorText;
+  if (hasSuccess) return successText;
+  return hintText;
+};
 
 TextField.displayName = 'TextField';

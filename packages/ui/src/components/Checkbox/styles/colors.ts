@@ -1,7 +1,6 @@
 import type { AppTheme } from '../../../theme/themes/light';
 import type { CheckboxProps, CheckboxVisualState } from '../Checkbox.types';
 
-// Re-export for convenience in other files
 export { CheckboxVisualState };
 
 interface CheckboxColors {
@@ -17,7 +16,6 @@ export const getCheckboxColors = (
   tone: CheckboxProps['tone'],
   theme: AppTheme
 ): CheckboxColors => {
-  // 1. Disabled takes highest priority
   if (disabled) {
     const isFilled = state === 'checked' || state === 'indeterminate';
     return {
@@ -27,7 +25,6 @@ export const getCheckboxColors = (
     };
   }
 
-  // 2. Error/Negative tone
   const isError = error || tone === 'negative';
   if (isError) {
     const isFilled = state === 'checked' || state === 'indeterminate';
@@ -38,7 +35,6 @@ export const getCheckboxColors = (
     };
   }
 
-  // 3. Preselected (Outlined box with small icon)
   if (state === 'preselected') {
     return {
       boxBorder: theme.colors.contentTertiary,
@@ -47,7 +43,6 @@ export const getCheckboxColors = (
     };
   }
 
-  // 4. Checked / Indeterminate (Filled box with inverse icon)
   if (state === 'checked' || state === 'indeterminate') {
     return {
       boxBorder: theme.colors.primary,
@@ -56,7 +51,6 @@ export const getCheckboxColors = (
     };
   }
 
-  // 5. Default Unchecked (Outlined box, no icon)
   return {
     boxBorder: theme.colors.contentTertiary,
     boxBackground: 'transparent',

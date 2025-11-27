@@ -159,6 +159,18 @@ export const styles = StyleSheet.create((theme) => ({
     alignItems: 'center',
   },
 
+  enhancerLabel: {
+    fontFamily: theme.fonts.sans,
+    fontWeight: theme.fontWeights.normal,
+    fontSize: 14,
+  },
+
+  artworkLabelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+
   trailingActions: {
     flexDirection: 'row',
     alignItems: 'center',

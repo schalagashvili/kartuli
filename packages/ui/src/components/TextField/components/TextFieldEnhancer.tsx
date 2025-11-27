@@ -3,6 +3,7 @@ import React, { memo } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import type { TextFieldEnhancer as EnhancerType } from '../TextField.types';
+import { styles } from '../styles/stylesheet';
 
 export function isIconComponent(
   icon: unknown
@@ -31,7 +32,7 @@ export const TextFieldEnhancer = memo(
 
       if (enhancer.type === 'label') {
         return (
-          <Text style={{ fontSize: 14, color: iconColor }}>
+          <Text style={[styles.enhancerLabel, { color: iconColor }]}>
             {enhancer.text}
           </Text>
         );
@@ -40,13 +41,13 @@ export const TextFieldEnhancer = memo(
       if (enhancer.type === 'artworkLabel') {
         const Icon = enhancer.icon;
         return (
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <View style={styles.artworkLabelRow}>
             {isIconComponent(Icon) ? (
               <Icon size={iconSize} color={iconColor} />
             ) : (
               (Icon as React.ReactNode)
             )}
-            <Text style={{ fontSize: 14, color: iconColor }}>
+            <Text style={[styles.enhancerLabel, { color: iconColor }]}>
               {enhancer.text}
             </Text>
           </View>
