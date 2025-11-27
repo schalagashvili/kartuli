@@ -15,6 +15,18 @@ import { useTextFieldLogic } from './hooks/useTextFieldLogic';
 import { HINT_ICON_SIZE, ICON_SIZES } from './styles/constants';
 import { styles } from './styles/stylesheet';
 
+const getDisplayHint = (
+  hasError: boolean,
+  hasSuccess: boolean,
+  errorText?: string,
+  successText?: string,
+  hintText?: string
+): string | undefined => {
+  if (hasError) return errorText;
+  if (hasSuccess) return successText;
+  return hintText;
+};
+
 export const TextField = memo(
   forwardRef<TextFieldRef, TextFieldProps>((props, ref) => {
     const {
@@ -112,7 +124,6 @@ export const TextField = memo(
           </View>
         )}
 
-        {/* MAIN CONTAINER */}
         <Pressable
           onPress={logic.handleContainerPress}
           disabled={!logic.isEditable}
@@ -192,17 +203,5 @@ export const TextField = memo(
     );
   })
 );
-
-export const getDisplayHint = (
-  hasError: boolean,
-  hasSuccess: boolean,
-  errorText?: string,
-  successText?: string,
-  hintText?: string
-): string | undefined => {
-  if (hasError) return errorText;
-  if (hasSuccess) return successText;
-  return hintText;
-};
 
 TextField.displayName = 'TextField';
