@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, Text, View } from 'react-native';
 
 import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { logger } from '@kartuli/core';
 
@@ -42,22 +43,23 @@ export function ErrorBoundary({
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: theme.spacing.inset.xl,
+    backgroundColor: theme.colors.background.primary,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    ...theme.typography.heading.h2,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.stack.sm,
   },
   message: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 20,
+    ...theme.typography.body.medium,
+    color: theme.colors.text.secondary,
+    marginBottom: theme.spacing.stack.md,
     textAlign: 'center',
   },
-});
+}));

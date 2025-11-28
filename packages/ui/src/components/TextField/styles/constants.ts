@@ -1,110 +1,91 @@
+import { borderWidths } from '../../../theme/tokens/primitives/borders';
+import { radius } from '../../../theme/tokens/primitives/radius';
+import { controlHeights } from '../../../theme/tokens/primitives/sizing';
+import { spacing } from '../../../theme/tokens/primitives/spacing';
+import {
+  fontSizes,
+  lineHeights,
+} from '../../../theme/tokens/primitives/typography';
 import type { TextFieldDimensions, TextFieldSize } from '../TextField.types';
-
-// =============================================================================
-// UBER BASE DESIGN SYSTEM - TEXT FIELD DIMENSIONS
-// Reference: PDF Pages 23-24
-// =============================================================================
 
 export const TEXTFIELD_DIMENSIONS: Record<TextFieldSize, TextFieldDimensions> =
   {
     small: {
-      height: 36,
-      paddingVertical: 8,
-      paddingHorizontal: 16,
-      contentGap: 16,
-      borderRadius: 8,
-      borderWidth: 3,
-      // Typography (ParagraphSmall)
-      fontSize: 14,
-      lineHeight: 20,
-      // Label (LabelSmall)
-      labelFontSize: 12,
-      labelLineHeight: 16,
-      // Hint (ParagraphSmall)
-      hintFontSize: 12,
-      hintLineHeight: 16,
-      // Enhancers
-      artworkSize: 16,
-      enhancerLabelFontSize: 12,
+      height: controlHeights.sm,
+      paddingVertical: spacing.sm,
+      paddingHorizontal: spacing.lg,
+      contentGap: spacing.lg,
+      borderRadius: radius.sm,
+      borderWidth: borderWidths.thick,
+      fontSize: fontSizes.md,
+      lineHeight: lineHeights.md,
+      labelFontSize: fontSizes.sm,
+      labelLineHeight: lineHeights.sm,
+      hintFontSize: fontSizes.sm,
+      hintLineHeight: lineHeights.sm,
+      artworkSize: spacing.lg,
+      enhancerLabelFontSize: fontSizes.sm,
     },
     medium: {
-      height: 48,
-      paddingVertical: 12,
-      paddingHorizontal: 16,
-      contentGap: 16,
-      borderRadius: 8,
-      borderWidth: 3,
-      // Typography (ParagraphMedium)
-      fontSize: 16,
-      lineHeight: 24,
-      // Label (LabelMedium)
-      labelFontSize: 14,
-      labelLineHeight: 20,
-      // Hint (ParagraphSmall)
-      hintFontSize: 12,
-      hintLineHeight: 16,
-      // Enhancers
-      artworkSize: 20,
-      enhancerLabelFontSize: 14,
+      height: controlHeights.md,
+      paddingVertical: spacing.md,
+      paddingHorizontal: spacing.lg,
+      contentGap: spacing.lg,
+      borderRadius: radius.sm,
+      borderWidth: borderWidths.thick,
+      fontSize: fontSizes.lg,
+      lineHeight: lineHeights.lg,
+      labelFontSize: fontSizes.md,
+      labelLineHeight: lineHeights.md,
+      hintFontSize: fontSizes.sm,
+      hintLineHeight: lineHeights.sm,
+      artworkSize: spacing.xl,
+      enhancerLabelFontSize: fontSizes.md,
     },
     large: {
-      height: 56,
-      // Padding set to center 28px line-height text within 56px height
-      paddingVertical: 14,
-      paddingHorizontal: 16,
-      contentGap: 16,
-      borderRadius: 8,
-      borderWidth: 3,
-      // Typography (ParagraphLarge)
-      fontSize: 18,
-      lineHeight: 28,
-      // Label (LabelLarge)
-      labelFontSize: 16,
-      labelLineHeight: 24,
-      // Hint (ParagraphSmall)
-      hintFontSize: 12,
-      hintLineHeight: 16,
-      // Enhancers
-      artworkSize: 24,
-      enhancerLabelFontSize: 16,
+      height: controlHeights.lg,
+      paddingVertical: spacing.lg,
+      paddingHorizontal: spacing.lg,
+      contentGap: spacing.lg,
+      borderRadius: radius.sm,
+      borderWidth: borderWidths.thick,
+      fontSize: fontSizes.xl,
+      lineHeight: lineHeights.xl,
+      labelFontSize: fontSizes.lg,
+      labelLineHeight: lineHeights.lg,
+      hintFontSize: fontSizes.sm,
+      hintLineHeight: lineHeights.sm,
+      artworkSize: spacing['2xl'],
+      enhancerLabelFontSize: fontSizes.lg,
     },
   };
 
-// Clear button and validation icon sizes
 export const ICON_SIZES: Record<TextFieldSize, number> = {
-  small: 16,
-  medium: 20,
-  large: 24,
+  small: spacing.lg,
+  medium: spacing.xl,
+  large: spacing['2xl'],
 };
 
-// Hint icon size (always 14px per spec)
-export const HINT_ICON_SIZE = 14;
+export const HINT_ICON_SIZE = fontSizes.md;
 
-// Spacing between hint icon and text
-export const HINT_ICON_GAP = 4;
+export const HINT_ICON_GAP = spacing.xs;
 
-// Label row spacing (between label and character count)
-export const LABEL_ROW_GAP = 8;
+export const LABEL_ROW_GAP = spacing.sm;
 
-// Spacing between label row and input container
-export const LABEL_INPUT_GAP = 8;
+export const LABEL_INPUT_GAP = spacing.sm;
 
-// Spacing between input container and hint
-export const INPUT_HINT_GAP = 8;
+export const INPUT_HINT_GAP = spacing.sm;
 
-// Minimum touch target
 export const MIN_TOUCH_TARGET = 44;
 
-// Animation durations
 export const ANIMATION_DURATION = {
   focus: 150,
   color: 120,
 } as const;
 
-// Hit slop for enhancer buttons
 export const ENHANCER_HIT_SLOP = {
-  top: 8,
-  right: 8,
-  bottom: 8,
-  left: 8,
+  top: spacing.sm,
+  right: spacing.sm,
+  bottom: spacing.sm,
+  left: spacing.sm,
 } as const;

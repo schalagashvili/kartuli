@@ -1,4 +1,3 @@
-// Initialize Unistyles configuration before any components that use stylesheets
 import './theme/unistyles';
 
 export * from './components/Button';

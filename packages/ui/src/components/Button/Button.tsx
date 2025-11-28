@@ -54,8 +54,6 @@ export const Button = memo(
       const isInteractionDisabled = disabled || loading;
       const isIconOnly = shape === 'circle' || shape === 'square';
 
-      // Coerce widthMode to 'intrinsic' for icon-only shapes
-      // Icon-only buttons (circle/square) should never stretch to fill container
       const effectiveWidthMode = isIconOnly ? 'intrinsic' : widthMode;
 
       if (__DEV__ && isIconOnly && widthMode === 'fixed') {
@@ -81,8 +79,6 @@ export const Button = memo(
         size,
         shape,
         widthMode: effectiveWidthMode,
-        // Map 'default' → undefined because base hierarchy styles handle default colors
-        // Only 'negative' tone requires variant overrides
         tone: tone === 'default' ? undefined : tone,
         disabled,
         active,

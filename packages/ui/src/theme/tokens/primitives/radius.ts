@@ -9,3 +9,4 @@ export const radius = {
 } as const;
 
 export type Radius = typeof radius;
+export type RadiusKey = keyof Radius;

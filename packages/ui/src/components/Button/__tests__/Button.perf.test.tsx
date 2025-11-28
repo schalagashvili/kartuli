@@ -1,19 +1,13 @@
-/**
- * Reassure Performance Tests for Button Component
- * Measures render performance to detect regressions
- */
 import { Home, Settings, User } from 'lucide-react-native';
 import { measureRenders } from 'reassure';
 
 import { Button } from '..';
 
 describe('Button Performance Tests', () => {
-  // Test 1: Static button with no props changes
   it('renders static button', async () => {
     await measureRenders(<Button label="Static Button" />);
   });
 
-  // Test 2: Button with all common props
   it('renders button with common props', async () => {
     await measureRenders(
       <Button
@@ -26,14 +20,12 @@ describe('Button Performance Tests', () => {
     );
   });
 
-  // Test 3: Button with icon
   it('renders button with icon', async () => {
     await measureRenders(
       <Button label="Icon Button" size="medium" leadingIcon={Home} />
     );
   });
 
-  // Test 4: Icon-only button
   it('renders icon-only button', async () => {
     await measureRenders(
       <Button
@@ -45,21 +37,18 @@ describe('Button Performance Tests', () => {
     );
   });
 
-  // Test 5: Loading state
   it('renders loading button', async () => {
     await measureRenders(
       <Button label="Loading" size="medium" loading={true} />
     );
   });
 
-  // Test 6: Disabled state
   it('renders disabled button', async () => {
     await measureRenders(
       <Button label="Disabled" size="medium" disabled={true} />
     );
   });
 
-  // Test 7: Different sizes
   it('renders small button', async () => {
     await measureRenders(<Button label="Small" size="small" />);
   });
@@ -72,7 +61,6 @@ describe('Button Performance Tests', () => {
     await measureRenders(<Button label="Large" size="large" />);
   });
 
-  // Test 8: Different hierarchies
   it('renders primary button', async () => {
     await measureRenders(<Button label="Primary" hierarchy="primary" />);
   });
@@ -85,7 +73,6 @@ describe('Button Performance Tests', () => {
     await measureRenders(<Button label="Tertiary" hierarchy="tertiary" />);
   });
 
-  // Test 9: Different shapes
   it('renders rect button', async () => {
     await measureRenders(
       <Button label="Rectangle" size="medium" shape="rect" />
@@ -113,14 +100,12 @@ describe('Button Performance Tests', () => {
     );
   });
 
-  // Test 10: Negative tone
   it('renders negative tone button', async () => {
     await measureRenders(
       <Button label="Delete" hierarchy="primary" tone="negative" />
     );
   });
 
-  // Test 11: Complex button with multiple props
   it('renders complex button', async () => {
     await measureRenders(
       <Button
@@ -136,7 +121,6 @@ describe('Button Performance Tests', () => {
     );
   });
 
-  // Test 12: Button with width modes
   it('renders fixed-width button', async () => {
     await measureRenders(
       <Button label="Fixed Width" size="medium" widthMode="fixed" />
@@ -149,11 +133,9 @@ describe('Button Performance Tests', () => {
     );
   });
 
-  // Test 13: Stress test with rapid prop changes
   it('handles rapid prop changes', async () => {
     await measureRenders(<Button label="Changing Button" size="medium" />, {
       scenario: async (screen) => {
-        // Simulate rapid prop changes
         screen.rerender(
           <Button label="Changed 1" size="large" hierarchy="secondary" />
         );
@@ -167,7 +149,6 @@ describe('Button Performance Tests', () => {
     });
   });
 
-  // Test 14: Button with onPress handler
   it('renders button with onPress', async () => {
     const handlePress = () => console.warn('Pressed');
     await measureRenders(
@@ -175,7 +156,6 @@ describe('Button Performance Tests', () => {
     );
   });
 
-  // Test 15: Multiple buttons (list scenario)
   it('renders multiple buttons efficiently', async () => {
     await measureRenders(
       <>

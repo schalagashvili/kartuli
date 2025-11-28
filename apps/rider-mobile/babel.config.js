@@ -9,7 +9,6 @@ module.exports = function babelConfig(api) {
       [
         'react-native-unistyles/plugin',
         {
-          // eslint-disable-next-line no-undef
           root: path.resolve(__dirname, '../..'),
           autoProcessImports: ['@kartuli/ui'],
         },

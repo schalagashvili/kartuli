@@ -1,4 +1,3 @@
-// packages/ui/src/components/TextField/styles/stylesheet.ts
 import { StyleSheet } from 'react-native-unistyles';
 
 import {
@@ -10,16 +9,10 @@ import {
 } from './constants';
 
 export const styles = StyleSheet.create((theme) => ({
-  // ===========================================================================
-  // ROOT
-  // ===========================================================================
   root: {
     width: '100%',
   },
 
-  // ===========================================================================
-  // LABEL ROW
-  // ===========================================================================
   labelRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -29,11 +22,9 @@ export const styles = StyleSheet.create((theme) => ({
   },
 
   label: {
-    fontFamily: theme.fonts.sans,
-    fontWeight: theme.fontWeights.medium,
-    color: theme.colors.contentPrimary,
+    fontWeight: theme.primitives.typography.fontWeights.medium,
+    color: theme.colors.text.primary,
     flexShrink: 1,
-
     variants: {
       size: {
         small: {
@@ -53,11 +44,9 @@ export const styles = StyleSheet.create((theme) => ({
   },
 
   characterCount: {
-    fontFamily: theme.fonts.sans,
-    fontWeight: theme.fontWeights.normal,
-    color: theme.colors.contentTertiary,
+    fontWeight: theme.primitives.typography.fontWeights.regular,
+    color: theme.colors.text.tertiary,
     flexShrink: 0,
-
     variants: {
       size: {
         small: {
@@ -75,26 +64,18 @@ export const styles = StyleSheet.create((theme) => ({
       },
       overLimit: {
         true: {
-          color: theme.colors.danger,
+          color: theme.colors.status.error,
         },
       },
     },
   },
 
-  // ===========================================================================
-  // INPUT CONTAINER
-  // CRITICAL: borderWidth is ALWAYS 2px to prevent layout shifts
-  // Border color is animated via useAnimatedStyle (transparent → colored)
-  // ===========================================================================
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 12, // ← FIXED: Was 8, now matches Uber
-    borderWidth: 2, // ← FIXED: Was 3, now matches Uber
-    // borderColor: animated via containerAnimatedStyle
-    // backgroundColor: animated via containerAnimatedStyle
+    borderRadius: theme.primitives.radius.lg,
+    borderWidth: TEXTFIELD_DIMENSIONS.medium.borderWidth,
     overflow: 'hidden',
-
     variants: {
       size: {
         small: {
@@ -118,51 +99,35 @@ export const styles = StyleSheet.create((theme) => ({
       },
     },
   },
-
-  // ===========================================================================
-  // TEXT INPUT
-  // ===========================================================================
   input: {
     flex: 1,
-    alignSelf: 'center', // Vertical centering (iOS)
-    fontFamily: theme.fonts.sans,
-    fontWeight: theme.fontWeights.normal,
-    color: theme.colors.contentPrimary,
-    // padding: 0, // Reset default padding (Android fix)
-    // margin: 0,
-    // textAlignVertical: 'center', // Vertical centering (Android)
-    // includeFontPadding: false, // Remove extra font padding (Android)
+    alignSelf: 'center',
+
+    color: theme.colors.text.primary,
 
     variants: {
       size: {
         small: {
           fontSize: TEXTFIELD_DIMENSIONS.small.fontSize,
-          //   lineHeight: TEXTFIELD_DIMENSIONS.small.lineHeight,
         },
         medium: {
           fontSize: TEXTFIELD_DIMENSIONS.medium.fontSize,
-          //   lineHeight: TEXTFIELD_DIMENSIONS.medium.lineHeight,
         },
         large: {
           fontSize: TEXTFIELD_DIMENSIONS.large.fontSize,
-          //   lineHeight: TEXTFIELD_DIMENSIONS.large.lineHeight,
         },
       },
     },
   },
 
-  // ===========================================================================
-  // ENHANCERS
-  // ===========================================================================
   enhancer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   enhancerLabel: {
-    fontFamily: theme.fonts.sans,
-    fontWeight: theme.fontWeights.normal,
-    fontSize: 14,
+    fontWeight: theme.primitives.typography.fontWeights.regular,
+    fontSize: theme.primitives.typography.fontSizes.md,
   },
 
   artworkLabelRow: {
@@ -177,38 +142,36 @@ export const styles = StyleSheet.create((theme) => ({
     gap: 8,
   },
 
-  // ===========================================================================
-  // HINT ROW
-  // CRITICAL: minHeight reserves space to prevent layout shifts
-  // ===========================================================================
   hintRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     marginTop: INPUT_HINT_GAP,
     gap: HINT_ICON_GAP,
-    minHeight: 20, // ← RESERVE SPACE - prevents jump when error appears
+    minHeight: 20,
   },
 
   hint: {
-    fontFamily: theme.fonts.sans,
-    fontWeight: theme.fontWeights.normal,
-    fontSize: 12,
+    fontWeight: theme.primitives.typography.fontWeights.regular,
+    fontSize: theme.primitives.typography.fontSizes.sm,
     lineHeight: 16,
-    color: theme.colors.contentTertiary,
+    color: theme.colors.text.tertiary,
     flex: 1,
-
     variants: {
       hintState: {
         default: {
-          color: theme.colors.contentTertiary,
+          color: theme.colors.text.tertiary,
         },
         error: {
-          color: theme.colors.danger,
+          color: theme.colors.status.error,
         },
         success: {
-          color: theme.colors.success,
+          color: theme.colors.status.success,
         },
       },
     },
+  },
+
+  hidden: {
+    opacity: theme.primitives.opacity.transparent,
   },
 }));

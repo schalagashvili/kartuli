@@ -15,7 +15,6 @@ config.resolver.nodeModulesPaths = [
   path.resolve(monorepoRoot, 'node_modules'),
 ];
 
-// Ensure Metro can resolve .tsx and .ts files
 config.resolver.sourceExts = [
   ...(config.resolver.sourceExts || []),
   'tsx',
@@ -25,14 +24,11 @@ config.resolver.sourceExts = [
   'json',
 ];
 
-// Determine if we should exclude dev directory
-// Dev directory should ONLY be available in development mode
 const isDevelopment =
   process.env.NODE_ENV !== 'production' &&
   process.env.APP_VARIANT !== 'production' &&
   process.env.APP_VARIANT !== 'preview';
 
-// Build blockList patterns
 const blockPatterns = [
   '__tests__',
   '__mocks__',
@@ -41,7 +37,6 @@ const blockPatterns = [
   '\\.perf\\.test\\.[jt]sx?$',
 ];
 
-// Exclude dev directory in production/preview builds
 if (!isDevelopment) {
   blockPatterns.push('/app/dev/');
   blockPatterns.push('/app/dev$');

@@ -1,8 +1,5 @@
-import TextFieldGallery from '@/app/dev/TextFieldGallery';
-
-// import { ButtonRenderCounter } from '@kartuli/ui';
+import { View } from 'react-native';
 
 export default function HomeScreen() {
-  // return <ButtonGallery />;
-  return <TextFieldGallery />;
+  return <View />;
 }

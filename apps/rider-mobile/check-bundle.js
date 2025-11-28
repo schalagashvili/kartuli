@@ -1,9 +1,3 @@
-#!/usr/bin/env node
-/**
- * Bundle Checker Script
- * Verifies that test files and mocks are excluded from the Metro bundle
- */
-
 const Metro = require('metro');
 const path = require('path');
 
@@ -17,7 +11,6 @@ async function checkBundle() {
 
   console.log('📋 Metro blockList pattern:');
   if (config.resolver.blockList) {
-    // blockList is a single RegExp, not an array
     console.log(`  ${config.resolver.blockList}`);
   } else {
     console.log('  ⚠️  No blockList configured!');
@@ -32,11 +25,9 @@ async function checkBundle() {
     'packages/ui/src/components/Button/Button.spec.tsx',
     'packages/ui/src/components/Button/Button.perf.test.tsx',
     'apps/rider-mobile/app/dev/ButtonGallery.tsx',
-    // Add more test/mocks files from other components as needed
   ];
 
   testPatterns.forEach((testPath) => {
-    // blockList is a single RegExp, not an array
     const isBlocked = config.resolver.blockList?.test(testPath);
     const status = isBlocked ? '🚫 BLOCKED' : '⚠️  ALLOWED';
     console.log(`  ${status}: ${testPath}`);

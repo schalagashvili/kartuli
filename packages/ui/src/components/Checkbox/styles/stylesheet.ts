@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native-unistyles';
 
+import { getTopOffset } from '../../../components/Checkbox/styles/utils';
 import {
   CHECKBOX_BORDER_WIDTH,
   CHECKBOX_DIMENSIONS,
@@ -7,9 +8,6 @@ import {
 } from '../Checkbox.types';
 
 export const styles = StyleSheet.create((theme) => ({
-  // ===========================================================================
-  // ROOT CONTAINER
-  // ===========================================================================
   root: {
     flexDirection: 'row',
     width: '100%',
@@ -35,45 +33,27 @@ export const styles = StyleSheet.create((theme) => ({
     },
   },
 
-  // ===========================================================================
-  // CHECKBOX SQUARE
-  // Colors are injected inline from the main component
-  // ===========================================================================
   box: {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: CHECKBOX_RADIUS,
     borderWidth: CHECKBOX_BORDER_WIDTH,
-    backgroundColor: 'transparent',
-
-    overflow: 'hidden', // CRITICAL: Clips the growing square to the rounded corners
+    backgroundColor: theme.colors.palette.transparent,
+    overflow: 'hidden',
 
     variants: {
-      // ... existing size variants ...
       size: {
         small: {
           width: CHECKBOX_DIMENSIONS.small.boxSize,
           height: CHECKBOX_DIMENSIONS.small.boxSize,
-          marginTop:
-            (CHECKBOX_DIMENSIONS.small.rowMinHeight -
-              CHECKBOX_DIMENSIONS.small.boxSize) /
-            2,
         },
         medium: {
           width: CHECKBOX_DIMENSIONS.medium.boxSize,
           height: CHECKBOX_DIMENSIONS.medium.boxSize,
-          marginTop:
-            (CHECKBOX_DIMENSIONS.medium.rowMinHeight -
-              CHECKBOX_DIMENSIONS.medium.boxSize) /
-            2,
         },
         large: {
           width: CHECKBOX_DIMENSIONS.large.boxSize,
           height: CHECKBOX_DIMENSIONS.large.boxSize,
-          marginTop:
-            (CHECKBOX_DIMENSIONS.large.rowMinHeight -
-              CHECKBOX_DIMENSIONS.large.boxSize) /
-            2,
         },
       },
       align: {
@@ -81,106 +61,128 @@ export const styles = StyleSheet.create((theme) => ({
         top: {},
       },
     },
+    compoundVariants: [
+      {
+        align: 'top',
+        size: 'small',
+        styles: { marginTop: getTopOffset('small') },
+      },
+      {
+        align: 'top',
+        size: 'medium',
+        styles: { marginTop: getTopOffset('medium') },
+      },
+      {
+        align: 'top',
+        size: 'large',
+        styles: { marginTop: getTopOffset('large') },
+      },
+    ],
   },
 
   fillLayer: {
     ...StyleSheet.absoluteFillObject,
     borderRadius: CHECKBOX_RADIUS - 1,
   },
+
   iconWrapper: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 2, // Optional, but good safety
+    zIndex: theme.zIndex.base,
   },
 
-  // ===========================================================================
-  // PRESSED OVERLAY
-  // ===========================================================================
   pressedOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    ...StyleSheet.absoluteFillObject,
     variants: {
       visualState: {
-        unchecked: { backgroundColor: 'rgba(0, 0, 0, 0.08)' },
-        preselected: { backgroundColor: 'rgba(0, 0, 0, 0.08)' },
-        checked: { backgroundColor: 'rgba(255, 255, 255, 0.20)' },
-        indeterminate: { backgroundColor: 'rgba(255, 255, 255, 0.20)' },
+        unchecked: { backgroundColor: theme.colors.interactive.ghostPressed },
+        preselected: { backgroundColor: theme.colors.interactive.ghostPressed },
+        checked: {
+          backgroundColor:
+            theme.mode === 'light'
+              ? theme.colors.palette.blackAlpha20
+              : theme.colors.palette.whiteAlpha20,
+        },
+        indeterminate: {
+          backgroundColor:
+            theme.mode === 'light'
+              ? theme.colors.palette.blackAlpha20
+              : theme.colors.palette.whiteAlpha20,
+        },
       },
     },
   },
 
-  // ===========================================================================
-  // LABEL CONTAINER & TEXT
-  // ===========================================================================
   labelContainer: {
     flex: 1,
     justifyContent: 'center',
     variants: {
       align: {
         center: {},
-        top: {
-          paddingVertical: 8,
-        },
+        top: { paddingVertical: theme.spacing.inset.sm },
       },
     },
   },
 
   label: {
-    fontFamily: theme.fonts.sans,
-    fontWeight: theme.fontWeights.medium,
-    color: theme.colors.contentPrimary,
+    ...theme.typography.label.medium,
+    color: theme.colors.text.primary,
     variants: {
       disabled: {
-        true: { color: theme.colors.contentDisabled },
+        true: { color: theme.colors.text.disabled },
       },
       size: {
         small: {
-          fontSize: CHECKBOX_DIMENSIONS.small.fontSize,
-          lineHeight: CHECKBOX_DIMENSIONS.small.lineHeight,
+          ...theme.typography.label.small,
         },
         medium: {
-          fontSize: CHECKBOX_DIMENSIONS.medium.fontSize,
-          lineHeight: CHECKBOX_DIMENSIONS.medium.lineHeight,
+          ...theme.typography.label.medium,
         },
         large: {
-          fontSize: CHECKBOX_DIMENSIONS.large.fontSize,
-          lineHeight: CHECKBOX_DIMENSIONS.large.lineHeight,
+          ...theme.typography.label.large,
         },
       },
     },
   },
 
   description: {
-    fontFamily: theme.fonts.sans,
-    fontWeight: theme.fontWeights.normal,
-    color: theme.colors.contentSecondary,
-    marginTop: 2,
+    ...theme.typography.body.small,
+    color: theme.colors.text.secondary,
+    marginTop: theme.spacing.stack.xxs,
     variants: {
       disabled: {
-        true: { color: theme.colors.contentDisabled },
+        true: { color: theme.colors.text.disabled },
       },
       size: {
-        small: { fontSize: 12, lineHeight: 16 },
-        medium: { fontSize: 14, lineHeight: 20 },
-        large: { fontSize: 16, lineHeight: 24 },
+        small: {
+          ...theme.typography.body.small,
+        },
+        medium: {
+          ...theme.typography.body.medium,
+        },
+        large: {
+          ...theme.typography.body.large,
+        },
       },
     },
   },
 
   errorText: {
-    fontFamily: theme.fonts.sans,
-    fontWeight: theme.fontWeights.normal,
-    color: theme.colors.danger,
-    marginTop: 2,
+    ...theme.typography.body.small,
+    color: theme.colors.status.error,
+    marginTop: theme.spacing.stack.xxs,
     variants: {
       size: {
-        small: { fontSize: 12, lineHeight: 16 },
-        medium: { fontSize: 14, lineHeight: 20 },
-        large: { fontSize: 16, lineHeight: 24 },
+        small: {
+          ...theme.typography.body.small,
+        },
+        medium: {
+          ...theme.typography.body.medium,
+        },
+        large: {
+          ...theme.typography.body.large,
+        },
       },
     },
   },

@@ -27,7 +27,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     eas: {
       isStorybook: IS_STORYBOOK,
       appVariant: APP_VARIANT,
-      projectId: 'bdf24704-8265-49d3-af37-4be004e2ae05',
+      projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
     },
   },
   runtimeVersion: {

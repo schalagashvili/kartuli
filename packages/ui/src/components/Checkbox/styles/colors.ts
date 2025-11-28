@@ -1,4 +1,4 @@
-import type { AppTheme } from '../../../theme/themes/light';
+import type { Theme } from '../../../theme';
 import type { CheckboxProps, CheckboxVisualState } from '../Checkbox.types';
 
 export { CheckboxVisualState };
@@ -14,14 +14,16 @@ export const getCheckboxColors = (
   disabled: boolean,
   error: boolean,
   tone: CheckboxProps['tone'],
-  theme: AppTheme
+  theme: Theme
 ): CheckboxColors => {
   if (disabled) {
     const isFilled = state === 'checked' || state === 'indeterminate';
     return {
-      boxBorder: theme.colors.disabled,
-      boxBackground: isFilled ? theme.colors.disabled : 'transparent',
-      icon: theme.colors.disabled,
+      boxBorder: theme.colors.border.subtle,
+      boxBackground: isFilled
+        ? theme.colors.interactive.secondary
+        : theme.colors.palette.transparent,
+      icon: theme.colors.text.disabled,
     };
   }
 
@@ -29,31 +31,33 @@ export const getCheckboxColors = (
   if (isError) {
     const isFilled = state === 'checked' || state === 'indeterminate';
     return {
-      boxBorder: theme.colors.danger,
-      boxBackground: isFilled ? theme.colors.danger : 'transparent',
-      icon: isFilled ? theme.colors.contentInversePrimary : theme.colors.danger,
+      boxBorder: theme.colors.status.error,
+      boxBackground: isFilled
+        ? theme.colors.status.error
+        : theme.colors.palette.transparent,
+      icon: isFilled ? theme.colors.text.inverse : theme.colors.status.error,
     };
   }
 
   if (state === 'preselected') {
     return {
-      boxBorder: theme.colors.contentTertiary,
-      boxBackground: 'transparent',
-      icon: theme.colors.contentPrimary,
+      boxBorder: theme.colors.border.default,
+      boxBackground: theme.colors.palette.transparent,
+      icon: theme.colors.text.primary,
     };
   }
 
   if (state === 'checked' || state === 'indeterminate') {
     return {
-      boxBorder: theme.colors.primary,
-      boxBackground: theme.colors.primary,
-      icon: theme.colors.contentInversePrimary,
+      boxBorder: theme.colors.interactive.primary,
+      boxBackground: theme.colors.interactive.primary,
+      icon: theme.colors.text.inverse,
     };
   }
 
   return {
-    boxBorder: theme.colors.contentTertiary,
-    boxBackground: 'transparent',
+    boxBorder: theme.colors.border.default,
+    boxBackground: theme.colors.palette.transparent,
     icon: 'transparent',
   };
 };

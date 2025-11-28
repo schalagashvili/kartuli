@@ -21,7 +21,7 @@ if (__DEV__) {
       /^Slot$/,
       /^ErrorBoundary/,
       /^ExpoRoot/,
-      /^\(.*\)$/, // Exclude route groups like (tabs), (auth)
+      /^\(.*\)$/,
 
       /^RCT/,
       /^RN/,

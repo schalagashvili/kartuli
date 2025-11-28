@@ -1,19 +1,14 @@
 #!/bin/bash
 
-# Bundle Size Analyzer
-# Generates production bundle and shows size breakdown
-
 echo "📦 Building production bundle..."
 echo ""
 
-# Export production bundle
 npx expo export --platform ios --output-dir dist-check --clear 2>&1 | grep -E "(bundle|size|MB|KB)" || echo "Build initiated..."
 
 echo ""
 echo "📊 Analyzing bundle contents..."
 echo ""
 
-# Check if __tests__ or __mocks__ appear in bundles
 if [ -d "dist-check" ]; then
   echo "🔍 Searching for test files in bundle:"
 
