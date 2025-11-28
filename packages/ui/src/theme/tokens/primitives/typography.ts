@@ -1,77 +1,68 @@
-import { Platform, TextStyle } from 'react-native';
+import { Platform } from 'react-native';
 
 export const fontFamilies = {
-  sans: Platform.select({
-    ios: 'System',
-    android: 'sans-serif',
-    default: 'System',
-  }),
-  mono: Platform.select({
-    ios: 'System',
-    android: 'monospace',
-    default: 'monospace',
-  }),
-  georgian: Platform.select({
-    ios: 'System',
-    android: 'sans-serif',
-    default: 'System',
-  }),
-} as const;
-
-export const fontWeights = {
-  300: '300' as TextStyle['fontWeight'],
-  400: '400' as TextStyle['fontWeight'],
-  500: '500' as TextStyle['fontWeight'],
-  600: '600' as TextStyle['fontWeight'],
-  700: '700' as TextStyle['fontWeight'],
-  800: '800' as TextStyle['fontWeight'],
-  900: '900' as TextStyle['fontWeight'],
-  light: '300' as TextStyle['fontWeight'],
-  regular: '400' as TextStyle['fontWeight'],
-  medium: '500' as TextStyle['fontWeight'],
-  semibold: '600' as TextStyle['fontWeight'],
-  bold: '700' as TextStyle['fontWeight'],
-  extrabold: '800' as TextStyle['fontWeight'],
-  black: '900' as TextStyle['fontWeight'],
+  sans:
+    Platform.select({
+      ios: 'System',
+      android: 'sans-serif',
+      default: 'System',
+    }) ?? 'System',
+  mono:
+    Platform.select({
+      ios: 'Roboto',
+      android: 'monospace',
+      default: 'Courier',
+    }) ?? 'Courier',
 } as const;
 
 export const fontSizes = {
-  xs: 10,
-  sm: 12,
-  md: 14,
-  lg: 16,
-  xl: 18,
-  '2xl': 20,
-  '3xl': 24,
-  '4xl': 30,
-  '5xl': 36,
-  '6xl': 48,
+  xxs: 10,
+  xs: 12,
+  sm: 14,
+  md: 16,
+  lg: 18,
+  xl: 20,
+  '2xl': 24,
+  '3xl': 30,
+  '4xl': 36,
+  '5xl': 48,
+  '6xl': 60,
 } as const;
+
+export type FontSizes = typeof fontSizes;
 
 export const lineHeights = {
-  xs: 12,
-  sm: 16,
-  md: 20,
-  lg: 24,
-  xl: 26,
-  '2xl': 30,
-  '3xl': 32,
-  '4xl': 36,
-  '5xl': 44,
-  '6xl': 56,
+  xxs: 14,
+  xs: 16,
+  sm: 20,
+  md: 22,
+  lg: 26,
+  xl: 28,
+  '2xl': 32,
+  '3xl': 36,
+  '4xl': 42,
+  '5xl': 56,
+  '6xl': 72,
 } as const;
+
+export type LineHeights = typeof lineHeights;
+
+export const fontWeights = {
+  regular: '400',
+  medium: '500',
+  semibold: '600',
+  bold: '700',
+} as const;
+
+export type FontWeights = typeof fontWeights;
 
 export const letterSpacing = {
-  tighter: -0.5,
-  tight: -0.25,
+  tighter: -0.8,
+  tight: -0.4,
   normal: 0,
-  wide: 0.25,
-  wider: 0.5,
-  widest: 1,
+  wide: 0.4,
+  wider: 0.8,
+  widest: 1.6,
 } as const;
 
-export type FontFamilies = typeof fontFamilies;
-export type FontWeights = typeof fontWeights;
-export type FontSizes = typeof fontSizes;
-export type LineHeights = typeof lineHeights;
 export type LetterSpacing = typeof letterSpacing;

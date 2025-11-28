@@ -13,57 +13,54 @@ import { CHECKBOX_DIMENSIONS } from './Checkbox.types';
 const decoratorStyles = StyleSheet.create((theme) => ({
   container: {
     flex: 1,
-    padding: theme.spacing.lg,
-    backgroundColor: theme.colors.background,
+    padding: theme.primitives.spacing.lg,
+    backgroundColor: theme.colors.background.primary,
     alignItems: 'flex-start',
   },
   fullWidth: {
     flex: 1,
-    padding: theme.spacing.lg,
-    backgroundColor: theme.colors.background,
+    padding: theme.primitives.spacing.lg,
+    backgroundColor: theme.colors.background.primary,
     width: '100%',
   },
   constrained: {
-    padding: theme.spacing.md,
+    padding: theme.primitives.spacing.md,
     width: 280,
-    borderWidth: theme.borderWidths.thin,
-    borderColor: theme.colors.border,
+    borderWidth: theme.primitives.borderWidths.thin,
+    borderColor: theme.colors.border.default,
     borderRadius: theme.radius.md,
-    backgroundColor: theme.colors.backgroundSecondary,
+    backgroundColor: theme.colors.background.secondary,
   },
   darkBackground: {
     flex: 1,
-    padding: theme.spacing.lg,
-    backgroundColor: theme.colors.backgroundInverse,
+    padding: theme.primitives.spacing.lg,
+    backgroundColor: theme.colors.background.inverse,
     alignItems: 'flex-start',
   },
   sectionLabel: {
-    fontSize: theme.fontSizes.xs,
-    fontWeight: theme.fontWeights.semibold,
-    color: theme.colors.contentSecondary,
-    textTransform: 'uppercase',
-    letterSpacing: theme.letterSpacing.wide,
-    marginBottom: theme.spacing.sm,
+    ...theme.typography.utility.overline,
+    color: theme.colors.text.secondary,
+    marginBottom: theme.spacing.stack.sm,
   },
   constraintLabel: {
-    fontSize: theme.fontSizes.xs,
-    color: theme.colors.contentTertiary,
-    marginBottom: theme.spacing.sm,
+    ...theme.typography.caption.small,
+    color: theme.colors.text.tertiary,
+    marginBottom: theme.spacing.stack.sm,
   },
   debugBorder: {
     borderWidth: 1,
-    borderColor: theme.colors.danger,
+    borderColor: theme.colors.status.error,
     alignSelf: 'flex-start',
   },
   debugText: {
-    fontSize: theme.fontSizes.xs,
-    color: theme.colors.contentTertiary,
-    marginTop: theme.spacing.xs,
+    ...theme.typography.caption.small,
+    color: theme.colors.text.tertiary,
+    marginTop: theme.spacing.stack.xs,
   },
   tokenText: {
-    fontSize: theme.fontSizes.sm,
-    color: theme.colors.contentPrimary,
-    fontFamily: theme.fontFamilies.mono,
+    ...theme.typography.utility.mono,
+    fontSize: theme.primitives.typography.fontSizes.sm,
+    color: theme.colors.text.primary,
   },
   tokenSwatch: {
     width: 40,
@@ -132,7 +129,7 @@ const Spacer = ({
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }) => {
   const { theme } = useUnistyles();
-  return <View style={{ height: theme.spacing[size] }} />;
+  return <View style={{ height: theme.spacing.stack[size] }} />;
 };
 
 const Row = ({
@@ -147,7 +144,7 @@ const Row = ({
     <View
       style={{
         flexDirection: 'row',
-        gap: theme.spacing[gap],
+        gap: theme.spacing.gap[gap],
         alignItems: 'flex-start',
         flexWrap: 'wrap',
       }}
@@ -166,7 +163,7 @@ const Column = ({
 }) => {
   const { theme } = useUnistyles();
   return (
-    <View style={{ gap: theme.spacing[gap], alignItems: 'flex-start' }}>
+    <View style={{ gap: theme.spacing.stack[gap], alignItems: 'flex-start' }}>
       {children}
     </View>
   );
@@ -210,7 +207,12 @@ const ParentChildDemo = () => {
         onChange={toggleAll}
         testID="checkbox-parent"
       />
-      <View style={{ marginLeft: theme.spacing['2xl'], gap: theme.spacing.sm }}>
+      <View
+        style={{
+          marginLeft: theme.primitives.spacing['2xl'],
+          gap: theme.spacing.gap.sm,
+        }}
+      >
         {['Option 1', 'Option 2', 'Option 3'].map((label, i) => (
           <Checkbox
             key={label}
@@ -391,7 +393,10 @@ const IndeterminateUseCasesContent = () => {
             testID="nested-root"
           />
           <View
-            style={{ marginLeft: theme.spacing['2xl'], gap: theme.spacing.sm }}
+            style={{
+              marginLeft: theme.primitives.spacing['2xl'],
+              gap: theme.spacing.gap.sm,
+            }}
           >
             <Checkbox
               label="Read access"
@@ -410,8 +415,8 @@ const IndeterminateUseCasesContent = () => {
             />
             <View
               style={{
-                marginLeft: theme.spacing['2xl'],
-                gap: theme.spacing.sm,
+                marginLeft: theme.primitives.spacing['2xl'],
+                gap: theme.spacing.gap.sm,
               }}
             >
               <Checkbox
@@ -608,7 +613,7 @@ const FlashListContent = () => {
       <FlashList
         data={data}
         renderItem={({ item }) => (
-          <View style={{ paddingVertical: theme.spacing.xs }}>
+          <View style={{ paddingVertical: theme.spacing.stack.xs }}>
             <Checkbox
               label={item.label}
               checked={checkedItems.has(item.id)}
@@ -631,19 +636,19 @@ const SystemTokensContent = () => {
 
       <Column gap="md">
         <Text style={styles.tokenText}>
-          colors.primary: {theme.colors.primary}
+          colors.interactive.primary: {theme.colors.interactive.primary}
         </Text>
         <Text style={styles.tokenText}>
-          colors.danger: {theme.colors.danger}
+          colors.status.error: {theme.colors.status.error}
         </Text>
         <Text style={styles.tokenText}>
-          colors.contentPrimary: {theme.colors.contentPrimary}
+          colors.text.primary: {theme.colors.text.primary}
         </Text>
         <Text style={styles.tokenText}>
-          colors.contentSecondary: {theme.colors.contentSecondary}
+          colors.text.secondary: {theme.colors.text.secondary}
         </Text>
         <Text style={styles.tokenText}>
-          colors.disabled: {theme.colors.disabled}
+          colors.text.disabled: {theme.colors.text.disabled}
         </Text>
       </Column>
 
@@ -653,28 +658,28 @@ const SystemTokensContent = () => {
           <View
             style={[
               styles.tokenSwatch,
-              { backgroundColor: theme.colors.primary },
+              { backgroundColor: theme.colors.interactive.primary },
             ]}
           />
           <View
             style={[
               styles.tokenSwatch,
-              { backgroundColor: theme.colors.danger },
+              { backgroundColor: theme.colors.status.error },
             ]}
           />
           <View
             style={[
               styles.tokenSwatch,
-              { backgroundColor: theme.colors.disabled },
+              { backgroundColor: theme.colors.interactive.secondary },
             ]}
           />
           <View
             style={[
               styles.tokenSwatch,
               {
-                backgroundColor: theme.colors.background,
+                backgroundColor: theme.colors.background.primary,
                 borderWidth: 1,
-                borderColor: theme.colors.border,
+                borderColor: theme.colors.border.default,
               },
             ]}
           />
@@ -683,9 +688,15 @@ const SystemTokensContent = () => {
 
       <Column gap="md">
         <SectionLabel>Spacing Tokens</SectionLabel>
-        <Text style={styles.tokenText}>spacing.sm: {theme.spacing.sm}px</Text>
-        <Text style={styles.tokenText}>spacing.md: {theme.spacing.md}px</Text>
-        <Text style={styles.tokenText}>spacing.lg: {theme.spacing.lg}px</Text>
+        <Text style={styles.tokenText}>
+          primitive.spacing.sm: {theme.primitives.spacing.sm}px
+        </Text>
+        <Text style={styles.tokenText}>
+          primitive.spacing.md: {theme.primitives.spacing.md}px
+        </Text>
+        <Text style={styles.tokenText}>
+          primitive.spacing.lg: {theme.primitives.spacing.lg}px
+        </Text>
       </Column>
 
       <Column gap="md">
@@ -819,8 +830,8 @@ const ThemeComparisonContent = () => {
     <Column gap="xs">
       <View
         style={{
-          padding: theme.spacing.lg,
-          backgroundColor: theme.colors.background,
+          padding: theme.primitives.spacing.lg,
+          backgroundColor: theme.colors.background.primary,
         }}
       >
         <Column gap="sm">
@@ -846,19 +857,16 @@ const ThemeComparisonContent = () => {
 
       <View
         style={{
-          padding: theme.spacing.lg,
-          backgroundColor: theme.colors.backgroundInverse,
+          padding: theme.primitives.spacing.lg,
+          backgroundColor: theme.colors.background.inverse,
         }}
       >
         <Column gap="sm">
           <Text
             style={{
-              fontSize: theme.fontSizes.xs,
-              fontWeight: theme.fontWeights.semibold,
-              color: theme.colors.contentInversePrimary,
-              textTransform: 'uppercase',
-              letterSpacing: theme.letterSpacing.wide,
-              marginBottom: theme.spacing.sm,
+              ...theme.typography.utility.overline,
+              color: theme.colors.text.inverse,
+              marginBottom: theme.spacing.stack.sm,
             }}
           >
             Dark Background
@@ -1082,20 +1090,20 @@ const meta: Meta<typeof Checkbox> = {
     docs: {
       description: {
         component: `
-Checkbox component for binary and mixed-state selections.
+            Checkbox component for binary and mixed-state selections.
 
-## Visual States
-- **Unchecked**: Empty box with border
-- **Checked**: Filled box with checkmark
-- **Indeterminate**: Filled box with minus icon (mixed/partial selection)
-- **Preselected**: Outlined box with small checkmark (suggested default)
+            ## Visual States
+            - **Unchecked**: Empty box with border
+            - **Checked**: Filled box with checkmark
+            - **Indeterminate**: Filled box with minus icon (mixed/partial selection)
+            - **Preselected**: Outlined box with small checkmark (suggested default)
 
-## Usage Guidelines
-- Use for binary yes/no choices
-- Use indeterminate for parent checkboxes with partially selected children
-- Keep labels concise but descriptive
-- Checkboxes without labels MUST have accessibilityLabel
-- Always provide testID for Maestro automation
+            ## Usage Guidelines
+            - Use for binary yes/no choices
+            - Use indeterminate for parent checkboxes with partially selected children
+            - Keep labels concise but descriptive
+            - Checkboxes without labels MUST have accessibilityLabel
+            - Always provide testID for Maestro automation
         `,
       },
     },

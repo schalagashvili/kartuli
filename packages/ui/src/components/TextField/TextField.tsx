@@ -103,7 +103,7 @@ export const TextField = memo(
               <Text
                 style={[
                   styles.label,
-                  disabled && { color: theme.colors.contentDisabled },
+                  disabled && { color: theme.colors.text.disabled },
                   labelStyle,
                 ]}
               >
@@ -114,8 +114,8 @@ export const TextField = memo(
               <Text
                 style={[
                   styles.characterCount,
-                  logic.isOverLimit && { color: theme.colors.danger },
-                  disabled && { color: theme.colors.contentDisabled },
+                  logic.isOverLimit && { color: theme.colors.status.error },
+                  disabled && { color: theme.colors.text.disabled },
                 ]}
               >
                 {logic.safeValue.length}/{maxLength}
@@ -158,8 +158,8 @@ export const TextField = memo(
               onFocus={anim.handleFocus}
               onBlur={anim.handleBlur}
               style={[styles.input, { color: colors.textColor }, inputStyle]}
-              cursorColor={theme.colors.borderFocus}
-              selectionColor={theme.colors.borderFocus}
+              cursorColor={theme.colors.border.focus}
+              selectionColor={theme.colors.border.focus}
               accessible
               accessibilityLabel={props.accessibilityLabel || label}
               accessibilityHint={props.accessibilityHint}

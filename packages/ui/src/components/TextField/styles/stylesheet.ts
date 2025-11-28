@@ -10,23 +10,21 @@ import {
 
 export const styles = StyleSheet.create((theme) => ({
   root: {
-    width: theme.size.full,
+    width: '100%',
   },
 
   labelRow: {
-    flexDirection: theme.flex.direction.row,
-    justifyContent: theme.flex.justify.between,
-    alignItems: theme.flex.alignItems.center,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: LABEL_INPUT_GAP,
     gap: LABEL_ROW_GAP,
   },
 
   label: {
-    fontFamily: theme.fontFamilies.sans,
-    fontWeight: theme.fontWeights.medium,
-    color: theme.colors.contentPrimary,
-    flexShrink: theme.flex.shrink.initial,
-
+    fontWeight: theme.primitives.typography.fontWeights.medium,
+    color: theme.colors.text.primary,
+    flexShrink: 1,
     variants: {
       size: {
         small: {
@@ -46,11 +44,9 @@ export const styles = StyleSheet.create((theme) => ({
   },
 
   characterCount: {
-    fontFamily: theme.fontFamilies.sans,
-    fontWeight: theme.fontWeights.medium,
-    color: theme.colors.contentTertiary,
-    flexShrink: theme.flex.shrink.none,
-
+    fontWeight: theme.primitives.typography.fontWeights.regular,
+    color: theme.colors.text.tertiary,
+    flexShrink: 0,
     variants: {
       size: {
         small: {
@@ -68,19 +64,18 @@ export const styles = StyleSheet.create((theme) => ({
       },
       overLimit: {
         true: {
-          color: theme.colors.danger,
+          color: theme.colors.status.error,
         },
       },
     },
   },
 
   inputContainer: {
-    flexDirection: theme.flex.direction.row,
-    alignItems: theme.flex.alignItems.center,
-    borderRadius: theme.radius.lg,
-    borderWidth: theme.borderWidths.medium,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: theme.primitives.radius.lg,
+    borderWidth: TEXTFIELD_DIMENSIONS.medium.borderWidth,
     overflow: 'hidden',
-
     variants: {
       size: {
         small: {
@@ -104,13 +99,11 @@ export const styles = StyleSheet.create((theme) => ({
       },
     },
   },
-
   input: {
-    flex: theme.flex.flex.fill,
-    alignSelf: theme.flex.alignSelf.center,
-    fontFamily: theme.fontFamilies.sans,
-    fontWeight: theme.fontWeights.medium,
-    color: theme.colors.contentPrimary,
+    flex: 1,
+    alignSelf: 'center',
+
+    color: theme.colors.text.primary,
 
     variants: {
       size: {
@@ -128,57 +121,57 @@ export const styles = StyleSheet.create((theme) => ({
   },
 
   enhancer: {
-    justifyContent: theme.flex.justify.center,
-    alignItems: theme.flex.alignItems.center,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   enhancerLabel: {
-    fontFamily: theme.fontFamilies.sans,
-    fontWeight: theme.fontWeights.medium,
-    fontSize: theme.fontSizes.sm,
+    fontWeight: theme.primitives.typography.fontWeights.regular,
+    fontSize: theme.primitives.typography.fontSizes.md,
   },
 
   artworkLabelRow: {
-    flexDirection: theme.flex.direction.row,
-    alignItems: theme.flex.alignItems.center,
-    gap: theme.spacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
 
   trailingActions: {
-    flexDirection: theme.flex.direction.row,
-    alignItems: theme.flex.alignItems.center,
-    gap: theme.spacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
 
   hintRow: {
-    flexDirection: theme.flex.direction.row,
-    alignItems: theme.flex.alignItems.start,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
     marginTop: INPUT_HINT_GAP,
     gap: HINT_ICON_GAP,
-    minHeight: theme.lineHeights.sm,
+    minHeight: 20,
   },
 
   hint: {
-    fontFamily: theme.fontFamilies.sans,
-    fontWeight: theme.fontWeights.medium,
-    fontSize: theme.fontSizes.xs,
-    lineHeight: theme.lineHeights.xs,
-    color: theme.colors.contentTertiary,
-    flex: theme.flex.flex.fill,
-
+    fontWeight: theme.primitives.typography.fontWeights.regular,
+    fontSize: theme.primitives.typography.fontSizes.sm,
+    lineHeight: 16,
+    color: theme.colors.text.tertiary,
+    flex: 1,
     variants: {
       hintState: {
         default: {
-          color: theme.colors.contentTertiary,
+          color: theme.colors.text.tertiary,
         },
         error: {
-          color: theme.colors.danger,
+          color: theme.colors.status.error,
         },
         success: {
-          color: theme.colors.success,
+          color: theme.colors.status.success,
         },
       },
     },
   },
-  hidden: { opacity: theme.opacity.transparent },
+
+  hidden: {
+    opacity: theme.primitives.opacity.transparent,
+  },
 }));

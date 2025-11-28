@@ -61,8 +61,11 @@ export const BUTTON_RADIUS = {
   circle: radius.full,
 } as const;
 
+// Keep pill buttons from collapsing into circles; adds 12px per side (24px total) per design spec.
+const PILL_MIN_WIDTH_OFFSET = 24;
+
 export const getPillMinWidth = (height: number): number =>
-  height + spacing['2xl'];
+  height + PILL_MIN_WIDTH_OFFSET;
 
 export const ICON_SIZES: Record<ButtonSize, number> = {
   small: BUTTON_DIMENSIONS.small.iconSize,

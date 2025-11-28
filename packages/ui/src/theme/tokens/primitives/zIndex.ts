@@ -1,13 +1,12 @@
 export const zIndex = {
   hide: -1,
   base: 0,
-  raised: 10,
+  raised: 1,
   sticky: 100,
-  drawer: 200,
-  sheet: 300,
-  modal: 400,
-  popover: 500,
-  toast: 600,
+  overlay: 200,
+  modal: 300,
+  popover: 400,
+  toast: 500,
   max: 9999,
 } as const;
 

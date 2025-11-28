@@ -4,15 +4,15 @@ import { BUTTON_DIMENSIONS, BUTTON_RADIUS, getPillMinWidth } from './constants';
 
 export const styles = StyleSheet.create((theme) => ({
   container: {
-    flexDirection: theme.flex.direction.row,
-    alignItems: theme.flex.alignItems.center,
-    justifyContent: theme.flex.justify.center,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     overflow: 'hidden',
     variants: {
       hierarchy: {
-        primary: { backgroundColor: theme.colors.primary },
-        secondary: { backgroundColor: theme.colors.backgroundSecondary },
-        tertiary: { backgroundColor: theme.colors.transparent },
+        primary: { backgroundColor: theme.colors.interactive.primary },
+        secondary: { backgroundColor: theme.colors.background.secondary },
+        tertiary: { backgroundColor: 'transparent' },
       },
       size: {
         small: {
@@ -35,8 +35,8 @@ export const styles = StyleSheet.create((theme) => ({
         square: { borderRadius: BUTTON_RADIUS.square },
       },
       widthMode: {
-        fixed: { width: theme.size.full },
-        intrinsic: { alignSelf: theme.flex.alignSelf.start },
+        fixed: { width: '100%' },
+        intrinsic: { alignSelf: 'flex-start' },
       },
       disabled: {
         true: {},
@@ -91,7 +91,7 @@ export const styles = StyleSheet.create((theme) => ({
           width: BUTTON_DIMENSIONS.small.height,
           height: BUTTON_DIMENSIONS.small.height,
           borderRadius: BUTTON_DIMENSIONS.small.height / 2,
-          paddingHorizontal: theme.spacing.none,
+          paddingHorizontal: 0,
         },
       },
       {
@@ -101,7 +101,7 @@ export const styles = StyleSheet.create((theme) => ({
           width: BUTTON_DIMENSIONS.medium.height,
           height: BUTTON_DIMENSIONS.medium.height,
           borderRadius: BUTTON_DIMENSIONS.medium.height / 2,
-          paddingHorizontal: theme.spacing.none,
+          paddingHorizontal: 0,
         },
       },
       {
@@ -111,7 +111,7 @@ export const styles = StyleSheet.create((theme) => ({
           width: BUTTON_DIMENSIONS.large.height,
           height: BUTTON_DIMENSIONS.large.height,
           borderRadius: BUTTON_DIMENSIONS.large.height / 2,
-          paddingHorizontal: theme.spacing.none,
+          paddingHorizontal: 0,
         },
       },
       {
@@ -120,7 +120,7 @@ export const styles = StyleSheet.create((theme) => ({
         styles: {
           width: BUTTON_DIMENSIONS.small.height,
           height: BUTTON_DIMENSIONS.small.height,
-          paddingHorizontal: theme.spacing.none,
+          paddingHorizontal: 0,
         },
       },
       {
@@ -129,7 +129,7 @@ export const styles = StyleSheet.create((theme) => ({
         styles: {
           width: BUTTON_DIMENSIONS.medium.height,
           height: BUTTON_DIMENSIONS.medium.height,
-          paddingHorizontal: theme.spacing.none,
+          paddingHorizontal: 0,
         },
       },
       {
@@ -138,34 +138,34 @@ export const styles = StyleSheet.create((theme) => ({
         styles: {
           width: BUTTON_DIMENSIONS.large.height,
           height: BUTTON_DIMENSIONS.large.height,
-          paddingHorizontal: theme.spacing.none,
+          paddingHorizontal: 0,
         },
       },
       {
         hierarchy: 'primary',
         tone: 'negative',
         styles: {
-          backgroundColor: theme.colors.danger,
+          backgroundColor: theme.colors.status.error,
         },
       },
       {
         hierarchy: 'secondary',
         tone: 'negative',
         styles: {
-          backgroundColor: theme.colors.backgroundSecondary,
+          backgroundColor: theme.colors.background.secondary,
         },
       },
       {
         hierarchy: 'secondary',
         active: true,
         styles: {
-          backgroundColor: theme.colors.primary,
+          backgroundColor: theme.colors.interactive.primary,
         },
       },
       {
         disabled: true,
         styles: {
-          backgroundColor: theme.colors.disabled,
+          backgroundColor: theme.colors.interactive.secondary,
         },
       },
       {
@@ -182,11 +182,11 @@ export const styles = StyleSheet.create((theme) => ({
     variants: {
       widthMode: {
         fixed: {
-          width: theme.size.full,
-          alignSelf: theme.flex.alignSelf.stretch,
+          width: '100%',
+          alignSelf: 'stretch',
         },
         intrinsic: {
-          alignSelf: theme.flex.alignSelf.center,
+          alignSelf: 'center',
         },
       },
     },
@@ -197,74 +197,74 @@ export const styles = StyleSheet.create((theme) => ({
     variants: {
       hierarchy: {
         primary: {
-          backgroundColor: `rgba(255, 255, 255, ${theme.opacity.muted})`,
+          backgroundColor: theme.colors.palette.blackAlpha20,
         },
         secondary: {
-          backgroundColor: `rgba(0, 0, 0, ${theme.opacity.light})`,
+          backgroundColor: theme.colors.palette.blackAlpha10,
         },
         tertiary: {
-          backgroundColor: `rgba(0, 0, 0, ${theme.opacity.light})`,
+          backgroundColor: theme.colors.palette.blackAlpha10,
         },
       },
     },
   },
 
   content: {
-    flexDirection: theme.flex.direction.row,
-    alignItems: theme.flex.alignItems.center,
-    justifyContent: theme.flex.justify.center,
-    gap: theme.spacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: theme.spacing.gap.sm,
     variants: {
       loading: {
         true: {
-          opacity: theme.opacity.transparent,
+          opacity: 0,
         },
         false: {
-          opacity: theme.opacity.opaque,
+          opacity: 1,
         },
       },
     },
   },
   contentHidden: {
-    opacity: theme.opacity.transparent,
+    opacity: 0,
   },
 
   contentFixed: {
-    flexDirection: theme.flex.direction.row,
-    alignItems: theme.flex.alignItems.center,
-    justifyContent: theme.flex.justify.between,
-    width: theme.size.full,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
   },
 
   contentFixedCenter: {
-    flexDirection: theme.flex.direction.row,
-    alignItems: theme.flex.alignItems.center,
-    justifyContent: theme.flex.justify.center,
-    flex: theme.flex.flex.fill,
-    gap: theme.spacing.sm,
-    paddingRight: theme.spacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    gap: theme.spacing.gap.sm,
+    paddingRight: theme.spacing.inset.sm,
   },
 
   trailingIconFixed: {
-    flexShrink: theme.flex.shrink.none,
+    flexShrink: 0,
   },
 
   label: {
-    fontFamily: theme.fontFamilies.sans,
-    fontWeight: theme.fontWeights.semibold,
+    ...theme.typography.label.medium,
+    fontWeight: theme.typography.label.medium.fontWeight,
     textAlign: 'center',
-    flexShrink: theme.flex.shrink.initial,
+    flexShrink: 1,
 
     variants: {
       hierarchy: {
         primary: {
-          color: theme.colors.contentInversePrimary,
+          color: theme.colors.text.inverse,
         },
         secondary: {
-          color: theme.colors.contentPrimary,
+          color: theme.colors.text.primary,
         },
         tertiary: {
-          color: theme.colors.contentPrimary,
+          color: theme.colors.text.primary,
         },
       },
       size: {
@@ -300,34 +300,34 @@ export const styles = StyleSheet.create((theme) => ({
         hierarchy: 'primary',
         tone: 'negative',
         styles: {
-          color: theme.colors.contentInversePrimary,
+          color: theme.colors.text.inverse,
         },
       },
       {
         hierarchy: 'secondary',
         tone: 'negative',
         styles: {
-          color: theme.colors.danger,
+          color: theme.colors.status.error,
         },
       },
       {
         hierarchy: 'tertiary',
         tone: 'negative',
         styles: {
-          color: theme.colors.danger,
+          color: theme.colors.status.error,
         },
       },
       {
         hierarchy: 'secondary',
         active: true,
         styles: {
-          color: theme.colors.contentInversePrimary,
+          color: theme.colors.text.inverse,
         },
       },
       {
         disabled: true,
         styles: {
-          color: theme.colors.contentDisabled,
+          color: theme.colors.text.disabled,
         },
       },
     ],
@@ -335,7 +335,7 @@ export const styles = StyleSheet.create((theme) => ({
 
   loadingOverlay: {
     ...StyleSheet.absoluteFillObject,
-    alignItems: theme.flex.alignItems.center,
-    justifyContent: theme.flex.justify.center,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 }));

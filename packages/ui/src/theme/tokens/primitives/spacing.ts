@@ -1,18 +1,16 @@
-import { createSpacing } from './utils';
-
 export const spacing = {
   none: 0,
-  xxs: 2,
-  xs: createSpacing(1),
-  sm: createSpacing(2),
-  md: createSpacing(3),
-  lg: createSpacing(4),
-  xl: createSpacing(5),
-  '2xl': createSpacing(6),
-  '3xl': createSpacing(8),
-  '4xl': createSpacing(10),
-  '5xl': createSpacing(12),
-  '6xl': createSpacing(16),
+  xxs: 2, // ✅ Restored
+  xs: 4,
+  sm: 8,
+  md: 12,
+  lg: 16,
+  xl: 20,
+  '2xl': 24,
+  '3xl': 32,
+  '4xl': 40,
+  '5xl': 48,
+  '6xl': 64, // ✅ Restored
 } as const;
 
 export type Spacing = typeof spacing;

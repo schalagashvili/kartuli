@@ -24,39 +24,39 @@ export const useTextFieldColors = ({
 
   return useMemo(() => {
     let borderUnfocused = 'transparent';
-    let borderFocused = theme.colors.borderFocus;
+    let borderFocused: string = theme.colors.border.focus;
 
     if (hasError) {
-      borderUnfocused = theme.colors.borderError;
-      borderFocused = theme.colors.borderError;
+      borderUnfocused = theme.colors.status.error;
+      borderFocused = theme.colors.status.error;
     } else if (hasSuccess) {
-      borderUnfocused = theme.colors.success;
-      borderFocused = theme.colors.success;
+      borderUnfocused = theme.colors.status.success;
+      borderFocused = theme.colors.status.success;
     } else if (readOnly) {
-      borderUnfocused = theme.colors.border;
-      borderFocused = theme.colors.border;
+      borderUnfocused = theme.colors.border.default;
+      borderFocused = theme.colors.border.default;
     }
 
     const bgUnfocused = disabled
-      ? theme.colors.disabled
-      : theme.colors.inputBackground;
+      ? theme.colors.interactive.secondary
+      : theme.colors.background.tertiary;
     const bgFocused = disabled
-      ? theme.colors.disabled
-      : theme.colors.background;
+      ? theme.colors.interactive.secondary
+      : theme.colors.background.primary;
 
     const iconColor = disabled
-      ? theme.colors.contentDisabled
-      : theme.colors.contentPrimary;
+      ? theme.colors.text.disabled
+      : theme.colors.text.primary;
     const textColor = disabled
-      ? theme.colors.contentDisabled
-      : theme.colors.contentPrimary;
-    const placeholderColor = theme.colors.contentTertiary;
+      ? theme.colors.text.disabled
+      : theme.colors.text.primary;
+    const placeholderColor = theme.colors.text.secondary;
 
     const hintColor = hasError
-      ? theme.colors.danger
+      ? theme.colors.status.error
       : hasSuccess
-        ? theme.colors.success
-        : theme.colors.contentTertiary;
+        ? theme.colors.status.success
+        : theme.colors.text.tertiary;
 
     return {
       bgUnfocused,

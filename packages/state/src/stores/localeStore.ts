@@ -1,59 +1,52 @@
-import type { MMKV } from 'react-native-mmkv';
+import { MMKV } from 'react-native-mmkv';
 import { create } from 'zustand';
-import type { StateStorage } from 'zustand/middleware';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import {
+  type StateStorage,
+  createJSONStorage,
+  persist,
+} from 'zustand/middleware';
 
-import { SUPPORTED_LOCALES, SupportedLocale, i18n } from '@kartuli/core';
+import { SUPPORTED_LOCALES, type SupportedLocale, i18n } from '@kartuli/core';
 
-const getStorage = (() => {
-  let instance: MMKV | undefined;
-  return (): MMKV => {
-    if (!instance) {
-      const { createMMKV } = require('react-native-mmkv');
-      instance = createMMKV({ id: 'locale-storage' });
+let storageInstance: MMKV | undefined;
+
+const getStorage = (): MMKV => {
+  if (!storageInstance) {
+    const { MMKV } = require('react-native-mmkv');
+    storageInstance = new MMKV({ id: 'locale-storage' });
+  }
+  return storageInstance!;
+};
+
+const localeStorageAdapter: StateStorage = {
+  getItem: (key) => {
+    try {
+      const value = getStorage().getString(key);
+      return value ?? null;
+    } catch (error) {
+      console.error('[LocaleStore] Failed to get locale:', error);
+      return null;
     }
-    return instance as MMKV;
-  };
-})();
-
-const createStateStorage = (): StateStorage => {
-  return {
-    getItem: (key) => {
-      try {
-        const value = getStorage().getString(key);
-        return value ?? null;
-      } catch (error) {
-        console.error(
-          '[LocaleStore] Failed to get locale from storage:',
-          error
-        );
-        return null;
-      }
-    },
-    setItem: (key, value) => {
-      try {
-        getStorage().set(key, value);
-      } catch (error) {
-        console.error('[LocaleStore] Failed to save locale to storage:', error);
-      }
-    },
-    removeItem: (key) => {
-      try {
-        getStorage().remove(key);
-      } catch (error) {
-        console.error(
-          '[LocaleStore] Failed to remove locale from storage:',
-          error
-        );
-      }
-    },
-  };
+  },
+  setItem: (key, value) => {
+    try {
+      getStorage().set(key, value);
+    } catch (error) {
+      console.error('[LocaleStore] Failed to set locale:', error);
+    }
+  },
+  removeItem: (key) => {
+    try {
+      getStorage().remove(key);
+    } catch (error) {
+      console.error('[LocaleStore] Failed to delete locale:', error);
+    }
+  },
 };
 
 interface LocaleState {
   locale: SupportedLocale;
   isHydrated: boolean;
-  hasPersistedValue: boolean;
   setLocale: (locale: SupportedLocale) => void;
 }
 
@@ -62,59 +55,32 @@ export const useLocaleStore = create<LocaleState>()(
     (set) => ({
       locale: 'en',
       isHydrated: false,
-      hasPersistedValue: false,
 
       setLocale: (locale) => {
         if (!SUPPORTED_LOCALES.includes(locale)) {
-          console.warn(
-            `[LocaleStore] Invalid locale: ${locale}. Falling back to 'en'`
-          );
+          console.warn(`[LocaleStore] Unsupported locale: ${locale}`);
           return;
         }
-
-        set({ locale, hasPersistedValue: true });
         i18n.locale = locale;
+        set({ locale });
       },
     }),
     {
       name: 'locale-storage',
-      storage: createJSONStorage(createStateStorage),
-      onRehydrateStorage: () => (state, error) => {
-        if (error) {
-          console.error(
-            '[LocaleStore] Failed to rehydrate locale store:',
-            error
-          );
-          useLocaleStore.setState({
-            isHydrated: true,
-            hasPersistedValue: false,
-          });
-          return;
-        }
-
+      storage: createJSONStorage(() => localeStorageAdapter),
+      onRehydrateStorage: () => (state) => {
         if (!state) {
-          useLocaleStore.setState({
-            isHydrated: true,
-            hasPersistedValue: false,
-          });
           return;
         }
 
-        if (state.locale) {
-          if (SUPPORTED_LOCALES.includes(state.locale)) {
-            i18n.locale = state.locale;
-            if (state.hasPersistedValue === undefined) {
-              state.hasPersistedValue = true;
-            }
-          } else {
-            console.warn(
-              `[LocaleStore] Invalid stored locale: ${state.locale}. Resetting to 'en'.`
-            );
-            state.locale = 'en';
-            i18n.locale = 'en';
-            state.hasPersistedValue = false;
-          }
+        if (state.locale && !SUPPORTED_LOCALES.includes(state.locale)) {
+          console.warn(
+            `[LocaleStore] Invalid stored locale: ${state.locale}. Resetting.`
+          );
+          state.locale = 'en';
         }
+
+        i18n.locale = state.locale;
 
         state.isHydrated = true;
       },
@@ -123,6 +89,9 @@ export const useLocaleStore = create<LocaleState>()(
 );
 
 export function setInitialDeviceLocale(locale: SupportedLocale) {
-  useLocaleStore.setState({ locale });
-  i18n.locale = locale;
+  const current = useLocaleStore.getState();
+  if (!current.isHydrated) {
+    useLocaleStore.setState({ locale });
+    i18n.locale = locale;
+  }
 }

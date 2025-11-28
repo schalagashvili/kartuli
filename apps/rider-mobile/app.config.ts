@@ -92,7 +92,7 @@ export default ({ config }: ConfigContext): ExpoConfig =>
       extra: {
         router: {},
         eas: {
-          projectId: '7b9fe3fe-5a22-434d-af67-00c4309e0fc8',
+          projectId: process.env.EXPO_PROJECT_ID,
         },
       },
       owner: 'schalagashvili2',

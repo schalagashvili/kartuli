@@ -1,74 +1,64 @@
-import { borderWidths } from '../primitives/borders';
-import { spacing as primitiveSpacing } from '../primitives/spacing';
+import { spacing as primitive } from '../primitives/spacing';
 
 export const semanticSpacing = {
-  screen: {
-    horizontal: primitiveSpacing.lg,
-    top: primitiveSpacing.lg,
-    bottom: primitiveSpacing['2xl'],
+  // Padding inside a container
+  inset: {
+    none: primitive.none, // 0
+    xxs: primitive.xxs, // 2
+    xs: primitive.xs, // 4
+    sm: primitive.sm, // 8
+    md: primitive.md, // 12
+    lg: primitive.lg, // 16
+    xl: primitive.xl, // 20
+    '2xl': primitive['2xl'], // 24 (Parity with stack)
   },
-  gap: {
-    xs: primitiveSpacing.xs,
-    sm: primitiveSpacing.sm,
-    md: primitiveSpacing.md,
-    lg: primitiveSpacing.lg,
-    xl: primitiveSpacing['2xl'],
-  },
-  component: {
-    xs: primitiveSpacing.sm,
-    sm: primitiveSpacing.md,
-    md: primitiveSpacing.lg,
-    lg: primitiveSpacing.xl,
-    xl: primitiveSpacing['2xl'],
-  },
+
+  // Vertical spacing between elements (Shifted scale)
   stack: {
-    xxs: primitiveSpacing.xs,
-    xs: primitiveSpacing.sm,
-    sm: primitiveSpacing.md,
-    md: primitiveSpacing.lg,
-    lg: primitiveSpacing['2xl'],
-    xl: primitiveSpacing['3xl'],
-    '2xl': primitiveSpacing['5xl'],
+    none: primitive.none, // 0
+    xxs: primitive.xs, // 4
+    xs: primitive.sm, // 8
+    sm: primitive.md, // 12
+    md: primitive.lg, // 16
+    lg: primitive['2xl'], // 24
+    xl: primitive['3xl'], // 32
+    '2xl': primitive['5xl'], // 48
   },
+
+  // Horizontal spacing between elements (Shifted scale)
   inline: {
-    xxs: primitiveSpacing.xs,
-    xs: primitiveSpacing.sm,
-    sm: primitiveSpacing.md,
-    md: primitiveSpacing.lg,
+    none: primitive.none, // 0
+    xxs: primitive.xs, // 4
+    xs: primitive.sm, // 8
+    sm: primitive.md, // 12
+    md: primitive.lg, // 16
+    lg: primitive.xl, // 20 (Completeness)
+    xl: primitive['2xl'], // 24 (Completeness)
   },
-  card: {
-    padding: primitiveSpacing.lg,
-    contentGap: primitiveSpacing.md,
-    listGap: primitiveSpacing.md,
+
+  // Flex gaps (Unshifted scale for grouping)
+  gap: {
+    none: primitive.none, // 0
+    xxs: primitive.xxs, // 2 (Consistency)
+    xs: primitive.xs, // 4
+    sm: primitive.sm, // 8
+    md: primitive.md, // 12
+    lg: primitive.lg, // 16
+    xl: primitive['2xl'], // 24
   },
-  input: {
-    paddingX: primitiveSpacing.md,
-    paddingY: primitiveSpacing.md,
-    labelGap: primitiveSpacing.sm,
-    helperGap: primitiveSpacing.xs,
+
+  // Screen boundaries
+  screen: {
+    horizontal: primitive.lg, // 16
+    top: primitive.lg, // 16
+    bottom: primitive['2xl'], // 24
   },
-  button: {
-    iconGap: primitiveSpacing.sm,
-    paddingXSm: primitiveSpacing.md,
-    paddingXMd: primitiveSpacing.lg,
-    paddingXLg: primitiveSpacing.xl,
-  },
+
+  // Pattern: Lists
   list: {
-    itemGap: primitiveSpacing.sm,
-    sectionGap: primitiveSpacing['2xl'],
-    separatorInset: primitiveSpacing.lg,
-  },
-  modal: {
-    padding: primitiveSpacing['2xl'],
-    sectionGap: primitiveSpacing.lg,
-    headerMargin: primitiveSpacing.lg,
-    footerMargin: primitiveSpacing['2xl'],
-  },
-  divider: {
-    vertical: primitiveSpacing['3xl'],
-    horizontal: primitiveSpacing.lg,
-    inset: primitiveSpacing.md,
-    thickness: borderWidths.thin,
+    itemGap: primitive.sm, // 8
+    sectionGap: primitive['2xl'], // 24
+    separatorInset: primitive.lg, // 16
   },
 } as const;
 

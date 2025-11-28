@@ -19,7 +19,7 @@ interface ScreenProps {
 export function Screen({
   children,
   style,
-  backgroundColor = lightTheme.colors.background,
+  backgroundColor = lightTheme.colors.background.primary,
 }: ScreenProps) {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor }, style]}>

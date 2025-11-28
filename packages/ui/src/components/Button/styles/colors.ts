@@ -1,29 +1,29 @@
-import type { AppTheme } from '../../../theme/themes/light';
+import type { Theme } from '../../../theme';
 import type { ButtonHierarchy, ButtonTone } from '../Button.types';
 
 export const getForegroundColor = (
   hierarchy: ButtonHierarchy,
   active: boolean,
   disabled: boolean,
-  theme: AppTheme,
+  theme: Theme,
   tone?: ButtonTone
 ): string => {
   if (disabled) {
-    return theme.colors.disabled;
+    return theme.colors.text.disabled;
   }
 
   if (hierarchy === 'secondary' && active) {
-    return theme.colors.contentInversePrimary;
+    return theme.colors.text.inverse;
   }
 
   if (tone === 'negative' && hierarchy !== 'primary') {
-    return theme.colors.danger;
+    return theme.colors.status.error;
   }
 
   const colorMap: Record<ButtonHierarchy, string> = {
-    primary: theme.colors.contentInversePrimary,
-    secondary: theme.colors.contentPrimary,
-    tertiary: theme.colors.contentPrimary,
+    primary: theme.colors.text.inverse,
+    secondary: theme.colors.text.primary,
+    tertiary: theme.colors.text.primary,
   };
 
   return colorMap[hierarchy];

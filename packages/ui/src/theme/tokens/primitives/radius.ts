@@ -1,13 +1,10 @@
-import { createSpacing } from './utils';
-
 export const radius = {
   none: 0,
-  sm: createSpacing(1),
-  md: createSpacing(2),
-  lg: createSpacing(3),
-  xl: createSpacing(4),
-  '2xl': createSpacing(6),
-  '3xl': createSpacing(8),
+  sm: 4,
+  md: 8,
+  lg: 12,
+  xl: 16,
+  '2xl': 24,
   full: 9999,
 } as const;
 

@@ -1,107 +1,55 @@
+import { durations, easings } from '../tokens/primitives/animation';
+import { borderWidths } from '../tokens/primitives/borders';
 import { palette } from '../tokens/primitives/colors';
-import { type AppTheme, sharedTokens } from './light';
+import { opacity } from '../tokens/primitives/opacity';
+import { radius } from '../tokens/primitives/radius';
+import { controlHeights, iconSizes } from '../tokens/primitives/sizing';
+import { spacing } from '../tokens/primitives/spacing';
+import {
+  fontSizes,
+  fontWeights,
+  letterSpacing,
+  lineHeights,
+} from '../tokens/primitives/typography';
+import { zIndex } from '../tokens/primitives/zIndex';
+import { createSemanticColors } from '../tokens/semantics/colors';
+import { semanticRadius } from '../tokens/semantics/radius';
+import { semanticShadows } from '../tokens/semantics/shadows';
+import { semanticSizing } from '../tokens/semantics/sizing';
+import { semanticSpacing } from '../tokens/semantics/spacing';
+import { textStyles } from '../tokens/semantics/typography';
+import { semanticZIndex } from '../tokens/semantics/zIndex';
+import type { Theme } from '../types';
 
-export const darkTheme: AppTheme = {
-  ...sharedTokens,
-  colors: {
-    transparent: palette.transparent,
-
-    background: palette.black,
-    backgroundSecondary: palette.gray900,
-    backgroundTertiary: palette.gray800,
-    backgroundInverse: palette.white,
-
-    surfaceModal: palette.gray900,
-
-    inputBackground: palette.gray800,
-    inputPlaceholder: palette.gray500,
-    inputText: palette.white,
-
-    contentPrimary: palette.white,
-    contentSecondary: palette.gray400,
-    contentTertiary: palette.gray500,
-    contentInversePrimary: palette.black,
-    contentDisabled: palette.gray600,
-    contentBrand: palette.blue400,
-
-    borderSubtle: palette.gray900,
-    border: palette.gray800,
-    borderStrong: palette.gray700,
-    borderFocus: palette.blue400,
-    borderError: palette.danger400,
-
-    primary: palette.white,
-    primaryForeground: palette.black,
-    primaryHover: palette.gray200,
-    primaryActive: palette.gray300,
-
-    secondary: palette.gray800,
-    secondaryForeground: palette.white,
-    secondaryHover: palette.gray700,
-    secondaryActive: palette.gray600,
-
-    tertiary: palette.transparent,
-    tertiaryForeground: palette.gray400,
-    tertiaryHover: palette.gray800,
-    tertiaryActive: palette.gray700,
-
-    brand: palette.blue500,
-    brandForeground: palette.white,
-    brandBackground: 'rgba(39, 110, 241, 0.2)',
-
-    link: palette.blue400,
-
-    disabled: palette.gray800,
-    disabledForeground: palette.gray600,
-
-    rating: palette.rating,
-
-    success: palette.success400,
-    successBackground: 'rgba(5, 163, 87, 0.2)',
-    successForeground: palette.success200,
-
-    warning: palette.warning400,
-    warningBackground: 'rgba(255, 192, 67, 0.2)',
-    warningForeground: palette.warning200,
-
-    danger: palette.danger400,
-    dangerBackground: 'rgba(225, 25, 0, 0.2)',
-    dangerForeground: palette.danger200,
-
-    overlayLight: palette.whiteAlpha10,
-    overlay: palette.blackAlpha70,
-    overlayHeavy: 'rgba(0, 0, 0, 0.9)',
-    overlayMuted: palette.whiteAlpha20,
-  },
-
-  shadows: {
-    sm: {
-      shadowColor: palette.black,
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.5,
-      shadowRadius: 2,
-      elevation: 2,
+export const darkTheme: Theme = {
+  mode: 'dark',
+  primitives: {
+    colors: palette,
+    spacing,
+    radius,
+    borderWidths,
+    opacity,
+    zIndex,
+    sizing: {
+      controlHeights,
+      iconSizes,
     },
-    md: {
-      shadowColor: palette.black,
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.6,
-      shadowRadius: 8,
-      elevation: 5,
+    animation: {
+      durations,
+      easings,
     },
-    lg: {
-      shadowColor: palette.black,
-      shadowOffset: { width: 0, height: 8 },
-      shadowOpacity: 0.8,
-      shadowRadius: 16,
-      elevation: 10,
-    },
-    xl: {
-      shadowColor: palette.black,
-      shadowOffset: { width: 0, height: 12 },
-      shadowOpacity: 0.9,
-      shadowRadius: 24,
-      elevation: 16,
+    typography: {
+      fontSizes,
+      lineHeights,
+      fontWeights,
+      letterSpacing,
     },
   },
+  colors: createSemanticColors('dark'),
+  spacing: semanticSpacing,
+  radius: semanticRadius,
+  shadows: semanticShadows,
+  sizing: semanticSizing,
+  typography: textStyles,
+  zIndex: semanticZIndex,
 };

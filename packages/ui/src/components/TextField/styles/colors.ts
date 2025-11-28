@@ -1,4 +1,4 @@
-import type { AppTheme } from '@/theme';
+import type { Theme } from '@/theme';
 
 import type { TextFieldVisualState } from '../TextField.types';
 
@@ -19,63 +19,64 @@ export function getTextFieldColors(
   state: TextFieldVisualState,
   hasError: boolean,
   hasSuccess: boolean,
-  theme: AppTheme
+  theme: Theme
 ): TextFieldColors {
   const base: TextFieldColors = {
-    containerBackground: theme.colors.backgroundTertiary,
+    containerBackground: theme.colors.background.tertiary,
     containerBorder: 'transparent',
-    inputText: theme.colors.contentPrimary,
-    placeholder: theme.colors.contentSecondary,
-    label: theme.colors.contentPrimary,
-    hint: theme.colors.contentTertiary,
-    characterCount: theme.colors.contentTertiary,
-    enhancerIcon: theme.colors.contentPrimary,
-    enhancerLabel: theme.colors.contentPrimary,
-    actionIcon: theme.colors.contentPrimary,
+    inputText: theme.colors.text.primary,
+    placeholder: theme.colors.text.secondary,
+    label: theme.colors.text.primary,
+    hint: theme.colors.text.tertiary,
+    characterCount: theme.colors.text.tertiary,
+    enhancerIcon: theme.colors.text.primary,
+    enhancerLabel: theme.colors.text.primary,
+    actionIcon: theme.colors.text.primary,
   };
 
   switch (state) {
     case 'focused':
       return {
         ...base,
-        containerBackground: theme.colors.background,
-        containerBorder: theme.colors.borderFocus,
+        containerBackground: theme.colors.background.primary,
+        containerBorder: theme.colors.border.focus,
       };
 
     case 'error':
       return {
         ...base,
-        containerBackground: theme.colors.background,
-        containerBorder: theme.colors.borderError,
-        hint: theme.colors.danger,
+        containerBackground: theme.colors.background.primary,
+        containerBorder: theme.colors.status.error,
+        hint: theme.colors.status.error,
       };
 
     case 'success':
       return {
         ...base,
-        containerBackground: theme.colors.background,
-        containerBorder: theme.colors.success,
-        hint: theme.colors.success,
+        containerBackground: theme.colors.background.primary,
+        containerBorder: theme.colors.status.success,
+        hint: theme.colors.status.success,
       };
 
     case 'disabled':
       return {
         ...base,
-        containerBackground: theme.colors.disabled,
-        inputText: theme.colors.contentDisabled,
-        placeholder: theme.colors.contentDisabled,
-        label: theme.colors.contentDisabled,
-        hint: theme.colors.contentDisabled,
-        characterCount: theme.colors.contentDisabled,
-        enhancerIcon: theme.colors.contentDisabled,
-        enhancerLabel: theme.colors.contentDisabled,
-        actionIcon: theme.colors.contentDisabled,
+        containerBackground: theme.colors.interactive.secondary,
+        containerBorder: 'transparent',
+        inputText: theme.colors.text.disabled,
+        placeholder: theme.colors.text.disabled,
+        label: theme.colors.text.disabled,
+        hint: theme.colors.text.disabled,
+        characterCount: theme.colors.text.disabled,
+        enhancerIcon: theme.colors.text.disabled,
+        enhancerLabel: theme.colors.text.disabled,
+        actionIcon: theme.colors.text.disabled,
       };
 
     case 'readOnly':
       return {
         ...base,
-        containerBorder: theme.colors.border,
+        containerBorder: theme.colors.border.default,
       };
 
     case 'loading':
@@ -91,20 +92,20 @@ export function getTextFieldColors(
 
 export function getValidationIconColor(
   validationState: 'complete' | 'incomplete',
-  theme: AppTheme
+  theme: Theme
 ): string {
   return validationState === 'complete'
-    ? theme.colors.success
-    : theme.colors.danger;
+    ? theme.colors.status.success
+    : theme.colors.status.error;
 }
 
 export function getCharacterCountColor(
   currentLength: number,
   maxLength: number,
   isDisabled: boolean,
-  theme: AppTheme
+  theme: Theme
 ): string {
-  if (isDisabled) return theme.colors.contentDisabled;
-  if (currentLength > maxLength) return theme.colors.danger;
-  return theme.colors.contentTertiary;
+  if (isDisabled) return theme.colors.text.disabled;
+  if (currentLength > maxLength) return theme.colors.status.error;
+  return theme.colors.text.tertiary;
 }

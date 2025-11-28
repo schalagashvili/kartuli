@@ -1,5 +1,5 @@
-import { CHECKBOX_DIMENSIONS } from '../../../components/Checkbox/Checkbox.types';
 import { createHitSlop } from '../../../utils';
+import { CHECKBOX_DIMENSIONS } from '../Checkbox.types';
 
 export const getHitSlop = (size: keyof typeof CHECKBOX_DIMENSIONS) =>
   createHitSlop(CHECKBOX_DIMENSIONS[size].hitSlop);

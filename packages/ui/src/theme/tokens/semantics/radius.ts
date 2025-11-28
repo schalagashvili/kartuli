@@ -1,24 +1,13 @@
-import { radius as primitiveRadius } from '../primitives/radius';
+import { radius as primitive } from '../primitives/radius';
 
 export const semanticRadius = {
-  none: primitiveRadius.none,
-  button: {
-    pill: primitiveRadius.full,
-    rounded: primitiveRadius.lg,
-    subtle: primitiveRadius.md,
-  },
-  card: {
-    default: primitiveRadius.xl,
-    small: primitiveRadius.lg,
-  },
-  input: primitiveRadius.md,
-  chip: primitiveRadius.full,
-  avatar: primitiveRadius.full,
-  modal: primitiveRadius['2xl'],
-  toast: primitiveRadius.lg,
-  badge: primitiveRadius.full,
-  thumbnail: primitiveRadius.md,
-  marker: primitiveRadius.full,
+  none: primitive.none,
+  sm: primitive.sm,
+  md: primitive.md,
+  lg: primitive.lg,
+  xl: primitive.xl,
+  pill: primitive.full,
+  circle: primitive.full,
 } as const;
 
 export type SemanticRadius = typeof semanticRadius;
