@@ -1,68 +1,19 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-import {
-  BUTTON_DIMENSIONS,
-  BUTTON_RADIUS,
-  getPillMinWidth,
-} from '../Button.types';
-
-// =============================================================================
-// UBER BASE DESIGN SYSTEM - BUTTON STYLES
-// =============================================================================
-// Reference: Uber Base Button Specs (Pages 13-15, 34-35)
-//
-// Key principles:
-// - Overlay logic for states (not opacity)
-// - 8px corner radius for ALL rect buttons
-// - 48px minimum touch target
-// - Pill min-width = height + 24
-//
-// COMPOUND VARIANT ORDER MATTERS:
-// 1. Shape variants (pill, circle, square per size)
-// 2. Tone variants (negative overrides base colors)
-// 3. Active variants (toggle state)
-// 4. Disabled variants (LAST - overrides everything)
-// =============================================================================
-
-// Helper for absolute fill (defined before usage)
-const absoluteFill = {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-} as const;
+import { BUTTON_DIMENSIONS, BUTTON_RADIUS, getPillMinWidth } from './constants';
 
 export const styles = StyleSheet.create((theme) => ({
-  // ===========================================================================
-  // CONTAINER
-  // ===========================================================================
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-
     variants: {
-      // -----------------------------------------------------------------------
-      // HIERARCHY (Primary/Secondary/Tertiary)
-      // Base background colors per hierarchy level
-      // -----------------------------------------------------------------------
       hierarchy: {
-        primary: {
-          backgroundColor: theme.colors.primary,
-        },
-        secondary: {
-          backgroundColor: theme.colors.backgroundSecondary,
-        },
-        tertiary: {
-          backgroundColor: 'transparent',
-        },
+        primary: { backgroundColor: theme.colors.interactive.primary },
+        secondary: { backgroundColor: theme.colors.background.secondary },
+        tertiary: { backgroundColor: 'transparent' },
       },
-
-      // -----------------------------------------------------------------------
-      // SIZE (Small/Medium/Large)
-      // -----------------------------------------------------------------------
       size: {
         small: {
           height: BUTTON_DIMENSIONS.small.height,
@@ -77,93 +28,38 @@ export const styles = StyleSheet.create((theme) => ({
           paddingHorizontal: BUTTON_DIMENSIONS.large.paddingHorizontal,
         },
       },
-
-      // -----------------------------------------------------------------------
-      // SHAPE (Rect/Pill/Circle/Square)
-      // -----------------------------------------------------------------------
       shape: {
-        rect: {
-          borderRadius: BUTTON_RADIUS.rect,
-        },
-        pill: {
-          // Pill radius is dynamic (height / 2), set via compoundVariants
-        },
-        circle: {
-          // Circle is height x height, radius = height / 2
-          // Set dynamically via compoundVariants
-        },
-        square: {
-          borderRadius: BUTTON_RADIUS.square,
-          // Square is height x height
-          // Set dynamically via compoundVariants
-        },
+        rect: { borderRadius: BUTTON_RADIUS.rect },
+        pill: {},
+        circle: {},
+        square: { borderRadius: BUTTON_RADIUS.square },
       },
-
-      // -----------------------------------------------------------------------
-      // WIDTH MODE (Fixed/Intrinsic)
-      // -----------------------------------------------------------------------
       widthMode: {
-        fixed: {
-          width: '100%',
-        },
-        intrinsic: {
-          alignSelf: 'flex-start',
-        },
+        fixed: { width: '100%' },
+        intrinsic: { alignSelf: 'flex-start' },
       },
-
-      // -----------------------------------------------------------------------
-      // DISABLED STATE
-      // Per Uber spec: Use specific disabled tokens, not just opacity
-      // NOTE: This variant is for ACTUAL disabled prop, not loading state
-      // -----------------------------------------------------------------------
       disabled: {
         true: {},
         false: {},
       },
-
-      // -----------------------------------------------------------------------
-      // PRESSED STATE
-      // Handled via overlay, not background change
-      // -----------------------------------------------------------------------
       pressed: {
         true: {},
         false: {},
       },
-
-      // -----------------------------------------------------------------------
-      // ACTIVE STATE (Toggle - Secondary only)
-      // -----------------------------------------------------------------------
       active: {
         true: {},
         false: {},
       },
-
-      // -----------------------------------------------------------------------
-      // TONE (Default/Negative)
-      // -----------------------------------------------------------------------
       tone: {
         default: {},
         negative: {},
       },
-
-      // -----------------------------------------------------------------------
-      // LOADING STATE
-      // Per Uber spec (Page 13): Loading maintains visual styling
-      // -----------------------------------------------------------------------
       loading: {
         true: {},
         false: {},
       },
     },
-
-    // -------------------------------------------------------------------------
-    // COMPOUND VARIANTS
-    // ORDER MATTERS: Later variants override earlier ones
-    // -------------------------------------------------------------------------
     compoundVariants: [
-      // =======================================================================
-      // 1. PILL SHAPE - Dynamic radius and min-width per size
-      // =======================================================================
       {
         shape: 'pill',
         size: 'small',
@@ -188,10 +84,6 @@ export const styles = StyleSheet.create((theme) => ({
           minWidth: getPillMinWidth(BUTTON_DIMENSIONS.large.height),
         },
       },
-
-      // =======================================================================
-      // 2. CIRCLE SHAPE - Height x Height with full radius
-      // =======================================================================
       {
         shape: 'circle',
         size: 'small',
@@ -222,10 +114,6 @@ export const styles = StyleSheet.create((theme) => ({
           paddingHorizontal: 0,
         },
       },
-
-      // =======================================================================
-      // 3. SQUARE SHAPE - Height x Height
-      // =======================================================================
       {
         shape: 'square',
         size: 'small',
@@ -253,53 +141,33 @@ export const styles = StyleSheet.create((theme) => ({
           paddingHorizontal: 0,
         },
       },
-
-      // =======================================================================
-      // 4. NEGATIVE TONE - Override background colors
-      // Per Uber spec (Page 7-8):
-      // - Primary + Negative = RED background (backgroundNegative)
-      // - Secondary + Negative = Keep gray bg, red TEXT (handled in label)
-      // =======================================================================
       {
         hierarchy: 'primary',
         tone: 'negative',
         styles: {
-          backgroundColor: theme.colors.danger,
+          backgroundColor: theme.colors.status.error,
         },
       },
       {
         hierarchy: 'secondary',
         tone: 'negative',
         styles: {
-          backgroundColor: theme.colors.backgroundSecondary,
+          backgroundColor: theme.colors.background.secondary,
         },
       },
-
-      // =======================================================================
-      // 5. ACTIVE STATE (Secondary toggle)
-      // Inverts colors when active/selected
-      // =======================================================================
       {
         hierarchy: 'secondary',
         active: true,
         styles: {
-          backgroundColor: theme.colors.primary,
+          backgroundColor: theme.colors.interactive.primary,
         },
       },
-
-      // =======================================================================
-      // 6. DISABLED STATE - MUST BE LAST
-      // Disabled takes precedence over ALL other visual states
-      // Only applies when disabled=true (not when loading=true)
-      // =======================================================================
       {
         disabled: true,
         styles: {
-          backgroundColor: theme.colors.disabled,
+          backgroundColor: theme.colors.interactive.secondary,
         },
       },
-
-      // Tertiary disabled - keep transparent but with disabled content color
       {
         hierarchy: 'tertiary',
         disabled: true,
@@ -318,51 +186,34 @@ export const styles = StyleSheet.create((theme) => ({
           alignSelf: 'stretch',
         },
         intrinsic: {
-          // ✅ FIX: Explicitly center the button itself
-          // 'auto' can sometimes inherit 'stretch' unexpectedly.
-          // 'center' ensures it sits in the middle of your Root View.
           alignSelf: 'center',
         },
       },
     },
   },
 
-  // ===========================================================================
-  // PRESSED OVERLAY
-  // Uber uses color overlays instead of opacity for pressed states
-  // Primary: +20% white overlay
-  // Secondary/Tertiary: +8% black overlay
-  // ===========================================================================
   pressedOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    ...StyleSheet.absoluteFillObject,
     variants: {
       hierarchy: {
         primary: {
-          backgroundColor: 'rgba(255, 255, 255, 0.20)',
+          backgroundColor: theme.colors.palette.blackAlpha20,
         },
         secondary: {
-          backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          backgroundColor: theme.colors.palette.blackAlpha10,
         },
         tertiary: {
-          backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          backgroundColor: theme.colors.palette.blackAlpha10,
         },
       },
     },
   },
 
-  // ===========================================================================
-  // CONTENT WRAPPER
-  // Contains icons and label
-  // ===========================================================================
   content: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8, // Uber spec: 8px gap consistently
+    gap: theme.spacing.gap.sm,
     variants: {
       loading: {
         true: {
@@ -378,14 +229,10 @@ export const styles = StyleSheet.create((theme) => ({
     opacity: 0,
   },
 
-  // ===========================================================================
-  // FIXED WIDTH LAYOUT
-  // For fixed width: leading icon + label center, trailing pins right
-  // ===========================================================================
   contentFixed: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between', // Pushes center left, trailing right
+    justifyContent: 'space-between',
     width: '100%',
   },
 
@@ -393,45 +240,33 @@ export const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1, // Takes available space, can shrink
-    gap: 8, // Keep your existing gap
-    paddingRight: 8, // Spacing from trailing icon
+    flex: 1,
+    gap: theme.spacing.gap.sm,
+    paddingRight: theme.spacing.inset.sm,
   },
 
   trailingIconFixed: {
-    flexShrink: 0, // Never shrink - icon stays full size
-    // Remove position: 'absolute' and right: 0
+    flexShrink: 0,
   },
 
-  // ===========================================================================
-  // LABEL
-  // ===========================================================================
   label: {
-    fontFamily: theme.fonts.sans,
-    fontWeight: theme.fontWeights.semibold,
+    ...theme.typography.label.medium,
+    fontWeight: theme.typography.label.medium.fontWeight,
     textAlign: 'center',
     flexShrink: 1,
 
     variants: {
-      // -----------------------------------------------------------------------
-      // HIERARCHY COLORS
-      // Base text colors per hierarchy
-      // -----------------------------------------------------------------------
       hierarchy: {
         primary: {
-          color: theme.colors.contentInversePrimary,
+          color: theme.colors.text.inverse,
         },
         secondary: {
-          color: theme.colors.contentPrimary,
+          color: theme.colors.text.primary,
         },
         tertiary: {
-          color: theme.colors.contentPrimary,
+          color: theme.colors.text.primary,
         },
       },
-
-      // -----------------------------------------------------------------------
-      // SIZE TYPOGRAPHY
-      // -----------------------------------------------------------------------
       size: {
         small: {
           fontSize: BUTTON_DIMENSIONS.small.fontSize,
@@ -446,97 +281,60 @@ export const styles = StyleSheet.create((theme) => ({
           lineHeight: BUTTON_DIMENSIONS.large.lineHeight,
         },
       },
-
-      // -----------------------------------------------------------------------
-      // DISABLED STATE
-      // -----------------------------------------------------------------------
       disabled: {
         true: {},
         false: {},
       },
-
-      // -----------------------------------------------------------------------
-      // TONE
-      // -----------------------------------------------------------------------
       tone: {
         default: {},
         negative: {},
       },
-
-      // -----------------------------------------------------------------------
-      // ACTIVE STATE
-      // -----------------------------------------------------------------------
       active: {
         true: {},
         false: {},
       },
     },
 
-    // -------------------------------------------------------------------------
-    // LABEL COMPOUND VARIANTS
-    // ORDER MATTERS: Later variants override earlier ones
-    // -------------------------------------------------------------------------
     compoundVariants: [
-      // =======================================================================
-      // 1. NEGATIVE TONE TEXT COLORS
-      // Per Uber spec (Page 7-8):
-      // - Primary + Negative = WHITE text (on red background)
-      // - Secondary + Negative = RED text
-      // - Tertiary + Negative = RED text
-      // =======================================================================
       {
         hierarchy: 'primary',
         tone: 'negative',
         styles: {
-          color: theme.colors.contentInversePrimary, // White on red bg
+          color: theme.colors.text.inverse,
         },
       },
       {
         hierarchy: 'secondary',
         tone: 'negative',
         styles: {
-          color: theme.colors.danger, // Red text
+          color: theme.colors.status.error,
         },
       },
       {
         hierarchy: 'tertiary',
         tone: 'negative',
         styles: {
-          color: theme.colors.danger, // Red text
+          color: theme.colors.status.error,
         },
       },
-
-      // =======================================================================
-      // 2. ACTIVE STATE (Secondary toggle)
-      // Active secondary = inverted text (white on black)
-      // =======================================================================
       {
         hierarchy: 'secondary',
         active: true,
         styles: {
-          color: theme.colors.contentInversePrimary,
+          color: theme.colors.text.inverse,
         },
       },
-
-      // =======================================================================
-      // 3. DISABLED STATE - MUST BE LAST
-      // Disabled takes precedence over ALL other text states
-      // =======================================================================
       {
         disabled: true,
         styles: {
-          color: theme.colors.contentDisabled,
+          color: theme.colors.text.disabled,
         },
       },
     ],
   },
 
-  // ===========================================================================
-  // LOADING OVERLAY
-  // Centered spinner that appears on top of hidden content
-  // ===========================================================================
   loadingOverlay: {
-    ...absoluteFill,
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
   },

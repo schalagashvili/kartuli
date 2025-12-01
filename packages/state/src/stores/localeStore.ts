@@ -1,72 +1,52 @@
-import type { MMKV } from 'react-native-mmkv';
+import { MMKV } from 'react-native-mmkv';
 import { create } from 'zustand';
-import type { StateStorage } from 'zustand/middleware';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import {
+  type StateStorage,
+  createJSONStorage,
+  persist,
+} from 'zustand/middleware';
 
-import { SUPPORTED_LOCALES, SupportedLocale, i18n } from '@kartuli/core';
+import { SUPPORTED_LOCALES, type SupportedLocale, i18n } from '@kartuli/core';
 
-// Lazy initialization - storage is created only when first accessed
-const getStorage = (() => {
-  let instance: MMKV | undefined;
-  return (): MMKV => {
-    if (!instance) {
-      // Dynamic import to avoid instantiation at module load time
-      const { createMMKV } = require('react-native-mmkv');
-      instance = createMMKV({ id: 'locale-storage' });
-    }
-    return instance as MMKV;
-  };
-})();
+let storageInstance: MMKV | undefined;
 
-const inMemoryStorage: StateStorage = {
-  getItem: () => null,
-  setItem: () => undefined,
-  removeItem: () => undefined,
+const getStorage = (): MMKV => {
+  if (!storageInstance) {
+    const { MMKV } = require('react-native-mmkv');
+    storageInstance = new MMKV({ id: 'locale-storage' });
+  }
+  return storageInstance!;
 };
 
-const createStateStorage = (): StateStorage => {
-  // Avoid touching browser storage or MMKV when rendering on the server
-  if (typeof window === 'undefined') {
-    return inMemoryStorage;
-  }
-
-  return {
-    getItem: (key) => {
-      try {
-        const value = getStorage().getString(key);
-        return value ?? null;
-      } catch (error) {
-        console.error(
-          '[LocaleStore] Failed to get locale from storage:',
-          error
-        );
-        return null;
-      }
-    },
-    setItem: (key, value) => {
-      try {
-        getStorage().set(key, value);
-      } catch (error) {
-        console.error('[LocaleStore] Failed to save locale to storage:', error);
-      }
-    },
-    removeItem: (key) => {
-      try {
-        getStorage().remove(key);
-      } catch (error) {
-        console.error(
-          '[LocaleStore] Failed to remove locale from storage:',
-          error
-        );
-      }
-    },
-  };
+const localeStorageAdapter: StateStorage = {
+  getItem: (key) => {
+    try {
+      const value = getStorage().getString(key);
+      return value ?? null;
+    } catch (error) {
+      console.error('[LocaleStore] Failed to get locale:', error);
+      return null;
+    }
+  },
+  setItem: (key, value) => {
+    try {
+      getStorage().set(key, value);
+    } catch (error) {
+      console.error('[LocaleStore] Failed to set locale:', error);
+    }
+  },
+  removeItem: (key) => {
+    try {
+      getStorage().remove(key);
+    } catch (error) {
+      console.error('[LocaleStore] Failed to delete locale:', error);
+    }
+  },
 };
 
 interface LocaleState {
   locale: SupportedLocale;
   isHydrated: boolean;
-  hasPersistedValue: boolean;
   setLocale: (locale: SupportedLocale) => void;
 }
 
@@ -75,86 +55,43 @@ export const useLocaleStore = create<LocaleState>()(
     (set) => ({
       locale: 'en',
       isHydrated: false,
-      hasPersistedValue: false,
 
       setLocale: (locale) => {
-        // Validate locale before setting
         if (!SUPPORTED_LOCALES.includes(locale)) {
-          console.warn(
-            `[LocaleStore] Invalid locale: ${locale}. Falling back to 'en'`
-          );
+          console.warn(`[LocaleStore] Unsupported locale: ${locale}`);
           return;
         }
-
-        // Update state first, then sync i18n
-        set({ locale, hasPersistedValue: true });
         i18n.locale = locale;
+        set({ locale });
       },
     }),
     {
       name: 'locale-storage',
-      storage: createJSONStorage(createStateStorage),
-      onRehydrateStorage: () => (state, error) => {
-        if (error) {
-          console.error(
-            '[LocaleStore] Failed to rehydrate locale store:',
-            error
-          );
-          // Use store API to set hydration flag even on error
-          useLocaleStore.setState({
-            isHydrated: true,
-            hasPersistedValue: false,
-          });
-          return;
-        }
-
-        // State is undefined on first run (no stored data)
+      storage: createJSONStorage(() => localeStorageAdapter),
+      onRehydrateStorage: () => (state) => {
         if (!state) {
-          // Use store API to mark as hydrated with no persisted value
-          useLocaleStore.setState({
-            isHydrated: true,
-            hasPersistedValue: false,
-          });
           return;
         }
 
-        if (state.locale) {
-          // Validate stored locale before using it
-          if (SUPPORTED_LOCALES.includes(state.locale)) {
-            // Sync i18n with the stored locale
-            i18n.locale = state.locale;
-
-            // Migration: Handle legacy data that predates hasPersistedValue
-            // If we successfully loaded ANY locale from storage and the flag is missing,
-            // assume it was a user preference (including explicit English choice)
-            if (state.hasPersistedValue === undefined) {
-              state.hasPersistedValue = true;
-            }
-            // Otherwise, respect the persisted flag from storage
-          } else {
-            console.warn(
-              `[LocaleStore] Invalid stored locale: ${state.locale}. Resetting to 'en'.`
-            );
-            // Reset to default - state is mutable here
-            state.locale = 'en';
-            i18n.locale = 'en';
-            state.hasPersistedValue = false;
-          }
+        if (state.locale && !SUPPORTED_LOCALES.includes(state.locale)) {
+          console.warn(
+            `[LocaleStore] Invalid stored locale: ${state.locale}. Resetting.`
+          );
+          state.locale = 'en';
         }
 
-        // Mark as hydrated
+        i18n.locale = state.locale;
+
         state.isHydrated = true;
       },
     }
   )
 );
 
-/**
- * Internal helper for setting initial locale from device settings
- * Only to be used during app initialization, not exposed in public API
- * @internal
- */
 export function setInitialDeviceLocale(locale: SupportedLocale) {
-  useLocaleStore.setState({ locale });
-  i18n.locale = locale;
+  const current = useLocaleStore.getState();
+  if (!current.isHydrated) {
+    useLocaleStore.setState({ locale });
+    i18n.locale = locale;
+  }
 }

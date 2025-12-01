@@ -17,8 +17,8 @@ import { haptics } from '../../utils';
 import type { CheckboxProps } from './Checkbox.types';
 import { CHECKBOX_DIMENSIONS } from './Checkbox.types';
 import { type CheckboxVisualState, getCheckboxColors } from './styles/colors';
-import { getHitSlop } from './styles/constants';
 import { styles } from './styles/stylesheet';
+import { getHitSlop } from './styles/utils';
 
 const ANIMATION_CONFIG = {
   duration: 120,
@@ -46,9 +46,6 @@ export const Checkbox = memo(
     labelStyle,
   }: CheckboxProps) => {
     const { theme } = useUnistyles();
-    // ─────────────────────────────────────────────────────────────
-    // 1. Derived State
-    // ─────────────────────────────────────────────────────────────
     const visualState: CheckboxVisualState = useMemo(() => {
       if (indeterminate) return 'indeterminate';
       if (checked) return 'checked';
@@ -56,30 +53,18 @@ export const Checkbox = memo(
       return 'unchecked';
     }, [indeterminate, checked, preselected]);
 
-    // Separate concerns: fill (background) vs icon visibility
     const isFilled =
       visualState === 'checked' || visualState === 'indeterminate';
     const showIcon = isFilled || visualState === 'preselected';
-
-    // ─────────────────────────────────────────────────────────────
-    // 2. Colors (JS-side, memoized)
-    // ─────────────────────────────────────────────────────────────
     const colors = useMemo(
       () => getCheckboxColors(visualState, disabled, !!errorText, tone, theme),
       [visualState, disabled, errorText, tone, theme]
     );
 
-    // ─────────────────────────────────────────────────────────────
-    // 3. Animation Drivers
-    // ─────────────────────────────────────────────────────────────
-    // Pattern: drive shared values from JS deps (explicit deps, no plugin reliance)
-
-    // Animated output values
     const fillProgress = useSharedValue(isFilled ? 1 : 0);
     const iconProgress = useSharedValue(showIcon ? 1 : 0);
     const borderColor = useSharedValue(colors.boxBorder);
 
-    // Animate when source changes (JS-side dependency tracking, no plugin reliance)
     useEffect(() => {
       fillProgress.value = withTiming(isFilled ? 1 : 0, ANIMATION_CONFIG);
     }, [fillProgress, isFilled]);
@@ -91,10 +76,6 @@ export const Checkbox = memo(
     useEffect(() => {
       borderColor.value = withTiming(colors.boxBorder, ANIMATION_CONFIG);
     }, [borderColor, colors.boxBorder]);
-
-    // ─────────────────────────────────────────────────────────────
-    // 4. Animated Styles
-    // ─────────────────────────────────────────────────────────────
 
     const animatedBorderStyle = useAnimatedStyle(() => ({
       borderColor: borderColor.value,
@@ -109,9 +90,7 @@ export const Checkbox = memo(
       [colors.boxBackground]
     );
 
-    // Icon uses its own driver so preselected state works correctly
     const animatedIconStyle = useAnimatedStyle(() => {
-      // Slight overshoot for satisfying "pop" effect
       const scale = interpolate(
         iconProgress.value,
         [0, 0.6, 1],
@@ -124,9 +103,6 @@ export const Checkbox = memo(
       };
     });
 
-    // ─────────────────────────────────────────────────────────────
-    // 5. Static Values
-    // ─────────────────────────────────────────────────────────────
     const IconComponent = visualState === 'indeterminate' ? Minus : Check;
     const hitSlop = useMemo(() => getHitSlop(size), [size]);
     const dimensions = CHECKBOX_DIMENSIONS[size];
@@ -136,12 +112,8 @@ export const Checkbox = memo(
         ? dimensions.preselectedIconSize
         : dimensions.iconSize;
 
-    // Apply Unistyles variants before render
     styles.useVariants({ size, align, disabled, visualState });
 
-    // ─────────────────────────────────────────────────────────────
-    // 6. Handlers
-    // ─────────────────────────────────────────────────────────────
     const handlePress = useCallback(() => {
       if (disabled) return;
       if (hapticFeedback) haptics.light();
@@ -149,15 +121,12 @@ export const Checkbox = memo(
     }, [disabled, hapticFeedback, onChange, checked]);
 
     const renderHelperContent = () => {
-      // Error takes priority
       if (errorText) {
         return <Text style={styles.errorText}>{errorText}</Text>;
       }
-      // Then description
       if (description) {
         return <Text style={styles.description}>{description}</Text>;
       }
-      // Default/Nothing
       return null;
     };
 
@@ -180,12 +149,7 @@ export const Checkbox = memo(
         {({ pressed }) => (
           <>
             <Animated.View style={[styles.box, animatedBorderStyle]}>
-              {/* Fill layer - scales from center when checked/indeterminate */}
               <Animated.View style={[styles.fillLayer, animatedFillStyle]} />
-
-              {/* Icon - always mounted, animated via opacity/scale
-                  This avoids layout animations (ZoomIn/ZoomOut) which cause
-                  Yoga layout passes and hurt list performance */}
               <Animated.View style={[styles.iconWrapper, animatedIconStyle]}>
                 <IconComponent
                   size={iconSize}
@@ -193,14 +157,10 @@ export const Checkbox = memo(
                   strokeWidth={strokeWidth}
                 />
               </Animated.View>
-
-              {/* Press feedback overlay */}
               {pressed && !disabled && (
                 <View style={styles.pressedOverlay} pointerEvents="none" />
               )}
             </Animated.View>
-
-            {/* Label/Description/Error */}
             {(label || description || errorText) && (
               <View style={styles.labelContainer}>
                 {label && (

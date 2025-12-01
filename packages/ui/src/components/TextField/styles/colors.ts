@@ -1,104 +1,87 @@
-import type { AppTheme } from '@/theme';
+import type { Theme } from '@/theme';
 
 import type { TextFieldVisualState } from '../TextField.types';
 
-// =============================================================================
-// UBER BASE DESIGN SYSTEM - TEXT FIELD COLORS
-// Reference: PDF Pages 8-9, 25-27
-// =============================================================================
-
 export type TextFieldColors = {
-  // Input container
   containerBackground: string;
   containerBorder: string;
-  // Text colors
   inputText: string;
   placeholder: string;
   label: string;
   hint: string;
   characterCount: string;
-  // Enhancer colors
   enhancerIcon: string;
   enhancerLabel: string;
-  // Action icons (clear, validation)
   actionIcon: string;
 };
 
-/**
- * Get colors for a given visual state
- * Per Uber spec (Pages 8-9, 25-27)
- */
 export function getTextFieldColors(
   state: TextFieldVisualState,
   hasError: boolean,
   hasSuccess: boolean,
-  theme: AppTheme
+  theme: Theme
 ): TextFieldColors {
-  // Base colors (enabled state)
   const base: TextFieldColors = {
-    containerBackground: theme.colors.backgroundTertiary,
+    containerBackground: theme.colors.background.tertiary,
     containerBorder: 'transparent',
-    inputText: theme.colors.contentPrimary,
-    placeholder: theme.colors.contentSecondary,
-    label: theme.colors.contentPrimary,
-    hint: theme.colors.contentTertiary,
-    characterCount: theme.colors.contentTertiary,
-    enhancerIcon: theme.colors.contentPrimary,
-    enhancerLabel: theme.colors.contentPrimary,
-    actionIcon: theme.colors.contentPrimary,
+    inputText: theme.colors.text.primary,
+    placeholder: theme.colors.text.secondary,
+    label: theme.colors.text.primary,
+    hint: theme.colors.text.tertiary,
+    characterCount: theme.colors.text.tertiary,
+    enhancerIcon: theme.colors.text.primary,
+    enhancerLabel: theme.colors.text.primary,
+    actionIcon: theme.colors.text.primary,
   };
 
   switch (state) {
     case 'focused':
       return {
         ...base,
-        // Uber inputs usually turn white (or stay gray) with a black border on focus
-        containerBackground: theme.colors.background,
-        containerBorder: theme.colors.borderFocus,
+        containerBackground: theme.colors.background.primary,
+        containerBorder: theme.colors.border.focus,
       };
 
     case 'error':
       return {
         ...base,
-        containerBackground: theme.colors.background,
-        containerBorder: theme.colors.borderError, // Was borderNegative
-        hint: theme.colors.danger, // Was contentNegative
+        containerBackground: theme.colors.background.primary,
+        containerBorder: theme.colors.status.error,
+        hint: theme.colors.status.error,
       };
 
     case 'success':
       return {
         ...base,
-        containerBackground: theme.colors.background,
-        containerBorder: theme.colors.success, // Was borderPositive
-        hint: theme.colors.success, // Was contentPositive
+        containerBackground: theme.colors.background.primary,
+        containerBorder: theme.colors.status.success,
+        hint: theme.colors.status.success,
       };
 
     case 'disabled':
       return {
         ...base,
-        // Use the generic input background or specific disabled token
-        containerBackground: theme.colors.disabled, // Was backgroundStateDisabled
-        inputText: theme.colors.contentDisabled, // Was contentStateDisabled
-        placeholder: theme.colors.contentDisabled,
-        label: theme.colors.contentDisabled,
-        hint: theme.colors.contentDisabled,
-        characterCount: theme.colors.contentDisabled,
-        enhancerIcon: theme.colors.contentDisabled,
-        enhancerLabel: theme.colors.contentDisabled,
-        actionIcon: theme.colors.contentDisabled,
+        containerBackground: theme.colors.interactive.secondary,
+        containerBorder: 'transparent',
+        inputText: theme.colors.text.disabled,
+        placeholder: theme.colors.text.disabled,
+        label: theme.colors.text.disabled,
+        hint: theme.colors.text.disabled,
+        characterCount: theme.colors.text.disabled,
+        enhancerIcon: theme.colors.text.disabled,
+        enhancerLabel: theme.colors.text.disabled,
+        actionIcon: theme.colors.text.disabled,
       };
 
     case 'readOnly':
       return {
         ...base,
-        // Just use the standard border for read-only
-        containerBorder: theme.colors.border, // Was borderOpaque
+        containerBorder: theme.colors.border.default,
       };
 
     case 'loading':
       return {
         ...base,
-        // Loading uses same colors as enabled
       };
 
     case 'enabled':
@@ -107,28 +90,22 @@ export function getTextFieldColors(
   }
 }
 
-/**
- * Get validation icon color based on validation state
- */
 export function getValidationIconColor(
   validationState: 'complete' | 'incomplete',
-  theme: AppTheme
+  theme: Theme
 ): string {
   return validationState === 'complete'
-    ? theme.colors.success
-    : theme.colors.danger;
+    ? theme.colors.status.success
+    : theme.colors.status.error;
 }
 
-/**
- * Get character count color when over limit
- */
 export function getCharacterCountColor(
   currentLength: number,
   maxLength: number,
   isDisabled: boolean,
-  theme: AppTheme
+  theme: Theme
 ): string {
-  if (isDisabled) return theme.colors.contentDisabled;
-  if (currentLength > maxLength) return theme.colors.danger;
-  return theme.colors.contentTertiary;
+  if (isDisabled) return theme.colors.text.disabled;
+  if (currentLength > maxLength) return theme.colors.status.error;
+  return theme.colors.text.tertiary;
 }

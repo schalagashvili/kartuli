@@ -26,7 +26,7 @@ interface Props {
   isPasswordVisible: boolean;
   onTogglePassword: () => void;
   validationState: TextFieldValidationState;
-  trailingEnhancer?: EnhancerType; // ✅ Strict typing
+  trailingEnhancer?: EnhancerType;
   iconSize: number;
   iconColor: string;
 }
@@ -56,7 +56,9 @@ export const TrailingActions = memo(
       if (showValidation) {
         const isComplete = validationState === 'complete';
         const Icon = isComplete ? CheckCircle2 : IncompleteIcon;
-        const color = isComplete ? theme.colors.success : theme.colors.danger;
+        const color = isComplete
+          ? theme.colors.status.success
+          : theme.colors.status.error;
 
         return <Icon size={iconSize} color={color} />;
       }

@@ -6,8 +6,6 @@ interface LocationState {
   currentLocation: Location | null;
   permissionGranted: boolean;
   isTracking: boolean;
-
-  // Actions
   setCurrentLocation: (location: Location) => void;
   setPermissionGranted: (granted: boolean) => void;
   setTracking: (tracking: boolean) => void;

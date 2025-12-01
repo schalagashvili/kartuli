@@ -1,160 +1,55 @@
-import { primitiveColors } from '../tokens/colors';
-import { radius } from '../tokens/radius';
-import { gap, spacing } from '../tokens/spacing';
+import { durations, easings } from '../tokens/primitives/animation';
+import { borderWidths } from '../tokens/primitives/borders';
+import { palette } from '../tokens/primitives/colors';
+import { opacity } from '../tokens/primitives/opacity';
+import { radius } from '../tokens/primitives/radius';
+import { controlHeights, iconSizes } from '../tokens/primitives/sizing';
+import { spacing } from '../tokens/primitives/spacing';
 import {
-  fontFamilies,
   fontSizes,
   fontWeights,
+  letterSpacing,
   lineHeights,
-} from '../tokens/typography';
+} from '../tokens/primitives/typography';
+import { zIndex } from '../tokens/primitives/zIndex';
+import { createSemanticColors } from '../tokens/semantics/colors';
+import { semanticRadius } from '../tokens/semantics/radius';
+import { semanticShadows } from '../tokens/semantics/shadows';
+import { semanticSizing } from '../tokens/semantics/sizing';
+import { semanticSpacing } from '../tokens/semantics/spacing';
+import { textStyles } from '../tokens/semantics/typography';
+import { semanticZIndex } from '../tokens/semantics/zIndex';
+import type { Theme } from '../types';
 
-// ------------------------------------------------------------
-// 1. Shared Tokens
-// ------------------------------------------------------------
-export const sharedTokens = {
-  spacing,
-  gap,
-  fonts: fontFamilies,
-  fontSizes,
-  fontWeights,
-  lineHeights,
-  radius,
-  animation: {
-    fast: 200,
-    normal: 400,
-    slow: 600,
-  },
-  opacity: {
-    disabled: 0.3,
-    pressed: 0.7,
-  },
-};
-
-// ------------------------------------------------------------
-// 2. Base Implementation (Light Theme)
-// ------------------------------------------------------------
-const lightThemeBase = {
-  ...sharedTokens,
-  colors: {
-    // --- Surfaces ---
-    background: primitiveColors.white,
-    backgroundSecondary: primitiveColors.gray50,
-    backgroundTertiary: primitiveColors.gray100,
-    backgroundInverse: primitiveColors.black,
-
-    // --- Inputs ---
-    inputBackground: primitiveColors.gray100,
-    inputPlaceholder: primitiveColors.gray600,
-
-    // --- Content ---
-    contentPrimary: primitiveColors.black,
-    contentSecondary: primitiveColors.gray600,
-    contentTertiary: primitiveColors.gray500,
-    contentInversePrimary: primitiveColors.white,
-    contentDisabled: primitiveColors.gray400,
-
-    // --- Borders (The Hierarchy you need) ---
-    borderSubtle: primitiveColors.gray50, // Very faint
-    border: primitiveColors.gray200, // Default dividers
-    borderStrong: primitiveColors.gray300, // Inputs / Cards
-    borderFocus: primitiveColors.black,
-    borderError: primitiveColors.danger500,
-
-    // --- Interactive: Primary ---
-    primary: primitiveColors.black,
-    primaryForeground: primitiveColors.white,
-    primaryHover: primitiveColors.gray800,
-    primaryActive: primitiveColors.gray700,
-
-    // --- Interactive: Secondary ---
-    secondary: primitiveColors.gray100,
-    secondaryForeground: primitiveColors.black,
-    secondaryHover: primitiveColors.gray200,
-    secondaryActive: primitiveColors.gray300,
-
-    // --- Interactive: Brand / Links ---
-    brand: primitiveColors.blue500,
-    brandForeground: primitiveColors.white,
-    brandBackground: primitiveColors.blue50,
-    link: primitiveColors.blue500, // Explicit link color
-
-    // --- Interactive: Ghost ---
-    ghost: 'transparent',
-    ghostForeground: primitiveColors.gray600,
-    ghostHover: primitiveColors.gray50,
-    ghostActive: primitiveColors.gray100,
-
-    // --- Interactive: Disabled ---
-    disabled: primitiveColors.gray100,
-    disabledForeground: primitiveColors.gray400,
-
-    // --- Semantic ---
-    rating: primitiveColors.rating500,
-
-    success: primitiveColors.success600,
-    successBackground: primitiveColors.success50,
-
-    warning: primitiveColors.warning500,
-    warningBackground: primitiveColors.warning50,
-
-    danger: primitiveColors.danger500,
-    dangerBackground: primitiveColors.danger50,
-
-    // --- Overlays (The Tiers you need) ---
-    overlayLight: 'rgba(0, 0, 0, 0.05)',
-    overlay: 'rgba(0, 0, 0, 0.4)',
-    overlayHeavy: 'rgba(0, 0, 0, 0.7)',
-  },
-  shadows: {
-    sm: {
-      shadowColor: primitiveColors.black,
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.05,
-      shadowRadius: 2,
-      elevation: 1,
+export const lightTheme: Theme = {
+  mode: 'light',
+  primitives: {
+    colors: palette,
+    spacing,
+    radius,
+    borderWidths,
+    opacity,
+    zIndex,
+    sizing: {
+      controlHeights,
+      iconSizes,
     },
-    md: {
-      shadowColor: primitiveColors.black,
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.1,
-      shadowRadius: 10,
-      elevation: 4,
+    animation: {
+      durations,
+      easings,
     },
-    lg: {
-      shadowColor: primitiveColors.black,
-      shadowOffset: { width: 0, height: 8 },
-      shadowOpacity: 0.15,
-      shadowRadius: 20,
-      elevation: 10,
+    typography: {
+      fontSizes,
+      lineHeights,
+      fontWeights,
+      letterSpacing,
     },
   },
-} as const;
-
-// ------------------------------------------------------------
-// 3. Type Definitions
-// ------------------------------------------------------------
-
-type ThemeShadow = {
-  shadowColor: string;
-  shadowOffset: { width: number; height: number };
-  shadowOpacity: number;
-  shadowRadius: number;
-  elevation: number;
+  colors: createSemanticColors('light'),
+  spacing: semanticSpacing,
+  radius: semanticRadius,
+  shadows: semanticShadows,
+  sizing: semanticSizing,
+  typography: textStyles,
+  zIndex: semanticZIndex,
 };
-
-export type ThemeColors = {
-  [K in keyof typeof lightThemeBase.colors]: string;
-};
-
-export type AppTheme = Omit<typeof lightThemeBase, 'colors' | 'shadows'> & {
-  colors: ThemeColors;
-  shadows: {
-    [K in keyof typeof lightThemeBase.shadows]: ThemeShadow;
-  };
-};
-
-// ------------------------------------------------------------
-// 4. Exports
-// ------------------------------------------------------------
-
-export const lightTheme: AppTheme = lightThemeBase;

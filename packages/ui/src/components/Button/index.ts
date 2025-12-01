@@ -16,4 +16,4 @@ export {
   BUTTON_DIMENSIONS,
   BUTTON_RADIUS,
   getPillMinWidth,
-} from './Button.types';
+} from './styles/constants';

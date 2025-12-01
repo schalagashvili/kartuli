@@ -3,14 +3,9 @@ import { Text, View } from 'react-native';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
-// =============================================================================
-// ICONS
-// =============================================================================
-// Import your real icons for accurate rendering tests
 import { ArrowRight, Check, ChevronDown, Heart, Trash2, X } from '../../icons';
 import { Button } from './Button';
 
-// Use real icons with fallback safety
 const Icons = {
   Heart: Heart,
   ArrowRight: ArrowRight,
@@ -20,16 +15,9 @@ const Icons = {
   ChevronDown: ChevronDown,
 };
 
-// =============================================================================
-// CONSTANTS
-// =============================================================================
-// Named constants for test dimensions (no magic numbers)
-const TRUNCATION_TEST_WIDTH = 200; // Width where 4+ word labels truncate
+const TRUNCATION_TEST_WIDTH = 200;
 const CONTAINER_FULL_WIDTH = '100%';
 
-// =============================================================================
-// DECORATORS
-// =============================================================================
 const withPadding = (Story: React.ComponentType) => (
   <View style={{ padding: 24, alignItems: 'flex-start' }}>
     <Story />
@@ -78,9 +66,6 @@ const withDarkBackground = (Story: React.ComponentType) => (
   </View>
 );
 
-// =============================================================================
-// HELPER COMPONENTS
-// =============================================================================
 const SectionLabel = ({ children }: { children: string }) => (
   <Text
     style={{
@@ -135,9 +120,6 @@ const iconOptions = {
   Check: Icons.Check,
 };
 
-// =============================================================================
-// META CONFIGURATION
-// =============================================================================
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
@@ -154,11 +136,8 @@ const meta: Meta<typeof Button> = {
     hapticFeedback: false,
   },
   argTypes: {
-    // Event handlers -> Actions panel
     onPress: { action: 'pressed' },
     onLongPress: { action: 'long-pressed' },
-
-    // Enum controls
     hierarchy: {
       control: 'select',
       options: ['primary', 'secondary', 'tertiary'],
@@ -216,13 +195,10 @@ const meta: Meta<typeof Button> = {
       mapping: iconOptions,
       description: 'Icon displayed after the label.',
     },
-    // Boolean controls
     disabled: { control: 'boolean' },
     loading: { control: 'boolean' },
     active: { control: 'boolean' },
     hapticFeedback: { control: 'boolean' },
-
-    // Number controls
     delayLongPress: {
       control: { type: 'number', min: 100, max: 2000, step: 100 },
       description: 'Long press delay in ms',
@@ -256,10 +232,6 @@ Button component following Uber's Base Design System specifications.
 export default meta;
 
 type Story = StoryObj<typeof Button>;
-
-// =============================================================================
-// SECTION 1: HIERARCHY VARIANTS
-// =============================================================================
 
 export const Primary: Story = {
   args: {
@@ -325,10 +297,6 @@ export const HierarchyComparison: Story = {
     },
   },
 };
-
-// =============================================================================
-// SECTION 2: TONE VARIANTS
-// =============================================================================
 
 export const NegativePrimary: Story = {
   args: {
@@ -408,10 +376,6 @@ export const ToneMatrix: Story = {
   },
 };
 
-// =============================================================================
-// SECTION 3: SIZE VARIANTS
-// =============================================================================
-
 export const SizeSmall: Story = {
   args: {
     label: 'Small',
@@ -465,10 +429,6 @@ export const SizeComparison: Story = {
     </Column>
   ),
 };
-
-// =============================================================================
-// SECTION 4: SHAPE VARIANTS
-// =============================================================================
 
 export const ShapeRect: Story = {
   args: {
@@ -667,10 +627,6 @@ export const IconOnlySizeMatrix: Story = {
   },
 };
 
-// =============================================================================
-// SECTION 5: STATE VARIANTS
-// =============================================================================
-
 export const Disabled: Story = {
   args: {
     label: 'Disabled',
@@ -732,10 +688,6 @@ export const StateMatrix: Story = {
     </Column>
   ),
 };
-
-// =============================================================================
-// SECTION 6: STATE COMBINATIONS (Edge Cases)
-// =============================================================================
 
 export const LoadingDisabled: Story = {
   args: {
@@ -863,10 +815,6 @@ export const StateCombinationMatrix: Story = {
   },
 };
 
-// =============================================================================
-// SECTION 7: ICON VARIANTS
-// =============================================================================
-
 export const LeadingIcon: Story = {
   args: {
     label: 'Favorites',
@@ -980,10 +928,6 @@ export const IconMatrix: Story = {
   ),
 };
 
-// =============================================================================
-// SECTION 8: WIDTH MODE VARIANTS
-// =============================================================================
-
 export const IntrinsicWidth: Story = {
   args: {
     label: 'Hugs Content',
@@ -1070,10 +1014,6 @@ export const WidthModeComparison: Story = {
   decorators: [withFullWidth],
 };
 
-// =============================================================================
-// SECTION 9: INTERACTION VARIANTS
-// =============================================================================
-
 export const WithHaptics: Story = {
   args: {
     label: 'Tap for Haptics',
@@ -1118,10 +1058,6 @@ export const LongPressCustomDelay: Story = {
     },
   },
 };
-
-// =============================================================================
-// SECTION 10: ACCESSIBILITY
-// =============================================================================
 
 export const AccessibilityIconOnly: Story = {
   args: {
@@ -1172,13 +1108,9 @@ export const AccessibilityDisabled: Story = {
   },
 };
 
-// =============================================================================
-// SECTION 11: RTL SUPPORT
-// =============================================================================
-
 export const RTLLayout: Story = {
   args: {
-    label: 'გაგრძელება', // "Continue" in Georgian
+    label: 'გაგრძელება',
     leadingIcon: Icons.ArrowRight,
     trailingIcon: Icons.Heart,
   },
@@ -1225,10 +1157,6 @@ export const RTLComparison: Story = {
     },
   },
 };
-
-// =============================================================================
-// SECTION 12: THEME VARIANTS
-// =============================================================================
 
 export const OnDarkBackground: Story = {
   args: {
@@ -1282,7 +1210,7 @@ export const ThemeComparison: Story = {
       </View>
     </Column>
   ),
-  decorators: [], // Remove default padding
+  decorators: [],
   parameters: {
     docs: {
       description: {
@@ -1292,14 +1220,9 @@ export const ThemeComparison: Story = {
   },
 };
 
-// =============================================================================
-// SECTION 13: COMPREHENSIVE GALLERY
-// =============================================================================
-
 export const KitchenSink: Story = {
   render: () => (
     <Column gap={32}>
-      {/* Hierarchy */}
       <Column gap={8}>
         <SectionLabel>1. Hierarchy</SectionLabel>
         <Row gap={12}>
@@ -1309,7 +1232,6 @@ export const KitchenSink: Story = {
         </Row>
       </Column>
 
-      {/* Sizes */}
       <Column gap={8}>
         <SectionLabel>2. Sizes</SectionLabel>
         <Row gap={12}>
@@ -1319,7 +1241,6 @@ export const KitchenSink: Story = {
         </Row>
       </Column>
 
-      {/* Shapes */}
       <Column gap={8}>
         <SectionLabel>3. Shapes</SectionLabel>
         <Row gap={12}>
@@ -1338,7 +1259,6 @@ export const KitchenSink: Story = {
         </Row>
       </Column>
 
-      {/* Tones */}
       <Column gap={8}>
         <SectionLabel>4. Tones</SectionLabel>
         <Row gap={12}>
@@ -1347,7 +1267,6 @@ export const KitchenSink: Story = {
         </Row>
       </Column>
 
-      {/* States */}
       <Column gap={8}>
         <SectionLabel>5. States</SectionLabel>
         <Row gap={12}>
@@ -1358,7 +1277,6 @@ export const KitchenSink: Story = {
         </Row>
       </Column>
 
-      {/* Icons */}
       <Column gap={8}>
         <SectionLabel>6. Icons</SectionLabel>
         <Row gap={12}>
@@ -1372,7 +1290,6 @@ export const KitchenSink: Story = {
         </Row>
       </Column>
 
-      {/* Width Modes */}
       <Column gap={8}>
         <SectionLabel>7. Width Modes</SectionLabel>
         <Button label="Intrinsic" widthMode="intrinsic" />
